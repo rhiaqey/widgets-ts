@@ -14,5 +14,9 @@ watch:
 build:
 	npm run build
 
+.PHONY: test
+test:
+	npm run test
+
 .PHONY: prod
 prod: build
