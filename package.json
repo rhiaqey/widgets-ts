@@ -1,7 +1,7 @@
 {
   "name": "@rhiaqey/widgets-ts",
-  "version": "0.0.2",
-  "description": "Stencil Component Starter",
+  "version": "1.0.0",
+  "description": "SRhiaqey Widgets for node and web",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
   "es2015": "dist/esm/index.js",
@@ -10,10 +10,6 @@
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
   "unpkg": "dist/widgets-ts/widgets-ts.esm.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ionic-team/stencil-component-starter.git"
-  },
   "files": [
     "dist/",
     "loader/"
@@ -26,6 +22,7 @@
     "generate": "stencil generate",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
+    "serve": "npx http-server -p 8080 -o .",
     "copy": "node copy.js"
   },
   "license": "Apache-2.0",
@@ -46,6 +43,7 @@
     "chokidar": "^3.6.0",
     "jest": "^29.7.0",
     "jest-cli": "^29.7.0",
+    "http-server": "^14.1.1",
     "log-timestamp": "^0.3.0",
     "puppeteer": "^21.9.0",
     "react": "^18.2.0",
