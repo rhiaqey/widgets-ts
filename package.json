@@ -1,7 +1,7 @@
 {
   "name": "@rhiaqey/widgets-ts",
   "version": "1.0.0",
-  "description": "Stencil Component Starter",
+  "description": "SRhiaqey Widgets for node and web",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
   "es2015": "dist/esm/index.js",
