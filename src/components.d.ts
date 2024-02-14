@@ -20,6 +20,8 @@ export namespace Components {
          */
         "middle": string;
     }
+    interface WelcomeChaos {
+    }
 }
 declare global {
     interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
@@ -28,8 +30,15 @@ declare global {
         prototype: HTMLMyComponentElement;
         new (): HTMLMyComponentElement;
     };
+    interface HTMLWelcomeChaosElement extends Components.WelcomeChaos, HTMLStencilElement {
+    }
+    var HTMLWelcomeChaosElement: {
+        prototype: HTMLWelcomeChaosElement;
+        new (): HTMLWelcomeChaosElement;
+    };
     interface HTMLElementTagNameMap {
         "my-component": HTMLMyComponentElement;
+        "welcome-chaos": HTMLWelcomeChaosElement;
     }
 }
 declare namespace LocalJSX {
@@ -47,8 +56,11 @@ declare namespace LocalJSX {
          */
         "middle"?: string;
     }
+    interface WelcomeChaos {
+    }
     interface IntrinsicElements {
         "my-component": MyComponent;
+        "welcome-chaos": WelcomeChaos;
     }
 }
 export { LocalJSX as JSX };
@@ -56,6 +68,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
+            "welcome-chaos": LocalJSX.WelcomeChaos & JSXBase.HTMLAttributes<HTMLWelcomeChaosElement>;
         }
     }
 }
