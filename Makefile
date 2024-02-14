@@ -21,3 +21,7 @@ test:
 .PHONY: prod
 prod: build
 	npm run copy
+
+.PHONY: serve
+serve:
+	npm run serve
