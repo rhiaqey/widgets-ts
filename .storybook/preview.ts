@@ -1,6 +1,5 @@
-import { defineCustomElements } from '../dist/esm/loader';
-
-defineCustomElements();
+// import { defineCustomElements } from '../dist/esm/loader';
+// defineCustomElements();
 
 /** @type { import('@storybook/html').Preview } */
 const preview = {
