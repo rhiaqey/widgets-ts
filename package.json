@@ -1,7 +1,7 @@
 {
   "name": "@rhiaqey/widgets-ts",
   "version": "1.0.1",
-  "description": "SRhiaqey Widgets for node and web",
+  "description": "Rhiaqey Widgets for node and web",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
   "es2015": "dist/esm/index.js",
