@@ -13,3 +13,6 @@ watch:
 .PHONY: build
 build:
 	npm run build
+
+.PHONY: prod
+prod: build

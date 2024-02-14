@@ -26,3 +26,6 @@ UserInterfaceState.xcuserstate
 .env
 stencil-stats.json
 
+# Build
+dist
+*.tgz
