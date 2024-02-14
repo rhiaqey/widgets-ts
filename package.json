@@ -27,6 +27,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
+  "license": "Apache-2.0",
   "dependencies": {
     "@stencil/core": "^4.7.0"
   },
@@ -50,6 +51,5 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "storybook": "^7.6.15"
-  },
-  "license": "MIT"
+  }
 }
