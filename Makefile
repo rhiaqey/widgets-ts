@@ -20,3 +20,4 @@ test:
 
 .PHONY: prod
 prod: build
+	npm run copy
