@@ -34,6 +34,7 @@ jobs:
           npm install
           npm run build
           npm run copy
+          npm pack
 
       - name: NPM test
         run: |
