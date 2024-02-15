@@ -1,5 +1,7 @@
 # Rhiaqey Widgets
 
+![widgets-ts](https://github.com/rhiaqey/widgets-ts/actions/workflows/commit.yml/badge.svg)
+
 ### CDN
 
 ```
