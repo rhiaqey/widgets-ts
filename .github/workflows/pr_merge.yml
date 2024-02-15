@@ -62,6 +62,7 @@ jobs:
 
           npm run build
           npm run copy
+          npm pack
           npm publish --access public
 
           git push origin v$VERSION
