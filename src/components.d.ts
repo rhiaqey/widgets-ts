@@ -20,6 +20,8 @@ export namespace Components {
          */
         "middle": string;
     }
+    interface RqSingleQuote {
+    }
     interface WelcomeChaos {
     }
 }
@@ -30,6 +32,12 @@ declare global {
         prototype: HTMLMyComponentElement;
         new (): HTMLMyComponentElement;
     };
+    interface HTMLRqSingleQuoteElement extends Components.RqSingleQuote, HTMLStencilElement {
+    }
+    var HTMLRqSingleQuoteElement: {
+        prototype: HTMLRqSingleQuoteElement;
+        new (): HTMLRqSingleQuoteElement;
+    };
     interface HTMLWelcomeChaosElement extends Components.WelcomeChaos, HTMLStencilElement {
     }
     var HTMLWelcomeChaosElement: {
@@ -38,6 +46,7 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "my-component": HTMLMyComponentElement;
+        "rq-single-quote": HTMLRqSingleQuoteElement;
         "welcome-chaos": HTMLWelcomeChaosElement;
     }
 }
@@ -56,10 +65,13 @@ declare namespace LocalJSX {
          */
         "middle"?: string;
     }
+    interface RqSingleQuote {
+    }
     interface WelcomeChaos {
     }
     interface IntrinsicElements {
         "my-component": MyComponent;
+        "rq-single-quote": RqSingleQuote;
         "welcome-chaos": WelcomeChaos;
     }
 }
@@ -68,6 +80,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
+            "rq-single-quote": LocalJSX.RqSingleQuote & JSXBase.HTMLAttributes<HTMLRqSingleQuoteElement>;
             "welcome-chaos": LocalJSX.WelcomeChaos & JSXBase.HTMLAttributes<HTMLWelcomeChaosElement>;
         }
     }
