@@ -1,11 +1,12 @@
 import { Component, Host, h, Prop, State } from '@stencil/core';
 import { ClientConnectedMessage, ClientSubscribedMessage, WebsocketConnection } from '@rhiaqey/sdk-ts';
 import { filter, Subscription } from 'rxjs';
-import { Quote, TradeSymbol } from '../../models';
+import { Quote, TradeSymbol as BaseTradeSymbol } from '../../models';
 import store from 'store2';
 
 type Tick = { symbol: string; bid: string; diff: number; timestamp: number; };
 type Historical = { symbol; close: number; timestamp: number; };
+type TradeSymbol = Omit<BaseTradeSymbol, 'image'>;
 
 @Component({
   tag: 'rq-mt-marquee',
@@ -33,35 +34,35 @@ export class RqMtMarquee {
 
   @Prop()
   symbols: TradeSymbol[] = [
-      { key: "BTCUSDm", label: "BTC/USD",   image: "assets/svg/BTCUSDm.svg" },
-      { key: "XAUUSDm", label: "Gold/USD",  image: "assets/svg/XAUUSDm.svg" },
-      { key: "EURUSDm", label: "EUR/USD",   image: "assets/svg/EURUSDm.svg" },
-      { key: "USOILm",  label: "US Oil",    image: "assets/svg/USOILm.svg" },
-      { key: "ETHUSDm", label: "ETH/USD",   image: "build/assets/svg/ETHUSDm.svg" },
+      { key: "BTCUSDm",   label: "BTC/USD" },
+      { key: "XAUUSDm",   label: "Gold/USD" },
+      { key: "EURUSDm",   label: "EUR/USD" },
+      { key: "USOILm",    label: "US Oil" },
+      { key: "ETHUSDm",   label: "ETH/USD" },
       //
-      { key: "EURUSDm", label: "EUR/USD",   image: "assets/svg/EURUSDm.svg" },
-      { key: "USDJPYm", label: "USD/JPY",   image: "assets/svg/USDJPYm.svg" },
-      { key: "GBPUSDm", label: "GBP/USD",   image: "assets/svg/GBPUSDm.svg" },
-      { key: "USDCHFm", label: "USD/CHF",   image: "assets/svg/USDCHFm.svg" },
-      { key: "USDCADm", label: "USD/CAD",   image: "assets/svg/USDCADm.svg" },
+      { key: "EURUSDm",   label: "EUR/USD" },
+      { key: "USDJPYm",   label: "USD/JPY" },
+      { key: "GBPUSDm",   label: "GBP/USD" },
+      { key: "USDCHFm",   label: "USD/CHF" },
+      { key: "USDCADm",   label: "USD/CAD" },
       //
-      { key: "USTECm",    label: "US Tech 100",   image: "assets/svg/USTECm.svg" },
-      { key: "UK100m",    label: "UK 100 Index",  image: "assets/svg/UK100m.svg" },
-      { key: "STOXX50m",  label: "EU 50 Index",   image: "assets/svg/STOXX50m.svg" },
-      { key: "HK50m",     label: "HK 50 Index",   image: "assets/svg/HK50m.svg" },
-      { key: "DE30m",     label: "DE 30 Index",   image: "assets/svg/DE30m.svg" },
+      { key: "USTECm",    label: "US Tech 100" },
+      { key: "UK100m",    label: "UK 100 Index" },
+      { key: "STOXX50m",  label: "EU 50 Index" },
+      { key: "HK50m",     label: "HK 50 Index" },
+      { key: "DE30m",     label: "DE 30 Index" },
       //
-      { key: "XAUUSDm", label: "Gold/USD",      image: "assets/svg/XAUUSDm.svg" },
-      { key: "XAGUSDm", label: "Silver/USD",    image: "assets/svg/XAGUSDm.svg" },
-      { key: "USOILm",  label: "US Crude Oil",  image: "assets/svg/USOILm.svg" },
-      { key: "XPDUSDm", label: "Palladium/USD", image: "assets/svg/XPDUSDm.svg" },
-      { key: "XPTUSDm", label: "Platinum/USD",  image: "assets/svg/XPTUSDm.svg" },
+      { key: "XAUUSDm",   label: "Gold/USD" },
+      { key: "XAGUSDm",   label: "Silver/USD" },
+      { key: "USOILm",    label: "US Crude Oil" },
+      { key: "XPDUSDm",   label: "Palladium/USD" },
+      { key: "XPTUSDm",   label: "Platinum/USD" },
       //
-      { key: "AAPLm", label: "Apple",     image: "assets/svg/AAPLm.svg" },
-      { key: "BABAm", label: "AliBaba",   image: "assets/svg/BABAm.svg" },
-      { key: "Cm",    label: "CitiGroup", image: "assets/svg/Cm.svg" },
-      { key: "KOm",   label: "CocaCola",  image: "assets/svg/KOm.svg" },
-      { key: "NFLXm", label: "Netflix",   image: "assets/svg/NFLXm.svg" },
+      { key: "AAPLm",     label: "Apple" },
+      { key: "BABAm",     label: "AliBaba" },
+      { key: "Cm",        label: "CitiGroup" },
+      { key: "KOm",       label: "CocaCola" },
+      { key: "NFLXm",     label: "Netflix" },
   ];
 
   @Prop()

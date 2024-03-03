@@ -5,9 +5,7 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { TradeSymbol } from "./models";
 import { WebsocketConnection } from "@rhiaqey/sdk-ts";
-export { TradeSymbol } from "./models";
 export { WebsocketConnection } from "@rhiaqey/sdk-ts";
 export namespace Components {
     interface RqMtMarquee {
