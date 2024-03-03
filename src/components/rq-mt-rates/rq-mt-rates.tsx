@@ -33,7 +33,6 @@ export class RqMtRates {
   channels: string | string[];
 
   @Prop()
-  @State()
   groups: TradeSymbolCategory[] = [
     {
       name: "popular",
@@ -235,7 +234,6 @@ export class RqMtRates {
   connectedCallback() {
     this.loadQuotes();
     this.selectedTab = this.activeTab;
-    this.calculateGroups();
 
     this.connection = new WebsocketConnection({
       endpoint: this.endpoint,
@@ -254,20 +252,8 @@ export class RqMtRates {
     this.subscriptions.unsubscribe();
   }
 
-  private calculateGroups() {
-    for (let index = 0; index < this.groups.length; index++) {
-      this.groups[index].active = false;
-      if (this.groups[index].name === this.selectedTab) {
-        this.groups[index].active = true;
-      }
-    }
-
-    this.groups = [...this.groups];
-  }
-
   private selectCategory(cat: TradeSymbolCategory) {
     this.selectedTab = cat.name;
-    this.calculateGroups();
   }
 
   private getEmptyRatePlaceholder() {
@@ -310,11 +296,11 @@ export class RqMtRates {
       <Host>
         <div class={`size-default size-${this.size} with-tabs with-names}`}>
           <div>
-            <div class={(this.groups[this.groups.length - 1].active) ? "active right-faded" : "right-faded"} />
+            <div class={(this.groups[this.groups.length - 1].name === this.selectedTab) ? "active right-faded" : "right-faded"} />
             <header>
               <ul class="categories">
                 {this.groups.map((group) => {
-                  return <li onMouseDown={_ => this.selectCategory(group)} class={group.active ? `${group.name} active` : group.name}>
+                  return <li onMouseDown={_ => this.selectCategory(group)} class={group.name === this.selectedTab ? `${group.name} active` : group.name}>
                     <span>{group.label}</span>
                   </li>;
                 })}
@@ -332,7 +318,7 @@ export class RqMtRates {
               <div class="action"><span>&nbsp;</span></div>
             </div>
             {this.groups.map(group => {
-              return <div class={group.active ? "symbol-group active" : "symbol-group"}>
+              return <div class={group.name === this.selectedTab ? "symbol-group active" : "symbol-group"}>
                 {group.symbols.map(symbol => {
                   if (this.ticks.has(symbol.key)) {
                     const sm = this.ticks.get(symbol.key);
