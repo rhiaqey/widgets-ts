@@ -14,6 +14,7 @@ type Historical = { symbol; close: number; timestamp: number; };
   assetsDirs: ['assets']
 })
 export class RqMtRates {
+  private selectedTab: string;
   private connection: WebsocketConnection;
   private subscriptions = new Subscription();
   private ticks = new Map<string, Tick>();
@@ -32,6 +33,7 @@ export class RqMtRates {
   channels: string | string[];
 
   @Prop()
+  @State()
   groups: TradeSymbolCategory[] = [
     {
       name: "popular",
@@ -111,7 +113,6 @@ export class RqMtRates {
   size: 'default' | 'large' = 'default'
 
   @Prop()
-  @State()
   activeTab = "popular"
 
   @State()
@@ -233,7 +234,7 @@ export class RqMtRates {
 
   connectedCallback() {
     this.loadQuotes();
-    this.activeTab = this.activeTab;
+    this.selectedTab = this.activeTab;
     this.calculateGroups();
 
     this.connection = new WebsocketConnection({
@@ -254,28 +255,22 @@ export class RqMtRates {
   }
 
   private calculateGroups() {
-    let set_false_counter = 0;
-
     for (let index = 0; index < this.groups.length; index++) {
-      if (this.groups[index].name === this.activeTab) {
+      this.groups[index].active = false;
+      if (this.groups[index].name === this.selectedTab) {
         this.groups[index].active = true;
-      } else {
-        set_false_counter++;
-        this.groups[index].active = false;
       }
     }
 
-    if (set_false_counter > 0 && (this.groups.length === set_false_counter)) {
-      this.groups[0].active = true;
-    }
+    this.groups = [...this.groups];
   }
 
   private selectCategory(cat: TradeSymbolCategory) {
-    this.activeTab = cat.name;
+    this.selectedTab = cat.name;
     this.calculateGroups();
   }
 
-  getEmptyRatePlaceholder() {
+  private getEmptyRatePlaceholder() {
     return <div class="column-values">
       <div class="icon">&nbsp;</div>
       <div class="name">&nbsp;</div>
@@ -287,7 +282,7 @@ export class RqMtRates {
     </div>
   }
 
-  getRate(tick: Tick, symbol: TradeSymbol, category: TradeSymbolCategory) {
+  private getRate(tick: Tick, symbol: TradeSymbol, category: TradeSymbolCategory) {
     return <div class="column-values">
       <div class="icon">
         <img alt={tick.symbol} class={`${symbol.key} ${category.name}`} src={symbol.image} />
