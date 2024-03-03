@@ -2,6 +2,7 @@ import { Component, Host, h, Prop, State, getAssetPath } from '@stencil/core';
 import { ClientConnectedMessage, ClientSubscribedMessage, WebsocketConnection } from '@rhiaqey/sdk-ts';
 import { filter, Subscription } from 'rxjs';
 import { Quote, TradeSymbol, TradeSymbolCategory } from '../../models';
+import store from 'store2';
 
 type Tick = { symbol: string; bid: string; ask: string; spread: string; diff: number; timestamp: number; };
 type Historical = { symbol; close: number; timestamp: number; };
@@ -104,7 +105,7 @@ export class RqMtRates {
   animation = true;
 
   @Prop()
-  namespace = "rq-mt-marquee";
+  namespace = "rq-mt-rates";
 
   @Prop()
   size: 'default' | 'large' = 'default'
@@ -148,6 +149,11 @@ export class RqMtRates {
   private saveQuote(quote: Quote) {
     if (quote.data.tick) {
       if (this.ticks.has(quote.symbol)) {
+
+        if (quote.symbol === 'USOILm') {
+          console.log('>> QUOTE', quote);
+        }
+
         if (this.ticks.get(quote.symbol).timestamp < quote.data.tick.time_msc) {
           let diff = 0;
 
@@ -202,11 +208,34 @@ export class RqMtRates {
   }
 
   private loadQuotes() {
-    //
+    console.log('loading quotes');
+
+    let render = false;
+    const ns = store.namespace(this.namespace);
+
+    if (ns.has('historical')) {
+      render = true;
+      this.historical = new Map(Array.from(ns.get('historical')).map((tick: Historical) => {
+        return [ tick.symbol, tick ]
+      }));
+    }
+
+    if (ns.has('ticks')) {
+      render = true;
+      this.ticks = new Map(Array.from(ns.get('ticks')).map((tick: Tick) => {
+        return [ tick.symbol, tick ]
+      }));
+    }    
+
+    if (render) {
+      this.last_update = Date.now();
+    }
   }
 
   private saveQuotes() {
-    //
+    const ns = store.namespace(this.namespace);
+    ns.set('ticks', Array.from(this.ticks.values()), true);
+    ns.set('historical', Array.from(this.historical.values()), true);
   }
 
   componentWillLoad() {
