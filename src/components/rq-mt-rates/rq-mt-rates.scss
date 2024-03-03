@@ -110,6 +110,10 @@
           padding: var(--padding);
           position: relative;
 
+          @media only screen and (max-width: 580px) {
+            padding: 15px;
+          }
+
           .loader {
               position: absolute;
               height: 100%;
@@ -135,6 +139,10 @@
               justify-content: space-between;
               align-items: center;
               font-weight: 500;
+
+              @media only screen and (max-width: 580px) {
+                padding: 0 15px;
+              }
 
               div {
                   line-height: 20px;
@@ -218,6 +226,10 @@
               color: var(--data-column-value-text-color);
               min-height: var(--data-column-min-height);
               box-sizing: border-box;
+
+              @media only screen and (max-width: 580px) {
+                padding: 0 15px;
+              }
 
               &:hover {
                   color: var(--data-column-value-hovered-text-color);
@@ -506,6 +518,10 @@
           @media only screen and (max-width: 580px) {
               font-size: 14px;
 
+              .body {
+                padding: 15px;
+              }
+
               .body .column-names .name {
                   font-size: inherit;
               }
@@ -539,27 +555,8 @@
               }
           }
 
-          @media only screen and (max-width: 480px) {
-              .body {
-                  padding: 30px;
-                  padding-top: 32px;
-              }
-          }
-
           @media only screen and (max-width: 380px) {
               font-size: 13px;
-
-              .body {
-                  padding: 28px;
-                  padding-top: 30px;
-              }
-          }
-
-          @media only screen and (max-width: 340px) {
-              .body {
-                  padding: 26px;
-                  padding-top: 28px;
-              }
           }
       }
   }
