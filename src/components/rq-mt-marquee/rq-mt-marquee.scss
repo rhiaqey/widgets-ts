@@ -28,6 +28,7 @@
 
   --symbol-name-color: #dadbdf;
   --symbol-value-color: #ffffff;
+  --symbol-percent: #606060;
   --symbol-percent-up: rgb(0, 217, 100);
   --symbol-percent-down: rgb(255, 0, 0);
 
@@ -41,7 +42,7 @@
       font-size: var(--font-size);
       padding: var(--padding);
       box-sizing: border-box;
-      height: 44px;
+      height: 48px;
 
       .loader {
           font-family: inherit;
@@ -96,6 +97,7 @@
 
                   .change {
                       font-weight: 400;
+                      color: var(--symbol-percent);
 
                       &.up {
                           color: var(--symbol-percent-up);
