@@ -1,46 +1,120 @@
 <!DOCTYPE html>
-<html dir="ltr" lang="en">
+<html lang="en">
+
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
-  <title>Stencil Component Starter</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rhiaqey demo</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+    rel="stylesheet">
+
   <script type="module" src="/build/widgets-ts.esm.js"></script>
   <script nomodule src="/build/widgets-ts.js"></script>
   <style>
-    html, body {
+    html,
+    body {
       font-family: "Open Sans", sans-serif;
     }
   </style>
+  <script>
+    const getAssetPath = (relative) => {
+      return 'https://cdn.jsdelivr.net/npm/@rhiaqey/widgets-ts@1.0/dist/' + relative;
+    };
+
+    const SYMBOLS = [
+      {
+        name: "popular",
+        label: "Popular",
+        symbols: [
+          { key: "BTCUSDm", label: "BTC/USD", image: getAssetPath('./assets/svg/BTCUSDm.svg') },
+          { key: "XAUUSDm", label: "Gold/USD", image: getAssetPath('./assets/svg/XAUUSDm.svg') },
+          { key: "EURUSDm", label: "EUR/USD", image: getAssetPath('./assets/svg/EURUSDm.svg') },
+          { key: "USOILm", label: "US Oil", image: getAssetPath('./assets/svg/USOILm.svg') },
+          { key: "ETHUSDm", label: "ETH/USD", image: getAssetPath('./assets/svg/ETHUSDm.svg') },
+        ],
+      },
+      {
+        name: "forex",
+        label: "Forex",
+        symbols: [
+          { key: "EURUSDm", label: "EUR/USD", image: getAssetPath('./assets/svg/EURUSDm.svg') },
+          { key: "USDJPYm", label: "USD/JPY", image: getAssetPath('./assets/svg/USDJPYm.svg') },
+          { key: "GBPUSDm", label: "GBP/USD", image: getAssetPath('./assets/svg/GBPUSDm.svg') },
+          { key: "USDCHFm", label: "USD/CHF", image: getAssetPath('./assets/svg/USDCHFm.svg') },
+          { key: "USDCADm", label: "USD/CAD", image: getAssetPath('./assets/svg/USDCADm.svg') },
+        ]
+      },
+      {
+        name: "stocks",
+        label: "Stocks",
+        symbols: [
+          { key: "USTECm", label: "US Tech 100", image: getAssetPath('./assets/svg/USTECm.svg') },
+          { key: "UK100m", label: "UK 100 Index", image: getAssetPath('./assets/svg/UK100m.svg') },
+          { key: "STOXX50m", label: "EU 50 Index", image: getAssetPath('./assets/svg/STOXX50m.svg') },
+          { key: "HK50m", label: "HK 50 Index", image: getAssetPath('./assets/svg/HK50m.svg') },
+          { key: "DE30m", label: "DE 30 Index", image: getAssetPath('./assets/svg/DE30m.svg') },
+        ]
+      },
+      {
+        name: "crypto",
+        label: "Crypto",
+        symbols: [
+          { key: "BTCUSDm", label: "BTC/USD", image: getAssetPath('./assets/svg/BTCUSDm.svg') },
+          { key: "BTCJPYm", label: "BTC/JPY", image: getAssetPath('./assets/svg/BTCJPYm.svg') },
+          { key: "ETHUSDm", label: "ETH/USD", image: getAssetPath('./assets/svg/ETHUSDm.svg') },
+          { key: "LTCUSDm", label: "LTC/USD", image: getAssetPath('./assets/svg/LTCUSDm.svg') },
+          { key: "XRPUSDm", label: "XRP/USD", image: getAssetPath('./assets/svg/XRPUSDm.svg') },
+        ]
+      },
+      {
+        name: "shares",
+        label: "Shares",
+        symbols: [
+          { key: "AAPLm", label: "Apple", image: getAssetPath('./assets/svg/AAPLm.svg') },
+          { key: "BABAm", label: "AliBaba", image: getAssetPath('./assets/svg/BABAm.svg') },
+          { key: "Cm", label: "CitiGroup", image: getAssetPath('./assets/svg/Cm.svg') },
+          { key: "KOm", label: "CocaCola", image: getAssetPath('./assets/svg/KOm.svg') },
+          { key: "NFLXm", label: "Netflix", image: getAssetPath('./assets/svg/NFLXm.svg') },
+        ]
+      },
+      {
+        name: "metal",
+        label: "Metals",
+        symbols: [
+          { key: "XAUUSDm", label: "Gold/USD", image: getAssetPath('./assets/svg/XAUUSDm.svg') },
+          { key: "XAGUSDm", label: "Silver/USD", image: getAssetPath('./assets/svg/XAGUSDm.svg') },
+          { key: "USOILm", label: "US Crude Oil", image: getAssetPath('./assets/svg/USOILm.svg') },
+          { key: "XPDUSDm", label: "Palladium/USD", image: getAssetPath('./assets/svg/XPDUSDm.svg') },
+          { key: "XPTUSDm", label: "Platinum/USD", image: getAssetPath('./assets/svg/XPTUSDm.svg') },
+        ]
+      }
+    ];
+  </script>
+  <style>
+    .rq-widget {
+      margin-bottom: 8px;
+    }
+  </style>
 </head>
+
 <body>
-  <rq-mt-marquee
-    style="margin-bottom: 8px"
-    animation=false
-    channels="ticks"
-    api-host="localhost:3333"
-    api-key="02f0c887-114f-45d7-8084-7d123804d582"
-    endpoint="https://hub.demo.prod.cloud.rhiaqey.com"></rq-mt-marquee>
-  <rq-mt-marquee
-    style="margin-bottom: 8px"
-    channels="ticks"
-    api-host="localhost:3333"
-    api-key="02f0c887-114f-45d7-8084-7d123804d582"
-    endpoint="https://hub.demo.prod.cloud.rhiaqey.com"></rq-mt-marquee>
-  <rq-mt-rates
-    style="margin-bottom: 8px"
-    channels="ticks"
-    api-host="localhost:3333"
-    api-key="02f0c887-114f-45d7-8084-7d123804d582"
-    endpoint="https://hub.demo.prod.cloud.rhiaqey.com"></rq-mt-rates>
-  <rq-mt-rates
-    style="margin-bottom: 8px"
-    size="large"
-    channels="ticks"
-    api-host="localhost:3333"
-    api-key="02f0c887-114f-45d7-8084-7d123804d582"
-    endpoint="https://hub.demo.prod.cloud.rhiaqey.com"></rq-mt-rates>
+  <rq-mt-marquee class="rq-widget" animation=false></rq-mt-marquee>
+  <rq-mt-marquee class="rq-widget"></rq-mt-marquee>
+  <rq-mt-rates class="rq-widget"></rq-mt-rates>
+  <rq-mt-rates class="rq-widget" size="large"></rq-mt-rates>
+  <script>
+    for (const el of document.getElementsByClassName('rq-widget')) {
+      el.endpoint = "hub.demo.prod.cloud.rhiaqey.com"
+      el.apiKey = "02f0c887-114f-45d7-8084-7d123804d582"
+      el.apiHost = "localhost:3333"
+      el.channels = "ticks"
+    }
+    for (const el of document.getElementsByTagName('rq-mt-rates')) {
+      el.groups = SYMBOLS;
+    }
+  </script>
 </body>
+
 </html>

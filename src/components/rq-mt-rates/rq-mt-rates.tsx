@@ -203,8 +203,6 @@ export class RqMtRates {
   }
 
   private loadQuotes() {
-    console.log('loading quotes');
-
     let render = false;
     const ns = store.namespace(this.namespace);
 
