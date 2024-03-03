@@ -1,0 +1,112 @@
+@-moz-keyframes ticker {
+  100% {
+      transform: translateX(-100%);
+  }
+}
+
+@-webkit-keyframes ticker {
+  100% {
+      transform: translateX(-100%);
+  }
+}
+@-o-keyframes ticker {
+  100% {
+      transform: translateX(-100%);
+  }
+}
+
+@keyframes ticker {
+  100% {
+      transform: translateX(-100%);
+  }
+}
+
+:host {
+  --padding: 14px;
+  --font-size: 14px;
+  --background-color: rgb(38, 38, 38);
+
+  --symbol-name-color: #dadbdf;
+  --symbol-value-color: #ffffff;
+  --symbol-percent-up: rgb(0, 217, 100);
+  --symbol-percent-down: rgb(255, 0, 0);
+
+  --symbol-loading-font-size: 0.875rem;
+  --symbol-loading-color: #dadbdf;
+
+  display: block;
+
+  .size-default {
+      background: var(--background-color);
+      font-size: var(--font-size);
+      padding: var(--padding);
+      box-sizing: border-box;
+      height: 44px;
+
+      .loader {
+          font-family: inherit;
+          font-weight: 500;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--symbol-loading-color);
+          font-size: var(--symbol-loading-font-size);
+      }
+
+      .quotes {
+          list-style: none;
+          padding: 0;
+          margin: 0 auto;
+          display: flex;
+          overflow: hidden;
+          box-sizing: border-box;
+          // width: auto;
+
+          &:hover {
+              .ticker__list {
+                  animation-play-state: paused;
+              }
+          }
+
+          .ticker__list {
+              display: flex;
+              animation: ticker 90s infinite linear;
+
+              &.no-animation {
+                  animation: none;
+              }
+
+              .quote {
+                  display: flex;
+                  margin-right: 40px;
+                  cursor: pointer;
+
+                  .symbol {
+                      margin-right: 10px;
+                      font-weight: 300;
+                      color: var(--symbol-name-color);
+                      white-space: nowrap;
+                  }
+
+                  .bid {
+                      font-weight: 500;
+                      margin-right: 10px;
+                      color: var(--symbol-value-color);
+                  }
+
+                  .change {
+                      font-weight: 400;
+
+                      &.up {
+                          color: var(--symbol-percent-up);
+                      }
+
+                      &.down {
+                          color: var(--symbol-percent-down);
+                      }
+                  }
+              }
+          }
+      }
+  }
+}

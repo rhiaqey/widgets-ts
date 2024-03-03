@@ -15,11 +15,11 @@ const chokidar = require('chokidar');
 const watcher = chokidar.watch('src/components', {ignored: /^\./, persistent: true});
 
 watcher
-  .on('add', function(path) {console.log('>> file', path, 'has been added');})
-  .on('change', function(path) {
+  .on('add', (path) => {console.log('>> file', path, 'has been added');})
+  .on('change', (path) => {
     console.log('>> file', path, 'has been changed');
     execSync('npm run build');
     console.log('>> build finished');
   })
-  .on('unlink', function(path) {console.log('>> file', path, 'has been removed');})
-  .on('error', function(error) {console.error('>> error happened', error);})
+  .on('unlink', (path) => {console.log('>> file', path, 'has been removed');})
+  .on('error', (error) => {console.error('>> error happened', error);})

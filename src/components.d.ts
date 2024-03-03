@@ -5,32 +5,42 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { TradeSymbol } from "./models";
+import { WebsocketConnection } from "@rhiaqey/sdk-ts";
+export { TradeSymbol } from "./models";
+export { WebsocketConnection } from "@rhiaqey/sdk-ts";
 export namespace Components {
-    interface MyComponent {
-        /**
-          * The first name
-         */
-        "first": string;
-        /**
-          * The last name
-         */
-        "last": string;
-        /**
-          * The middle name
-         */
-        "middle": string;
+    interface RqMtMarquee {
+        "animation": boolean;
+        "apiHost": string;
+        "apiKey": string;
+        "channels": string | string[];
+        "endpoint": string;
+        "symbols": TradeSymbol[];
+    }
+    interface RqMtRates {
     }
     interface RqSingleQuote {
-    }
-    interface WelcomeChaos {
+        "apiHost": string;
+        "apiKey": string;
+        "channels": string | string[];
+        "endpoint": string;
+        "setConnection": (conn: WebsocketConnection) => Promise<void>;
+        "symbol"?: string;
     }
 }
 declare global {
-    interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
+    interface HTMLRqMtMarqueeElement extends Components.RqMtMarquee, HTMLStencilElement {
     }
-    var HTMLMyComponentElement: {
-        prototype: HTMLMyComponentElement;
-        new (): HTMLMyComponentElement;
+    var HTMLRqMtMarqueeElement: {
+        prototype: HTMLRqMtMarqueeElement;
+        new (): HTMLRqMtMarqueeElement;
+    };
+    interface HTMLRqMtRatesElement extends Components.RqMtRates, HTMLStencilElement {
+    }
+    var HTMLRqMtRatesElement: {
+        prototype: HTMLRqMtRatesElement;
+        new (): HTMLRqMtRatesElement;
     };
     interface HTMLRqSingleQuoteElement extends Components.RqSingleQuote, HTMLStencilElement {
     }
@@ -38,50 +48,43 @@ declare global {
         prototype: HTMLRqSingleQuoteElement;
         new (): HTMLRqSingleQuoteElement;
     };
-    interface HTMLWelcomeChaosElement extends Components.WelcomeChaos, HTMLStencilElement {
-    }
-    var HTMLWelcomeChaosElement: {
-        prototype: HTMLWelcomeChaosElement;
-        new (): HTMLWelcomeChaosElement;
-    };
     interface HTMLElementTagNameMap {
-        "my-component": HTMLMyComponentElement;
+        "rq-mt-marquee": HTMLRqMtMarqueeElement;
+        "rq-mt-rates": HTMLRqMtRatesElement;
         "rq-single-quote": HTMLRqSingleQuoteElement;
-        "welcome-chaos": HTMLWelcomeChaosElement;
     }
 }
 declare namespace LocalJSX {
-    interface MyComponent {
-        /**
-          * The first name
-         */
-        "first"?: string;
-        /**
-          * The last name
-         */
-        "last"?: string;
-        /**
-          * The middle name
-         */
-        "middle"?: string;
+    interface RqMtMarquee {
+        "animation"?: boolean;
+        "apiHost"?: string;
+        "apiKey"?: string;
+        "channels"?: string | string[];
+        "endpoint"?: string;
+        "symbols"?: TradeSymbol[];
+    }
+    interface RqMtRates {
     }
     interface RqSingleQuote {
-    }
-    interface WelcomeChaos {
+        "apiHost"?: string;
+        "apiKey"?: string;
+        "channels"?: string | string[];
+        "endpoint"?: string;
+        "symbol"?: string;
     }
     interface IntrinsicElements {
-        "my-component": MyComponent;
+        "rq-mt-marquee": RqMtMarquee;
+        "rq-mt-rates": RqMtRates;
         "rq-single-quote": RqSingleQuote;
-        "welcome-chaos": WelcomeChaos;
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
+            "rq-mt-marquee": LocalJSX.RqMtMarquee & JSXBase.HTMLAttributes<HTMLRqMtMarqueeElement>;
+            "rq-mt-rates": LocalJSX.RqMtRates & JSXBase.HTMLAttributes<HTMLRqMtRatesElement>;
             "rq-single-quote": LocalJSX.RqSingleQuote & JSXBase.HTMLAttributes<HTMLRqSingleQuoteElement>;
-            "welcome-chaos": LocalJSX.WelcomeChaos & JSXBase.HTMLAttributes<HTMLWelcomeChaosElement>;
         }
     }
 }

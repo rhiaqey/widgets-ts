@@ -1,0 +1,27 @@
+<svg width="38" height="21" viewBox="0 0 38 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
+<ellipse cx="10.548" cy="10.2226" rx="10.1192" ry="9.92847" fill="#131213"/>
+</mask>
+<g mask="url(#mask0)">
+<rect x="0.428711" y="0.294128" width="28.3339" height="19.8569" rx="1.16806" fill="#F89318"/>
+</g>
+<mask id="mask1" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="16" y="0" width="22" height="21">
+<ellipse cx="26.9934" cy="10.2235" rx="10.1202" ry="9.92942" fill="#C4C4C4"/>
+</mask>
+<g mask="url(#mask1)">
+<rect x="12.9933" y="0.462196" width="28.0004" height="19.5227" rx="1.17647" fill="white" stroke="#F5F5F5" stroke-width="0.336135"/>
+<mask id="mask2" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="12" y="0" width="30" height="21">
+<rect x="12.9933" y="0.462196" width="28.0004" height="19.5227" rx="1.17647" fill="white" stroke="white" stroke-width="0.336135"/>
+</mask>
+<g mask="url(#mask2)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M27.1509 15.7563C30.1783 15.7563 32.6324 13.3484 32.6324 10.3782C32.6324 7.40788 30.1783 5 27.1509 5C24.1236 5 21.6694 7.40788 21.6694 10.3782C21.6694 13.3484 24.1236 15.7563 27.1509 15.7563Z" fill="url(#paint0_linear)"/>
+</g>
+</g>
+<path d="M7.96329 13.9664V6.31937H10.6419C11.5697 6.31937 12.2735 6.49794 12.7532 6.85508C13.2329 7.20872 13.4727 7.72868 13.4727 8.41496C13.4727 8.78961 13.3765 9.12049 13.1839 9.4076C12.9913 9.69122 12.7234 9.89955 12.3803 10.0326C12.7725 10.1306 13.0806 10.3285 13.3047 10.6261C13.5323 10.9237 13.6461 11.2879 13.6461 11.7185C13.6461 12.4538 13.4115 13.0105 12.9423 13.3887C12.4731 13.7669 11.8043 13.9594 10.936 13.9664H7.96329ZM9.53892 10.6366V12.7007H10.8887C11.2599 12.7007 11.5487 12.6131 11.7553 12.4381C11.9654 12.2595 12.0704 12.0144 12.0704 11.7028C12.0704 11.0025 11.708 10.6471 10.9833 10.6366H9.53892ZM9.53892 9.52315H10.7049C11.4997 9.50914 11.8971 9.19227 11.8971 8.57252C11.8971 8.22588 11.7956 7.97728 11.5925 7.82672C11.3929 7.67266 11.076 7.59563 10.6419 7.59563H9.53892V9.52315Z" fill="black"/>
+<defs>
+<linearGradient id="paint0_linear" x1="21.6694" y1="5" x2="21.6694" y2="15.7563" gradientUnits="userSpaceOnUse">
+<stop stop-color="#D81441"/>
+<stop offset="1" stop-color="#BB0831"/>
+</linearGradient>
+</defs>
+</svg>

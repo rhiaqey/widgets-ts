@@ -1,14 +1,24 @@
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
-    <title>Stencil Component Starter</title>
-
-    <script type="module" src="/build/widgets-ts.esm.js"></script>
-    <script nomodule src="/build/widgets-ts.js"></script>
-  </head>
-  <body>
-    <my-component first="Stencil" last="'Don't call me a framework' JS"></my-component>
-  </body>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+  <title>Stencil Component Starter</title>
+  <script type="module" src="/build/widgets-ts.esm.js"></script>
+  <script nomodule src="/build/widgets-ts.js"></script>
+</head>
+<body>
+  <rq-mt-marquee
+    style="margin-bottom: 8px"
+    animation=false
+    channels="ticks"
+    api-host="localhost:3333"
+    api-key="02f0c887-114f-45d7-8084-7d123804d582"
+    endpoint="https://hub.demo.prod.cloud.rhiaqey.com"></rq-mt-marquee>
+  <rq-mt-marquee
+    channels="ticks"
+    api-host="localhost:3333"
+    api-key="02f0c887-114f-45d7-8084-7d123804d582"
+    endpoint="https://hub.demo.prod.cloud.rhiaqey.com"></rq-mt-marquee>
+</body>
 </html>

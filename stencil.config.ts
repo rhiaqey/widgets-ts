@@ -1,8 +1,12 @@
 import { Config } from '@stencil/core';
+import { sass } from '@stencil/sass';
 
 export const config: Config = {
   namespace: 'widgets-ts',
   buildDist: true,
+  plugins: [
+    sass()
+  ],
   outputTargets: [
     {
       type: 'dist',

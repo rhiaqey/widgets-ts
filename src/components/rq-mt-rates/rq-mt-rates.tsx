@@ -1,11 +1,11 @@
 import { Component, Host, h } from '@stencil/core';
 
 @Component({
-  tag: 'welcome-chaos',
-  styleUrl: 'welcome-chaos.css',
+  tag: 'rq-mt-rates',
+  styleUrl: 'rq-mt-rates.css',
   shadow: true,
 })
-export class WelcomeChaos {
+export class RqMtRates {
 
   render() {
     return (
