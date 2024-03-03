@@ -32,3 +32,10 @@ export type Quote = {
         }
     }
 };
+
+export type TradeSymbolCategory = {
+    name: string;
+    label: string;
+    active?: boolean;
+    symbols: Array<TradeSymbol>;
+}

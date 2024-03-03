@@ -28,11 +28,11 @@ export const config: Config = {
         {
           src: 'assets',
           dest: 'assets'
-        },/*
+        },
         {
           src: 'assets',
           dest: 'build/assets'
-        },*/
+        },
       ]
     },
   ],

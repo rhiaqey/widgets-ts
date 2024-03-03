@@ -1,0 +1,566 @@
+:host {
+  --padding: 38px 40px;
+  --border-radius: 0;
+  --background-color: rgb(38, 38, 38);
+  --symbol-percent: #606060;
+  --symbol-percent-up: rgb(0, 217, 100);
+  --symbol-percent-down: rgb(255, 0, 0);
+  --symbol-space-between: 5px;
+  --tabs-padding: 0 25px;
+  --tabs-bottom-border: 0.5px solid #535358;
+  --tab-padding: 10px 0 6px 0;
+  --tab-color: inherit;
+  --tab-active-color: #fed831;
+  --tab-active-border-bottom: 1px solid #fed831;
+  --tab-bg-color: transparent;
+  --tab-margin: 0 20px 0 0;
+  --tab-active-bg-color: transparent;
+  --data-column-min-height: 59px;
+  --data-action-bg-color: #fed831;
+  --data-action-color: #131213;
+  --data-action-border-radius: 51px;
+
+  --data-column-header-bg-color: #1d1d20;
+  --data-column-header-text-color: #9c9ca2;
+  --data-column-value-bg-color: #1d1d20;
+  --data-column-value-text-color: #fff;
+  --data-column-value-hovered-bg-color: #282828;
+  --data-column-value-hovered-text-color: #fff;
+
+  display: block;
+
+  .size-default {
+      max-width: 650px;
+      background: var(--background-color);
+      color: #dadbdf;
+      font-size: 14px;
+      border-radius: var(--border-radius);
+      position: relative;
+
+      .right-faded {
+          position: absolute;
+          top: 0;
+          right: 0;
+          background: var(--background-color);
+          background: linear-gradient(to right, transparent, var(--background-color));
+          height: 31px;
+          width: 31px;
+          border-top-right-radius: var(--border-radius);
+          &.active {
+              background: linear-gradient(to right, transparent, var(--tab-active-bg-color));
+          }
+      }
+
+      header {
+          overflow-x: hidden;
+
+          ul {
+              overflow-x: scroll;
+              -ms-overflow-style: none; /* IE and Edge */
+              scrollbar-width: none; /* Firefox */
+
+              &::-webkit-scrollbar {
+                  display: none;
+              }
+
+              list-style: none;
+              padding: var(--tabs-padding);
+              border-bottom: var(--tabs-bottom-border);
+              display: flex;
+              margin: 0;
+
+              li {
+                  font-weight: 400;
+                  color: var(--tab-color);
+                  margin: var(--tab-margin);
+                  padding: var(--tab-padding);
+                  background-color: var(--tab-bg-color);
+
+                  cursor: pointer;
+                  text-align: center;
+                  white-space: nowrap;
+                  line-height: 15px;
+                  flex: 1;
+
+                  @media only screen and (max-width: 550px) {
+                      flex: 0;
+                  }
+
+                  span {
+                      padding-bottom: 5px;
+                      line-height: inherit;
+                      font-size: inherit;
+                      user-select: none;
+                      border-bottom: 1px solid transparent;
+                  }
+
+                  &.active {
+                      color: var(--tab-active-color);
+                      background-color: var(--tab-active-bg-color);
+                      font-weight: 500;
+                      span {
+                          border-bottom: var(--tab-active-border-bottom);
+                      }
+                  }
+              }
+          }
+      }
+
+      .body {
+          padding: var(--padding);
+          position: relative;
+
+          .loader {
+              position: absolute;
+              height: 100%;
+              width: 100%;
+              left: 0;
+              top: 0;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              background: rgba(1, 1, 1, 0.5);
+              font-family: inherit;
+              font-size: 18px;
+              font-weight: 500;
+
+              .txt {
+                  opacity: 0.8;
+              }
+          }
+
+          .column-names {
+              background: var(--data-column-header-bg-color);
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              font-weight: 500;
+
+              div {
+                  line-height: 20px;
+                  padding: 7px 0;
+                  text-align: left;
+                  color: var(--data-column-header-text-color);
+                  flex: 1;
+              }
+
+              .name {
+                  flex: 1.2;
+              }
+
+              .action {
+                  flex: 1;
+              }
+
+              .buy {
+                  flex: 0.9;
+              }
+
+              .sell {
+                  flex: 0.9;
+              }
+
+              .change {
+                  flex: 0.8;
+              }
+
+              .action {
+                  flex: 1.2;
+              }
+
+              .spread {
+                  display: none;
+              }
+
+              @media only screen and (min-width: 320px) and (max-width: 440px) {
+                  .change {
+                      display: none;
+                  }
+                  .spread {
+                      display: none;
+                  }
+                  .buy {
+                      display: none;
+                  }
+              }
+
+              @media only screen and (min-width: 441px) and (max-width: 500px) {
+                  .change {
+                      display: none;
+                  }
+                  .spread {
+                      display: none;
+                  }
+              }
+
+              @media only screen and (min-width: 501px) and (max-width: 550px) {
+                  .change {
+                      display: none;
+                  }
+                  .spread {
+                      display: none;
+                  }
+              }
+
+              @media only screen and (min-width: 551px) and (max-width: 580px) {
+                  .spread {
+                      display: none;
+                  }
+              }
+          }
+
+          .column-values {
+              background: var(--data-column-value-bg-color);
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-top: var(--symbol-space-between);
+              color: var(--data-column-value-text-color);
+              min-height: var(--data-column-min-height);
+              box-sizing: border-box;
+
+              &:hover {
+                  color: var(--data-column-value-hovered-text-color);
+                  background: var(--data-column-value-hovered-bg-color);
+              }
+
+              div {
+                  flex: 1;
+              }
+
+              .icon {
+                  text-align: center;
+                  padding: 10px 0;
+                  flex: 1;
+                  display: flex;
+                  align-items: center;
+                  align-content: center;
+                  justify-content: center;
+              }
+
+              .name {
+                  flex: 1.2;
+              }
+
+              .action {
+                  flex: 1;
+                  text-align: center;
+                  user-select: none;
+
+                  button {
+                      font: inherit;
+                      background: var(--data-action-bg-color);
+                      color: var(--data-action-color);
+                      border: 0;
+                      width: 77px;
+                      border-radius: var(--data-action-border-radius);
+                      font-size: 12px;
+                      font-weight: 500;
+                      padding: 7px 5px;
+                      cursor: pointer;
+                      user-select: none;
+                  }
+              }
+
+              .change {
+                  flex: 0.8;
+                  color: var(--symbol-percent);
+
+                  .up {
+                      padding-left: 0;
+                      color: var(--symbol-percent-up);
+                  }
+
+                  .down {
+                      padding-left: 0;
+                      color: var(--symbol-percent-down);
+                  }
+
+                  & > .change:not(.up):not(.down) {
+                    padding-left: 1ch;
+                  }
+              }
+
+              .action {
+                  flex: 1.2;
+              }
+
+              .buy {
+                  flex: 0.9;
+              }
+
+              .sell {
+                  flex: 0.9;
+              }
+
+              .spread {
+                  display: none;
+              }
+
+              .icon {
+                  img {
+                      height: 20.47px;
+                      width: 37.39px;
+                      &.USOILm,
+                      &.indices,
+                      &.shares {
+                          height: 35px;
+                          width: 35px;
+                      }
+                  }
+              }
+
+              @media only screen and (min-width: 320px) and (max-width: 440px) {
+                  .change {
+                      display: none;
+                  }
+                  .spread {
+                      display: none;
+                  }
+                  .name {
+                      flex: 1;
+                      font-size: 13px;
+                  }
+                  .buy {
+                      flex: 0.9;
+                      display: none;
+                      font-size: 13px;
+                  }
+                  .sell {
+                      flex: 0.9;
+                      font-size: 13px;
+                  }
+                  .icon {
+                      flex: 1;
+                      padding: 8px 0;
+                      img {
+                          min-height: 20px;
+                          max-height: 20px;
+                      }
+                  }
+                  .action {
+                      flex: 1;
+                      font-size: 13px;
+                  }
+              }
+
+              @media only screen and (min-width: 441px) and (max-width: 500px) {
+                  .change {
+                      display: none;
+                  }
+                  .spread {
+                      display: none;
+                  }
+                  .buy {
+                      flex: 0.9;
+                      font-size: 13px;
+                  }
+                  .sell {
+                      flex: 0.9;
+                      font-size: 13px;
+                  }
+                  .name {
+                      flex: 1.2;
+                      font-size: 13px;
+                  }
+                  .icon {
+                      flex: 1;
+                      padding: 8px 0;
+                      img {
+                          min-height: 20px;
+                          max-height: 20px;
+                      }
+                  }
+                  .action {
+                      flex: 1;
+                      font-size: 13px;
+                  }
+              }
+
+              @media only screen and (min-width: 501px) and (max-width: 550px) {
+                  .change {
+                      display: none;
+                  }
+                  .spread {
+                      display: none;
+                  }
+              }
+          }
+
+          .symbol-group {
+              display: none;
+              &.active {
+                  display: block;
+              }
+          }
+      }
+
+      &.no-names {
+          @media only screen and (min-width: 320px) and (max-width: 440px) {
+              .body {
+                  .column-names {
+                      .buy {
+                          display: block;
+                      }
+                  }
+                  .column-values {
+                      .buy {
+                          display: block;
+                      }
+                  }
+              }
+          }
+      }
+
+      &.size-large {
+          font-size: 17px;
+          max-width: 800px;
+
+          .right-faded {
+              height: 38px;
+          }
+
+          header {
+              ul {
+                  li {
+                      padding-top: 14.75px;
+                      padding-bottom: 8px;
+                  }
+              }
+          }
+
+          .body {
+              padding: var(--padding);
+
+              .column-names {
+                  div {
+                      padding: 10.75px 0;
+                  }
+              }
+
+              .column-values {
+                  min-height: 73px;
+                  margin-top: 5.75px;
+
+                  .icon {
+                      img {
+                          height: 25.22px;
+                          width: 46.02px;
+                          &.USOILm,
+                          &.indices,
+                          &.shares {
+                              height: 45px;
+                              width: 45px;
+                          }
+                      }
+                  }
+
+                  .action {
+                      button {
+                          width: 95px;
+                          padding: 8.5px 5px;
+                          line-height: 18px;
+                          font-weight: 500;
+                          font-size: 14.7857px;
+                      }
+                  }
+              }
+          }
+
+          @media only screen and (max-width: 720px) {
+              .body .column-values .action button {
+                  width: 90px;
+                  margin: 0 10px;
+              }
+          }
+
+          @media only screen and (max-width: 680px) {
+              font-size: 15px;
+
+              .body .column-names .action {
+                  min-width: 110px;
+              }
+
+              .body .column-values .action {
+                  min-width: 110px;
+                  button {
+                      width: 80px;
+                      margin: 0 15px;
+                  }
+              }
+          }
+
+          @media only screen and (max-width: 618px) {
+              .body .column-names .action {
+                  min-width: 90px;
+              }
+              .body .column-values .action {
+                  min-width: 90px;
+                  button {
+                      width: 80px;
+                      margin: 0;
+                  }
+              }
+          }
+
+          @media only screen and (max-width: 580px) {
+              font-size: 14px;
+
+              .body .column-names .name {
+                  font-size: inherit;
+              }
+
+              .body .column-values .name {
+                  font-size: inherit;
+              }
+
+              .body .column-names .sell {
+                  font-size: inherit;
+              }
+
+              .body .column-values .sell {
+                  font-size: inherit;
+              }
+
+              .body .column-names .buy {
+                  font-size: inherit;
+              }
+
+              .body .column-values .buy {
+                  font-size: inherit;
+              }
+
+              .body .column-names .change {
+                  font-size: inherit;
+              }
+
+              .body .column-values .change {
+                  font-size: inherit;
+              }
+          }
+
+          @media only screen and (max-width: 480px) {
+              .body {
+                  padding: 30px;
+                  padding-top: 32px;
+              }
+          }
+
+          @media only screen and (max-width: 380px) {
+              font-size: 13px;
+
+              .body {
+                  padding: 28px;
+                  padding-top: 30px;
+              }
+          }
+
+          @media only screen and (max-width: 340px) {
+              .body {
+                  padding: 26px;
+                  padding-top: 28px;
+              }
+          }
+      }
+  }
+}

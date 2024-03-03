@@ -5,8 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { WebsocketConnection } from "@rhiaqey/sdk-ts";
-export { WebsocketConnection } from "@rhiaqey/sdk-ts";
+import { TradeSymbolCategory } from "./models";
+export { TradeSymbolCategory } from "./models";
 export namespace Components {
     interface RqMtMarquee {
         "animation": boolean;
@@ -18,14 +18,15 @@ export namespace Components {
         "symbols": TradeSymbol[];
     }
     interface RqMtRates {
-    }
-    interface RqSingleQuote {
+        "animation": boolean;
         "apiHost": string;
         "apiKey": string;
         "channels": string | string[];
         "endpoint": string;
-        "setConnection": (conn: WebsocketConnection) => Promise<void>;
-        "symbol"?: string;
+        "groups": TradeSymbolCategory[];
+        "namespace": string;
+        "selected_tab": string;
+        "size": 'default' | 'large';
     }
 }
 declare global {
@@ -41,16 +42,9 @@ declare global {
         prototype: HTMLRqMtRatesElement;
         new (): HTMLRqMtRatesElement;
     };
-    interface HTMLRqSingleQuoteElement extends Components.RqSingleQuote, HTMLStencilElement {
-    }
-    var HTMLRqSingleQuoteElement: {
-        prototype: HTMLRqSingleQuoteElement;
-        new (): HTMLRqSingleQuoteElement;
-    };
     interface HTMLElementTagNameMap {
         "rq-mt-marquee": HTMLRqMtMarqueeElement;
         "rq-mt-rates": HTMLRqMtRatesElement;
-        "rq-single-quote": HTMLRqSingleQuoteElement;
     }
 }
 declare namespace LocalJSX {
@@ -64,18 +58,19 @@ declare namespace LocalJSX {
         "symbols"?: TradeSymbol[];
     }
     interface RqMtRates {
-    }
-    interface RqSingleQuote {
+        "animation"?: boolean;
         "apiHost"?: string;
         "apiKey"?: string;
         "channels"?: string | string[];
         "endpoint"?: string;
-        "symbol"?: string;
+        "groups"?: TradeSymbolCategory[];
+        "namespace"?: string;
+        "selected_tab"?: string;
+        "size"?: 'default' | 'large';
     }
     interface IntrinsicElements {
         "rq-mt-marquee": RqMtMarquee;
         "rq-mt-rates": RqMtRates;
-        "rq-single-quote": RqSingleQuote;
     }
 }
 export { LocalJSX as JSX };
@@ -84,7 +79,6 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "rq-mt-marquee": LocalJSX.RqMtMarquee & JSXBase.HTMLAttributes<HTMLRqMtMarqueeElement>;
             "rq-mt-rates": LocalJSX.RqMtRates & JSXBase.HTMLAttributes<HTMLRqMtRatesElement>;
-            "rq-single-quote": LocalJSX.RqSingleQuote & JSXBase.HTMLAttributes<HTMLRqSingleQuoteElement>;
         }
     }
 }
