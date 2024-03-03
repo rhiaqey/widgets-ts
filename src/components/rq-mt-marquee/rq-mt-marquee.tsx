@@ -183,7 +183,7 @@ export class RqMtMarquee {
     ns.set('historical', Array.from(this.historical.values()), true);
   }
 
-  componentDidLoad() {
+  componentWillLoad() {
     this.loadQuotes();
 
     this.connection = new WebsocketConnection({
