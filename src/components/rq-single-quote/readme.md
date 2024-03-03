@@ -13,7 +13,6 @@
 | `apiKey`   | `api-key`  |             | `string`             | `undefined` |
 | `channels` | `channels` |             | `string \| string[]` | `undefined` |
 | `endpoint` | `endpoint` |             | `string`             | `undefined` |
-| `env`      | `env`      |             | `"dev" \| "prod"`    | `undefined` |
 | `symbol`   | `symbol`   |             | `string`             | `undefined` |
 
 
