@@ -1,28 +1,14 @@
-@-moz-keyframes ticker {
-  100% {
-      transform: translateX(-100%);
-  }
-}
-
-@-webkit-keyframes ticker {
-  100% {
-      transform: translateX(-100%);
-  }
-}
-@-o-keyframes ticker {
-  100% {
-      transform: translateX(-100%);
-  }
-}
-
 @keyframes ticker {
-  100% {
-      transform: translateX(-100%);
-  }
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
 }
 
 :host {
-  --padding: 14px;
+  --height: 48px;
   --font-size: 14px;
   --background-color: rgb(38, 38, 38);
 
@@ -40,9 +26,13 @@
   .size-default {
       background: var(--background-color);
       font-size: var(--font-size);
-      padding: var(--padding);
       box-sizing: border-box;
-      height: 48px;
+      height: var(--height);
+      display: grid;
+      align-content: center;
+      overflow: hidden;
+      padding-left: 15px;
+      justify-content: start;
 
       .loader {
           font-family: inherit;
@@ -58,10 +48,9 @@
           list-style: none;
           padding: 0;
           margin: 0 auto;
-          display: flex;
+          display: inline-block;
           overflow: hidden;
           box-sizing: border-box;
-          // width: auto;
 
           &:hover {
               .ticker__list {
