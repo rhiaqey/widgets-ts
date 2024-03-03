@@ -87,12 +87,15 @@
                   .change {
                       font-weight: 400;
                       color: var(--symbol-percent);
+                      padding-left: 1ch;
 
                       &.up {
+                          padding-left: 0;
                           color: var(--symbol-percent-up);
                       }
 
                       &.down {
+                          padding-left: 0;
                           color: var(--symbol-percent-down);
                       }
                   }

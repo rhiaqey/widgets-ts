@@ -141,7 +141,7 @@ export class RqMtRates {
     }
   }
 
-  private get_diff(old_val: number, new_val: number) {
+  private getDiff(old_val: number, new_val: number) {
     const percentageChange = ((new_val - old_val) / Math.abs(old_val)) * 100;
     return percentageChange;
   }
@@ -154,7 +154,7 @@ export class RqMtRates {
 
           if (this.historical.has(quote.symbol)) {
             const prev_close = this.historical.get(quote.symbol).close;
-            diff = this.get_diff(prev_close, quote.data.tick.bid);
+            diff = this.getDiff(prev_close, quote.data.tick.bid);
           }
 
           this.ticks.set(quote.symbol, {

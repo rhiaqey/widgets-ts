@@ -97,7 +97,7 @@ export class RqMtMarquee {
     }
   }
 
-  private get_diff(old_val: number, new_val: number) {
+  private getDiff(old_val: number, new_val: number) {
     const percentageChange = ((new_val - old_val) / Math.abs(old_val)) * 100;  
     return percentageChange;
   }
@@ -110,7 +110,7 @@ export class RqMtMarquee {
 
           if (this.historical.has(quote.symbol)) {
             const prev_close = this.historical.get(quote.symbol).close;
-            diff = this.get_diff(prev_close, quote.data.tick.bid);
+            diff = this.getDiff(prev_close, quote.data.tick.bid);
           }
 
           this.ticks.set(quote.symbol, {
@@ -154,7 +154,7 @@ export class RqMtMarquee {
     }
   }
 
-  loadQuotes() {
+  private loadQuotes() {
     let render = false;
     const ns = store.namespace(this.namespace);
 
@@ -177,13 +177,13 @@ export class RqMtMarquee {
     }
   }
 
-  saveQuotes() {
+  private saveQuotes() {
     const ns = store.namespace(this.namespace);
     ns.set('ticks', Array.from(this.ticks.values()), true);
     ns.set('historical', Array.from(this.historical.values()), true);
   }
 
-  componentWillLoad() {
+  connectedCallback() {
     this.loadQuotes();
 
     this.connection = new WebsocketConnection({
@@ -203,12 +203,15 @@ export class RqMtMarquee {
     this.subscriptions.unsubscribe();
   }
 
-  render_symbol(symbol: TradeSymbol) {
+  private renderSymbol(symbol: TradeSymbol) {
     const tick = this.ticks.get(symbol.key);
     return <div class="quote">
       <span class="symbol">{symbol.label}</span>
       <span class="bid">{tick.bid}</span>
-      <span class={tick.diff > 0 ? 'change up' : (tick.diff < 0 ? 'change down' : 'change')}>{parseFloat(`${tick.diff}`).toFixed(2)}</span>
+      <span class={tick.diff > 0 ? 'change up' : (tick.diff < 0 ? 'change down' : 'change')}>
+        {tick.diff === 0 ? "" : tick.diff > 0 ? "+" : ""}
+        {parseFloat(`${tick.diff}`).toFixed(2)}%
+      </span>
     </div>
   }
 
@@ -222,7 +225,7 @@ export class RqMtMarquee {
           <div class="quotes">
             <div class={tickerClass.join(" ")}>
             {this.symbols.filter(symbol => this.ticks.has(symbol.key)).map(symbol => {
-                return this.render_symbol(symbol);
+                return this.renderSymbol(symbol);
             })}
             </div>
           </div>
