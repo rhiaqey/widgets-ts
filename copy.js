@@ -7,4 +7,8 @@ fs.cpSync('www/build', 'dist/umd', {
   recursive: true,
 });
 
+fs.cpSync('www/assets', 'dist/assets', {
+  recursive: true,
+});
+
 console.log('>> files copied');
