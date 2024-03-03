@@ -18,6 +18,7 @@ export namespace Components {
         "symbols": TradeSymbol[];
     }
     interface RqMtRates {
+        "activeTab": string;
         "animation": boolean;
         "apiHost": string;
         "apiKey": string;
@@ -25,7 +26,6 @@ export namespace Components {
         "endpoint": string;
         "groups": TradeSymbolCategory[];
         "namespace": string;
-        "selected_tab": string;
         "size": 'default' | 'large';
     }
 }
@@ -58,6 +58,7 @@ declare namespace LocalJSX {
         "symbols"?: TradeSymbol[];
     }
     interface RqMtRates {
+        "activeTab"?: string;
         "animation"?: boolean;
         "apiHost"?: string;
         "apiKey"?: string;
@@ -65,7 +66,6 @@ declare namespace LocalJSX {
         "endpoint"?: string;
         "groups"?: TradeSymbolCategory[];
         "namespace"?: string;
-        "selected_tab"?: string;
         "size"?: 'default' | 'large';
     }
     interface IntrinsicElements {
