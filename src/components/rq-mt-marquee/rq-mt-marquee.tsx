@@ -2,6 +2,10 @@ import { Component, Host, h, Prop, State } from '@stencil/core';
 import { ClientConnectedMessage, ClientSubscribedMessage, WebsocketConnection } from '@rhiaqey/sdk-ts';
 import { filter, Subscription } from 'rxjs';
 import { Quote, TradeSymbol } from '../../models';
+import store from 'store2';
+
+type Tick = { symbol: string; bid: string; diff: number; timestamp: number; };
+type Historical = { symbol; close: number; timestamp: number; };
 
 @Component({
   tag: 'rq-mt-marquee',
@@ -12,8 +16,8 @@ import { Quote, TradeSymbol } from '../../models';
 export class RqMtMarquee {
   private connection: WebsocketConnection;
   private subscriptions = new Subscription();
-  private ticks = new Map<string, { bid: string; diff: number; timestamp: number; }>();
-  private historical = new Map<string, { close: number; timestamp: number; }>();
+  private ticks = new Map<string, Tick>();
+  private historical = new Map<string, Historical>();
 
   @Prop()
   endpoint: string;
@@ -63,6 +67,9 @@ export class RqMtMarquee {
   @Prop()
   animation = true;
 
+  @Prop()
+  namespace = "rq-mt-marquee";
+
   @State()
   last_update = Date.now();
 
@@ -107,34 +114,78 @@ export class RqMtMarquee {
           }
 
           this.ticks.set(quote.symbol, {
+            symbol: quote.symbol,
             bid: parseFloat(`${quote.data.tick.bid}`).toFixed(quote.info.digits),
             timestamp: quote.data.tick.time_msc,
             diff: diff
           });
-
-          this.last_update = Date.now();
         }
+
       } else {
         this.ticks.set(quote.symbol, {
+          symbol: quote.symbol,
           bid: parseFloat(`${quote.data.tick.bid}`).toFixed(quote.info.digits),
           timestamp: quote.data.tick.time_msc,
           diff: 0
         });
-
-        this.last_update = Date.now();
       }
+
+      this.saveQuotes();
+      this.last_update = Date.now();
     } else if (quote.data.historical) {
       if (this.historical.has(quote.symbol)) {
         if (this.historical.get(quote.symbol).timestamp < quote.data.historical.datetime) {
-          this.historical.set(quote.symbol, { close: quote.data.historical.close, timestamp: quote.data.historical.datetime });
+          this.historical.set(quote.symbol, {
+            symbol: quote.symbol,
+            close: quote.data.historical.close,
+            timestamp: quote.data.historical.datetime
+          });
         }
       } else {
-        this.historical.set(quote.symbol, { close: quote.data.historical.close, timestamp: quote.data.historical.datetime });
+        this.historical.set(quote.symbol, {
+          symbol: quote.symbol,
+          close: quote.data.historical.close,
+          timestamp: quote.data.historical.datetime
+        });
       }
+
+      this.saveQuotes();
+      this.last_update = Date.now();
     }
   }
 
+  loadQuotes() {
+    let render = false;
+    const ns = store.namespace(this.namespace);
+
+    if (ns.has('historical')) {
+      render = true;
+      this.historical = new Map(Array.from(ns.get('historical')).map((tick: Historical) => {
+        return [ tick.symbol, tick ]
+      }));
+    }
+
+    if (ns.has('ticks')) {
+      render = true;
+      this.ticks = new Map(Array.from(ns.get('ticks')).map((tick: Tick) => {
+        return [ tick.symbol, tick ]
+      }));
+    }    
+
+    if (render) {
+      this.last_update = Date.now();
+    }
+  }
+
+  saveQuotes() {
+    const ns = store.namespace(this.namespace);
+    ns.set('ticks', Array.from(this.ticks.values()), true);
+    ns.set('historical', Array.from(this.historical.values()), true);
+  }
+
   componentDidLoad() {
+    this.loadQuotes();
+
     this.connection = new WebsocketConnection({
       endpoint: this.endpoint,
       apiKey: this.apiKey,

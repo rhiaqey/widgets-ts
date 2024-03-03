@@ -16,6 +16,7 @@ export namespace Components {
         "apiKey": string;
         "channels": string | string[];
         "endpoint": string;
+        "namespace": string;
         "symbols": TradeSymbol[];
     }
     interface RqMtRates {
@@ -61,6 +62,7 @@ declare namespace LocalJSX {
         "apiKey"?: string;
         "channels"?: string | string[];
         "endpoint"?: string;
+        "namespace"?: string;
         "symbols"?: TradeSymbol[];
     }
     interface RqMtRates {
