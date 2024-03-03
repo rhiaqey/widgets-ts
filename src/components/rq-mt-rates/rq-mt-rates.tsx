@@ -149,11 +149,6 @@ export class RqMtRates {
   private saveQuote(quote: Quote) {
     if (quote.data.tick) {
       if (this.ticks.has(quote.symbol)) {
-
-        if (quote.symbol === 'USOILm') {
-          console.log('>> QUOTE', quote);
-        }
-
         if (this.ticks.get(quote.symbol).timestamp < quote.data.tick.time_msc) {
           let diff = 0;
 
