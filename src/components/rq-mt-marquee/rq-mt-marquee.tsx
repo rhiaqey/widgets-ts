@@ -11,8 +11,7 @@ type TradeSymbol = Omit<BaseTradeSymbol, 'image'>;
 @Component({
   tag: 'rq-mt-marquee',
   styleUrl: 'rq-mt-marquee.scss',
-  shadow: true,
-  assetsDirs: ['assets']
+  shadow: true
 })
 export class RqMtMarquee {
   private connection: WebsocketConnection;
