@@ -233,7 +233,12 @@ export class RqMtRates {
 
   connectedCallback() {
     this.loadQuotes();
-    this.selectedTab = this.activeTab;
+
+    if (this.groups.find(group => group.name === this.activeTab)) {
+      this.selectedTab = this.activeTab;
+    } else {
+      this.selectedTab = this.groups[0].name;
+    }
 
     this.connection = new WebsocketConnection({
       endpoint: this.endpoint,
