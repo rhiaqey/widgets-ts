@@ -146,75 +146,83 @@ export class RqMtRates {
     return percentageChange;
   }
 
-  private saveQuote(quote: Quote) {
-    if (quote.data.tick) {
-      if (this.ticks.has(quote.symbol)) {
-        if (this.ticks.get(quote.symbol).timestamp < quote.data.tick.time_msc) {
-          let diff = 0;
+  private saveTick(quote: Quote) {
+    if (this.ticks.has(quote.symbol)) {
+      if (this.ticks.get(quote.symbol).timestamp < quote.data.tick.time_msc) {
+        let diff = 0;
 
-          if (this.historical.has(quote.symbol)) {
-            const prev_close = this.historical.get(quote.symbol).close;
-            diff = this.getDiff(prev_close, quote.data.tick.bid);
-          }
-
-          this.ticks.set(quote.symbol, {
-            symbol: quote.symbol,
-            ask: parseFloat(`${quote.data.tick.ask}`).toFixed(quote.info.digits),
-            bid: parseFloat(`${quote.data.tick.bid}`).toFixed(quote.info.digits),
-            spread: "0",
-            timestamp: quote.data.tick.time_msc,
-            diff: diff
-          });
+        if (this.historical.has(quote.symbol)) {
+          const prev_close = this.historical.get(quote.symbol).close;
+          diff = this.getDiff(prev_close, quote.data.tick.bid);
         }
 
-      } else {
         this.ticks.set(quote.symbol, {
           symbol: quote.symbol,
           ask: parseFloat(`${quote.data.tick.ask}`).toFixed(quote.info.digits),
           bid: parseFloat(`${quote.data.tick.bid}`).toFixed(quote.info.digits),
           spread: "0",
           timestamp: quote.data.tick.time_msc,
-          diff: 0
+          diff: diff
         });
       }
 
-      this.saveQuotes();
-      this.last_update = Date.now();
-    } else if (quote.data.historical) {
-      const timestamp = new Date(quote.data.historical.datetime).getFullYear() === 1970 ?
-        quote.data.historical.datetime * 1000 :
-        quote.data.historical.datetime;
+    } else {
+      this.ticks.set(quote.symbol, {
+        symbol: quote.symbol,
+        ask: parseFloat(`${quote.data.tick.ask}`).toFixed(quote.info.digits),
+        bid: parseFloat(`${quote.data.tick.bid}`).toFixed(quote.info.digits),
+        spread: "0",
+        timestamp: quote.data.tick.time_msc,
+        diff: 0
+      });
+    }
+  }
 
-      if (this.historical.has(quote.symbol)) {
-        if (this.historical.get(quote.symbol).timestamp < quote.data.historical.datetime) {
-          this.historical.set(quote.symbol, {
-            symbol: quote.symbol,
-            close: quote.data.historical.close,
-            timestamp,
-          });
-        }
-      } else {
+  private saveHistorical(quote: Quote) {
+    const timestamp = new Date(quote.data.historical.datetime).getFullYear() === 1970 ?
+      quote.data.historical.datetime * 1000 :
+      quote.data.historical.datetime;
+
+    if (this.historical.has(quote.symbol)) {
+      if (this.historical.get(quote.symbol).timestamp < quote.data.historical.datetime) {
         this.historical.set(quote.symbol, {
           symbol: quote.symbol,
           close: quote.data.historical.close,
           timestamp,
         });
       }
+    } else {
+      this.historical.set(quote.symbol, {
+        symbol: quote.symbol,
+        close: quote.data.historical.close,
+        timestamp,
+      });
+    }
 
-      // NOTE: in the rate occasion we receive only historical (or first) we instantly can populate ticks
-      if (!this.ticks.has(quote.symbol)) {
-        this.ticks.set(quote.symbol, {
-          symbol: quote.symbol,
-          ask: parseFloat(`${quote.data.historical.open}`).toFixed(quote.info.digits),
-          bid: parseFloat(`${quote.data.historical.close}`).toFixed(quote.info.digits),
-          spread: "0",
-          timestamp,
-          diff: 0
-        });
-      }
+    // NOTE: in the rate occasion we receive only historical (or first) we instantly can populate ticks
+    if (!this.ticks.has(quote.symbol)) {
+      this.ticks.set(quote.symbol, {
+        symbol: quote.symbol,
+        ask: parseFloat(`${quote.data.historical.open}`).toFixed(quote.info.digits),
+        bid: parseFloat(`${quote.data.historical.close}`).toFixed(quote.info.digits),
+        spread: "0",
+        timestamp,
+        diff: 0
+      });
+    }
+  }
 
+  private saveQuote(quote: Quote) {
+    if (quote.data.tick) {
+      this.saveTick(quote);
       this.saveQuotes();
       this.last_update = Date.now();
+    } else if (quote.data.historical) {
+      this.saveHistorical(quote);
+      this.saveQuotes();
+      this.last_update = Date.now();
+    } else {
+      console.warn("unsupported quote");
     }
   }
 

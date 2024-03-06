@@ -33,35 +33,35 @@ export class RqMtMarquee {
 
   @Prop()
   symbols: TradeSymbol[] = [
-      { key: "BTCUSDm",   label: "BTC/USD" },
-      { key: "XAUUSDm",   label: "Gold/USD" },
-      { key: "EURUSDm",   label: "EUR/USD" },
-      { key: "USOILm",    label: "US Oil" },
-      { key: "ETHUSDm",   label: "ETH/USD" },
-      //
-      { key: "EURUSDm",   label: "EUR/USD" },
-      { key: "USDJPYm",   label: "USD/JPY" },
-      { key: "GBPUSDm",   label: "GBP/USD" },
-      { key: "USDCHFm",   label: "USD/CHF" },
-      { key: "USDCADm",   label: "USD/CAD" },
-      //
-      { key: "USTECm",    label: "US Tech 100" },
-      { key: "UK100m",    label: "UK 100 Index" },
-      { key: "STOXX50m",  label: "EU 50 Index" },
-      { key: "HK50m",     label: "HK 50 Index" },
-      { key: "DE30m",     label: "DE 30 Index" },
-      //
-      { key: "XAUUSDm",   label: "Gold/USD" },
-      { key: "XAGUSDm",   label: "Silver/USD" },
-      { key: "USOILm",    label: "US Crude Oil" },
-      { key: "XPDUSDm",   label: "Palladium/USD" },
-      { key: "XPTUSDm",   label: "Platinum/USD" },
-      //
-      { key: "AAPLm",     label: "Apple" },
-      { key: "BABAm",     label: "AliBaba" },
-      { key: "Cm",        label: "CitiGroup" },
-      { key: "KOm",       label: "CocaCola" },
-      { key: "NFLXm",     label: "Netflix" },
+    { key: "BTCUSDm", label: "BTC/USD" },
+    { key: "XAUUSDm", label: "Gold/USD" },
+    { key: "EURUSDm", label: "EUR/USD" },
+    { key: "USOILm", label: "US Oil" },
+    { key: "ETHUSDm", label: "ETH/USD" },
+    //
+    { key: "EURUSDm", label: "EUR/USD" },
+    { key: "USDJPYm", label: "USD/JPY" },
+    { key: "GBPUSDm", label: "GBP/USD" },
+    { key: "USDCHFm", label: "USD/CHF" },
+    { key: "USDCADm", label: "USD/CAD" },
+    //
+    { key: "USTECm", label: "US Tech 100" },
+    { key: "UK100m", label: "UK 100 Index" },
+    { key: "STOXX50m", label: "EU 50 Index" },
+    { key: "HK50m", label: "HK 50 Index" },
+    { key: "DE30m", label: "DE 30 Index" },
+    //
+    { key: "XAUUSDm", label: "Gold/USD" },
+    { key: "XAGUSDm", label: "Silver/USD" },
+    { key: "USOILm", label: "US Crude Oil" },
+    { key: "XPDUSDm", label: "Palladium/USD" },
+    { key: "XPTUSDm", label: "Platinum/USD" },
+    //
+    { key: "AAPLm", label: "Apple" },
+    { key: "BABAm", label: "AliBaba" },
+    { key: "Cm", label: "CitiGroup" },
+    { key: "KOm", label: "CocaCola" },
+    { key: "NFLXm", label: "Netflix" },
   ];
 
   @Prop()
@@ -98,73 +98,81 @@ export class RqMtMarquee {
   }
 
   private getDiff(old_val: number, new_val: number) {
-    const percentageChange = ((new_val - old_val) / Math.abs(old_val)) * 100;  
+    const percentageChange = ((new_val - old_val) / Math.abs(old_val)) * 100;
     return percentageChange;
   }
 
-  private saveQuote(quote: Quote) {
-    if (quote.data.tick) {
-      if (this.ticks.has(quote.symbol)) {
-        if (this.ticks.get(quote.symbol).timestamp < quote.data.tick.time_msc) {
-          let diff = 0;
+  private saveTick(quote: Quote) {
+    if (this.ticks.has(quote.symbol)) {
+      if (this.ticks.get(quote.symbol).timestamp < quote.data.tick.time_msc) {
+        let diff = 0;
 
-          if (this.historical.has(quote.symbol)) {
-            const prev_close = this.historical.get(quote.symbol).close;
-            diff = this.getDiff(prev_close, quote.data.tick.bid);
-          }
-
-          this.ticks.set(quote.symbol, {
-            symbol: quote.symbol,
-            bid: parseFloat(`${quote.data.tick.bid}`).toFixed(quote.info.digits),
-            timestamp: quote.data.tick.time_msc,
-            diff: diff
-          });
+        if (this.historical.has(quote.symbol)) {
+          const prev_close = this.historical.get(quote.symbol).close;
+          diff = this.getDiff(prev_close, quote.data.tick.bid);
         }
 
-      } else {
         this.ticks.set(quote.symbol, {
           symbol: quote.symbol,
           bid: parseFloat(`${quote.data.tick.bid}`).toFixed(quote.info.digits),
           timestamp: quote.data.tick.time_msc,
-          diff: 0
+          diff: diff
         });
       }
 
-      this.saveQuotes();
-      this.last_update = Date.now();
-    } else if (quote.data.historical) {
-      const timestamp = new Date(quote.data.historical.datetime).getFullYear() === 1970 ?
-        quote.data.historical.datetime * 1000 :
-        quote.data.historical.datetime;
+    } else {
+      this.ticks.set(quote.symbol, {
+        symbol: quote.symbol,
+        bid: parseFloat(`${quote.data.tick.bid}`).toFixed(quote.info.digits),
+        timestamp: quote.data.tick.time_msc,
+        diff: 0
+      });
+    }
+  }
 
-      if (this.historical.has(quote.symbol)) {
-        if (this.historical.get(quote.symbol).timestamp < quote.data.historical.datetime) {
-          this.historical.set(quote.symbol, {
-            symbol: quote.symbol,
-            close: quote.data.historical.close,
-            timestamp,
-          });
-        }
-      } else {
+  private saveHistorical(quote: Quote) {
+    const timestamp = new Date(quote.data.historical.datetime).getFullYear() === 1970 ?
+      quote.data.historical.datetime * 1000 :
+      quote.data.historical.datetime;
+
+    if (this.historical.has(quote.symbol)) {
+      if (this.historical.get(quote.symbol).timestamp < quote.data.historical.datetime) {
         this.historical.set(quote.symbol, {
           symbol: quote.symbol,
           close: quote.data.historical.close,
           timestamp,
         });
       }
+    } else {
+      this.historical.set(quote.symbol, {
+        symbol: quote.symbol,
+        close: quote.data.historical.close,
+        timestamp,
+      });
+    }
 
-      // NOTE: in the rate occasion we receive only historical (or first) we instantly can populate ticks
-      if (!this.ticks.has(quote.symbol)) {
-        this.ticks.set(quote.symbol, {
-          symbol: quote.symbol,
-          bid: parseFloat(`${quote.data.historical.close}`).toFixed(quote.info.digits),
-          timestamp,
-          diff: 0
-        });
-      }
+    // NOTE: in the rate occasion we receive only historical (or first) we instantly can populate ticks
+    if (!this.ticks.has(quote.symbol)) {
+      this.ticks.set(quote.symbol, {
+        symbol: quote.symbol,
+        bid: parseFloat(`${quote.data.historical.close}`).toFixed(quote.info.digits),
+        timestamp,
+        diff: 0
+      });
+    }
+  }
 
+  private saveQuote(quote: Quote) {
+    if (quote.data.tick) {
+      this.saveTick(quote);
       this.saveQuotes();
       this.last_update = Date.now();
+    } else if (quote.data.historical) {
+      this.saveHistorical(quote);
+      this.saveQuotes();
+      this.last_update = Date.now();
+    } else {
+      console.warn("unsupported quote");
     }
   }
 
@@ -175,16 +183,16 @@ export class RqMtMarquee {
     if (ns.has('historical')) {
       render = true;
       this.historical = new Map(Array.from(ns.get('historical')).map((tick: Historical) => {
-        return [ tick.symbol, tick ]
+        return [tick.symbol, tick]
       }));
     }
 
     if (ns.has('ticks')) {
       render = true;
       this.ticks = new Map(Array.from(ns.get('ticks')).map((tick: Tick) => {
-        return [ tick.symbol, tick ]
+        return [tick.symbol, tick]
       }));
-    }    
+    }
 
     if (render) {
       this.last_update = Date.now();
@@ -238,9 +246,9 @@ export class RqMtMarquee {
         <div class={classes.join(" ")}>
           <div class="quotes">
             <div class={tickerClass.join(" ")}>
-            {this.symbols.filter(symbol => this.ticks.has(symbol.key)).map(symbol => {
+              {this.symbols.filter(symbol => this.ticks.has(symbol.key)).map(symbol => {
                 return this.renderSymbol(symbol);
-            })}
+              })}
             </div>
           </div>
         </div>
