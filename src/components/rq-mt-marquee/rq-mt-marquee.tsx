@@ -133,19 +133,23 @@ export class RqMtMarquee {
       this.saveQuotes();
       this.last_update = Date.now();
     } else if (quote.data.historical) {
+      const timestamp = new Date(quote.data.historical.datetime).getFullYear() === 1970 ?
+        quote.data.historical.datetime * 1000 :
+        quote.data.historical.datetime;
+
       if (this.historical.has(quote.symbol)) {
         if (this.historical.get(quote.symbol).timestamp < quote.data.historical.datetime) {
           this.historical.set(quote.symbol, {
             symbol: quote.symbol,
             close: quote.data.historical.close,
-            timestamp: quote.data.historical.datetime
+            timestamp,
           });
         }
       } else {
         this.historical.set(quote.symbol, {
           symbol: quote.symbol,
           close: quote.data.historical.close,
-          timestamp: quote.data.historical.datetime
+          timestamp,
         });
       }
 
