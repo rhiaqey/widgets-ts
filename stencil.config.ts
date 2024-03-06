@@ -4,6 +4,7 @@ import { sass } from '@stencil/sass';
 export const config: Config = {
   namespace: 'widgets-ts',
   buildDist: true,
+  sourceMap: false,
   plugins: [
     sass()
   ],
