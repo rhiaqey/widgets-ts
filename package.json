@@ -27,7 +27,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@rhiaqey/sdk-ts": "^1.0.24",
+    "@rhiaqey/sdk-ts": "^1.0.27",
     "@stencil/core": "^4.12.5",
     "@stencil/sass": "^3.0.10",
     "rxjs": "^7.8.1",
@@ -43,7 +43,7 @@
     "@storybook/html-vite": "^7.6.17",
     "@storybook/test": "^7.6.17",
     "@types/jest": "^29.5.12",
-    "@types/node": "^20.11.24",
+    "@types/node": "^20.11.25",
     "chokidar": "^3.6.0",
     "http-server": "^14.1.1",
     "jest": "^29.7.0",

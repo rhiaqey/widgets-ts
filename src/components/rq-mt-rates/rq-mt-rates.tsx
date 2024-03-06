@@ -1,6 +1,6 @@
 import { Component, Host, h, Prop, State, getAssetPath } from '@stencil/core';
 import { ClientConnectedMessage, ClientSubscribedMessage, WebsocketConnection } from '@rhiaqey/sdk-ts';
-import { filter, Subscription } from 'rxjs';
+import { filter, map, Subscription } from 'rxjs';
 import { Quote, TradeSymbol, TradeSymbolCategory } from '../../models';
 import store from 'store2';
 
@@ -118,24 +118,50 @@ export class RqMtRates {
   last_update = Date.now();
 
   private setupListeners() {
+    const cid = this.connection.getId();
     const channels = typeof this.channels === 'string' ? this.channels.split(',') : this.channels;
+
+    this.subscriptions.add(this.connection.eventStream().pipe(
+      filter(event => event[0] === 'ready'),
+    ).subscribe(() => {
+      console.log(`client[${cid}] connection ready`);
+    }));
+
+    this.subscriptions.add(this.connection.eventStream().pipe(
+      filter(event => event[0] === 'open'),
+    ).subscribe(() => {
+      console.log(`client[${cid}] connection open`);
+    }));
 
     this.subscriptions.add(this.connection.dataStream<ClientConnectedMessage>().pipe(
       filter(message => message.is_connected_type()),
-    ).subscribe(message => {
-      console.log('client connected', message.get_value().client_id);
+    ).subscribe((message) => {
+      console.log(`client[${cid}] connected`, message.get_value().client_id);
+    }));
+
+    this.subscriptions.add(this.connection.eventStream().pipe(
+      filter(event => event[0] === 'error'),
+      map(event => event[1])
+    ).subscribe((error) => {
+      console.warn(`client[${cid}] connection error`, error);
+    }));
+
+    this.subscriptions.add(this.connection.eventStream().pipe(
+      filter(event => event[0] === 'complete'),
+    ).subscribe(() => {
+      console.log(`client[${cid}] connection complete`);
     }));
 
     for (const channel of channels) {
       this.subscriptions.add(this.connection.channelStream<ClientSubscribedMessage>(channel).pipe(
         filter(message => message.is_subscribed_type()),
       ).subscribe(() => {
-        console.log('client subscribed to channel', channel);
+        console.log(`client[${cid}] subscribed to channel`, channel);
       }));
 
       this.subscriptions.add(this.connection.channelStream(channel).pipe(
         filter(message => message.is_data_type()),
-      ).subscribe(message => {
+      ).subscribe((message) => {
         this.saveQuote(message.get_value() as Quote);
       }));
     }
