@@ -153,6 +153,16 @@ export class RqMtMarquee {
         });
       }
 
+      // NOTE: in the rate occasion we receive only historical (or first) we instantly can populate ticks
+      if (!this.ticks.has(quote.symbol)) {
+        this.ticks.set(quote.symbol, {
+          symbol: quote.symbol,
+          bid: parseFloat(`${quote.data.historical.close}`).toFixed(quote.info.digits),
+          timestamp,
+          diff: 0
+        });
+      }
+
       this.saveQuotes();
       this.last_update = Date.now();
     }

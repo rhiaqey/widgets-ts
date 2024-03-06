@@ -201,6 +201,18 @@ export class RqMtRates {
         });
       }
 
+      // NOTE: in the rate occasion we receive only historical (or first) we instantly can populate ticks
+      if (!this.ticks.has(quote.symbol)) {
+        this.ticks.set(quote.symbol, {
+          symbol: quote.symbol,
+          ask: parseFloat(`${quote.data.historical.open}`).toFixed(quote.info.digits),
+          bid: parseFloat(`${quote.data.historical.close}`).toFixed(quote.info.digits),
+          spread: "0",
+          timestamp,
+          diff: 0
+        });
+      }
+
       this.saveQuotes();
       this.last_update = Date.now();
     }
