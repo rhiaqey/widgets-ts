@@ -228,8 +228,7 @@ export class RqMtRates {
 
   private saveHistorical(quote: Quote) {
     if (!quote.timeframe) {
-      // console.warn('historical quote has no timeframe', quote);
-      return;
+      return console.warn('historical quote has no timeframe', quote);
     }
 
     if (!this.timeFramedHistorical.has(quote.timeframe)) {
