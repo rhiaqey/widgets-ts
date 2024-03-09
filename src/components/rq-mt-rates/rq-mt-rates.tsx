@@ -352,6 +352,18 @@ export class RqMtRates {
     </div>
   }
 
+  private getTickDiffClass(diff: number) {
+    if (diff > 0) {
+      return 'change up';
+    }
+
+    if (diff < 0) {
+      return 'change down';
+    }
+
+    return 'change';
+  }
+
   private getRate(tick: Tick, symbol: TradeSymbol, category: TradeSymbolCategory) {
     return <div class="column-values">
       <div class="icon">
@@ -364,7 +376,7 @@ export class RqMtRates {
       <div class="buy"><span>{tick.ask}</span></div>
       <div class="spread"><span>0</span></div>
       <div class="change">
-        <span class={tick.diff > 0 ? 'change up' : (tick.diff < 0 ? 'change down' : 'change')}>
+        <span class={this.getTickDiffClass(tick.diff)}>
           {tick.diff === 0 ? "" : tick.diff > 0 ? "+" : ""}
           {Number.parseFloat(`${tick.diff}`).toFixed(2)}%
         </span>

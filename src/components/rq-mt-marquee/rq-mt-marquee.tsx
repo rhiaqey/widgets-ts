@@ -287,12 +287,24 @@ export class RqMtMarquee {
     this.subscriptions.unsubscribe();
   }
 
+  private getTickDiffClass(diff: number) {
+    if (diff > 0) {
+      return 'change up';
+    }
+
+    if (diff < 0) {
+      return 'change down';
+    }
+
+    return 'change';
+  }
+
   private renderSymbol(symbol: TradeSymbol) {
     const tick = this.ticks.get(symbol.key);
     return <div class="quote">
       <span class="symbol">{symbol.label}</span>
       <span class="bid">{tick.bid}</span>
-      <span class={tick.diff > 0 ? 'change up' : (tick.diff < 0 ? 'change down' : 'change')}>
+      <span class={this.getTickDiffClass(tick.diff)}>
         {tick.diff === 0 ? "" : tick.diff > 0 ? "+" : ""}
         {Number.parseFloat(`${tick.diff}`).toFixed(2)}%
       </span>
