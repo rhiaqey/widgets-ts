@@ -18,7 +18,6 @@ export class RqMtMarquee {
   private connection: WebsocketConnection;
   private subscriptions = new Subscription();
   private ticks = new Map<string, Tick>();
-  private historical = new Map<string, Historical>();
   private timeFramedHistorical = new Map<string, Map<string, Historical>>();
 
   @Prop()
