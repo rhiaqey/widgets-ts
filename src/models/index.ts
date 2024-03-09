@@ -1,3 +1,28 @@
+export enum TimeFrame {
+    M1 = "m1",
+    M2 = "m2",
+    M3 = "m3",
+    M4 = "m4",
+    M5 = "m5",
+    M6 = "m6",
+    M10 = "m10",
+    M12 = "m12",
+    M15 = "m15",
+    M20 = "m20",
+    M30 = "m30",
+    H1 = "h1",
+    H2 = "h2",
+    H3 = "h3",
+    H4 = "h4",
+    H6 = "h6",
+    H8 = "h8",
+    H12 = "h12",
+    D1 = "d1",
+    W1 = "w1",
+    MN1 = "mn1",
+    OTHER = "other",
+};
+
 export type TradeSymbol = {
     key: string;
     label: string;
@@ -6,6 +31,7 @@ export type TradeSymbol = {
 
 export type Quote = {
     symbol: string;
+    timeframe: TimeFrame;
     info: {
         digits: number;
         period: number;
@@ -39,28 +65,3 @@ export type TradeSymbolCategory = {
     active?: boolean;
     symbols: Array<TradeSymbol>;
 }
-
-export enum TimeFrame {
-    M1 = "m1",
-    M2 = "m2",
-    M3 = "m3",
-    M4 = "m4",
-    M5 = "m5",
-    M6 = "m6",
-    M10 = "m10",
-    M12 = "m12",
-    M15 = "m15",
-    M20 = "m20",
-    M30 = "m30",
-    H1 = "h1",
-    H2 = "h2",
-    H3 = "h3",
-    H4 = "h4",
-    H6 = "h6",
-    H8 = "h8",
-    H12 = "h12",
-    D1 = "d1",
-    W1 = "w1",
-    MN1 = "mn1",
-    OTHER = "other",
-};

@@ -4,9 +4,25 @@
     "dictionaryDefinitions": [],
     "dictionaries": [],
     "words": [
+        "BTCJP",
+        "BTCUS",
+        "ETHUS",
         "forex",
+        "GBPUS",
+        "LTCUS",
         "rhiaqey",
-        "timeframe"
+        "STOXX",
+        "timeframe",
+        "USDCA",
+        "USDCH",
+        "USDJP",
+        "USOI",
+        "USTE",
+        "XAGUS",
+        "XAUUS",
+        "XPDUS",
+        "XPTUS",
+        "XRPUS"
     ],
     "ignoreWords": [],
     "import": []

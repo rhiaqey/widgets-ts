@@ -5,8 +5,8 @@ import type { Quote, TradeSymbol, TradeSymbolCategory } from '../../models';
 import { TimeFrame } from '../../models';
 import store from 'store2';
 
-type Tick = { symbol: string; bid: string; ask: string; spread: string; diff: number; timestamp: number; };
-type Historical = { symbol; close: number; timestamp: number; };
+type Tick = { symbol: string; bid: string; ask: string; diff: number; timestamp: number; timeframe: TimeFrame; };
+type Historical = { symbol; close: number; timestamp: number; timeframe: TimeFrame; };
 
 @Component({
   tag: 'rq-mt-rates',
@@ -19,7 +19,7 @@ export class RqMtRates {
   private connection: WebsocketConnection;
   private subscriptions = new Subscription();
   private ticks = new Map<string, Tick>();
-  private historical = new Map<string, Historical>();
+  private timeFramedHistorical = new Map<string, Map<string, Historical>>();
 
   @Prop()
   endpoint: string;
@@ -116,7 +116,7 @@ export class RqMtRates {
   activeTab = "popular"
 
   @Prop()
-  timeframe: TimeFrame = TimeFrame.D1;
+  timeframe = TimeFrame.D1;
 
   @State()
   last_update = Date.now();
@@ -171,74 +171,95 @@ export class RqMtRates {
     }
   }
 
-  private getDiff(old_val: number, new_val: number) {
+  private getDiffPercent(old_val: number, new_val: number) {
     const percentageChange = ((new_val - old_val) / Math.abs(old_val)) * 100;
     return percentageChange;
   }
 
+  private getDiff(quote: Quote) {
+    let diff = 0;
+
+    // first check if there is a historical for prop timeframe + symbol
+    if (this.timeFramedHistorical.has(this.timeframe)) {
+      if (this.timeFramedHistorical.get(this.timeframe).has(quote.symbol)) {
+        const prev_close = this.timeFramedHistorical.get(this.timeframe).get(quote.symbol).close;
+        diff = this.getDiffPercent(prev_close, quote.data.tick.bid);
+      }
+    }
+
+    // then fallback to the first timeframe + symbol found
+    if (diff === 0) {
+      for (const timeframe of this.timeFramedHistorical.keys()) {
+        if (this.timeFramedHistorical.get(timeframe).has(quote.symbol)) {
+          const prev_close = this.timeFramedHistorical.get(timeframe).get(quote.symbol).close;
+          diff = this.getDiffPercent(prev_close, quote.data.tick.bid);
+          break;
+        }
+      }
+    }
+
+    return diff;
+  }
+
   private saveTick(quote: Quote) {
     if (this.ticks.has(quote.symbol)) {
+      // If we have a newer tick we set it as the last
       if (this.ticks.get(quote.symbol).timestamp < quote.data.tick.time_msc) {
-        let diff = 0;
-
-        if (this.historical.has(quote.symbol)) {
-          const prev_close = this.historical.get(quote.symbol).close;
-          diff = this.getDiff(prev_close, quote.data.tick.bid);
-        }
-
         this.ticks.set(quote.symbol, {
           symbol: quote.symbol,
           ask: Number.parseFloat(`${quote.data.tick.ask}`).toFixed(quote.info.digits),
           bid: Number.parseFloat(`${quote.data.tick.bid}`).toFixed(quote.info.digits),
-          spread: "0",
           timestamp: quote.data.tick.time_msc,
-          diff: diff
+          timeframe: quote.timeframe,
+          diff: this.getDiff(quote)
         });
       }
-
     } else {
       this.ticks.set(quote.symbol, {
         symbol: quote.symbol,
         ask: Number.parseFloat(`${quote.data.tick.ask}`).toFixed(quote.info.digits),
         bid: Number.parseFloat(`${quote.data.tick.bid}`).toFixed(quote.info.digits),
-        spread: "0",
         timestamp: quote.data.tick.time_msc,
-        diff: 0
+        timeframe: quote.timeframe,
+        diff: this.getDiff(quote)
       });
     }
   }
 
   private saveHistorical(quote: Quote) {
+    if (!quote.timeframe) {
+      // console.warn('historical quote has no timeframe', quote);
+      return;
+    }
+
+    if (!this.timeFramedHistorical.has(quote.timeframe)) {
+      this.timeFramedHistorical.set(quote.timeframe, new Map<string, Historical>());
+    }
+
+    // Normalize timestamp to milliseconds
     const timestamp = new Date(quote.data.historical.datetime).getFullYear() === 1970 ?
       quote.data.historical.datetime * 1000 :
       quote.data.historical.datetime;
 
-    if (this.historical.has(quote.symbol)) {
-      if (this.historical.get(quote.symbol).timestamp < quote.data.historical.datetime) {
-        this.historical.set(quote.symbol, {
+    if (this.timeFramedHistorical.get(quote.timeframe).has(quote.symbol)) {
+      // Quote found cached
+      if (this.timeFramedHistorical.get(quote.timeframe).get(quote.symbol).timestamp < timestamp) {
+        // Since timestamp of new is greater then we need to update
+        this.timeFramedHistorical.get(quote.timeframe).set(quote.symbol, {
           symbol: quote.symbol,
           close: quote.data.historical.close,
           timestamp,
-        });
+          timeframe: quote.timeframe
+        })
       }
     } else {
-      this.historical.set(quote.symbol, {
+      // Quote was not found
+      this.timeFramedHistorical.get(quote.timeframe).set(quote.symbol, {
         symbol: quote.symbol,
         close: quote.data.historical.close,
         timestamp,
-      });
-    }
-
-    // NOTE: in the rate occasion we receive only historical (or first) we instantly can populate ticks
-    if (!this.ticks.has(quote.symbol)) {
-      this.ticks.set(quote.symbol, {
-        symbol: quote.symbol,
-        ask: Number.parseFloat(`${quote.data.historical.open}`).toFixed(quote.info.digits),
-        bid: Number.parseFloat(`${quote.data.historical.close}`).toFixed(quote.info.digits),
-        spread: "0",
-        timestamp,
-        diff: 0
-      });
+        timeframe: quote.timeframe
+      })
     }
   }
 
@@ -260,19 +281,21 @@ export class RqMtRates {
     let render = false;
     const ns = store.namespace(this.namespace);
 
-    if (ns.has('historical')) {
-      render = true;
-      this.historical = new Map(Array.from(ns.get('historical')).map((tick: Historical) => {
-        return [tick.symbol, tick]
-      }));
-    }
-
-    if (ns.has('ticks')) {
-      render = true;
-      this.ticks = new Map(Array.from(ns.get('ticks')).map((tick: Tick) => {
-        return [tick.symbol, tick]
-      }));
-    }
+    ns.each(entry => {
+      if (entry === 'ticks') {
+        render = true;
+        this.ticks = new Map(Array.from(ns.get('ticks')).map((tick: Tick) => {
+          return [tick.symbol, tick]
+        }));
+      } else if (entry.startsWith('historical:')) {
+        render = true;
+        const data = Array.from(ns.get(entry));
+        const timeframe = entry.substring(11);
+        this.timeFramedHistorical.set(timeframe, new Map(data.map((tick: Historical) => [tick.symbol, tick])));
+      } else {
+        console.warn('unsupported entry', entry)
+      }
+    });
 
     if (render) {
       this.last_update = Date.now();
@@ -282,7 +305,9 @@ export class RqMtRates {
   private saveQuotes() {
     const ns = store.namespace(this.namespace);
     ns.set('ticks', Array.from(this.ticks.values()), true);
-    ns.set('historical', Array.from(this.historical.values()), true);
+    for (const entry of this.timeFramedHistorical.entries()) {
+      ns.set(`historical:${entry[0]}`, Array.from(entry[1].values()), true);
+    }
   }
 
   connectedCallback() {
@@ -337,7 +362,7 @@ export class RqMtRates {
       </div>
       <div class="sell"><span>{tick.bid}</span></div>
       <div class="buy"><span>{tick.ask}</span></div>
-      <div class="spread"><span>{tick.spread}</span></div>
+      <div class="spread"><span>0</span></div>
       <div class="change">
         <span class={tick.diff > 0 ? 'change up' : (tick.diff < 0 ? 'change down' : 'change')}>
           {tick.diff === 0 ? "" : tick.diff > 0 ? "+" : ""}
