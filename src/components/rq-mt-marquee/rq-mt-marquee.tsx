@@ -1,7 +1,8 @@
 import { Component, Host, h, Prop, State } from '@stencil/core';
-import { ClientConnectedMessage, ClientSubscribedMessage, WebsocketConnection } from '@rhiaqey/sdk-ts';
+import { type ClientConnectedMessage, type ClientSubscribedMessage, WebsocketConnection } from '@rhiaqey/sdk-ts';
 import { filter, map, Subscription } from 'rxjs';
-import { Quote, TradeSymbol as BaseTradeSymbol } from '../../models';
+import type { Quote, TradeSymbol as BaseTradeSymbol } from '../../models';
+import { TimeFrame } from '../../models';
 import store from 'store2';
 
 type Tick = { symbol: string; bid: string; diff: number; timestamp: number; };
@@ -69,6 +70,9 @@ export class RqMtMarquee {
 
   @Prop()
   namespace = "rq-mt-marquee";
+
+  @Prop()
+  timeframe: TimeFrame = TimeFrame.D1;
 
   @State()
   last_update = Date.now();
@@ -140,7 +144,7 @@ export class RqMtMarquee {
 
         this.ticks.set(quote.symbol, {
           symbol: quote.symbol,
-          bid: parseFloat(`${quote.data.tick.bid}`).toFixed(quote.info.digits),
+          bid: Number.parseFloat(`${quote.data.tick.bid}`).toFixed(quote.info.digits),
           timestamp: quote.data.tick.time_msc,
           diff: diff
         });
@@ -149,7 +153,7 @@ export class RqMtMarquee {
     } else {
       this.ticks.set(quote.symbol, {
         symbol: quote.symbol,
-        bid: parseFloat(`${quote.data.tick.bid}`).toFixed(quote.info.digits),
+        bid: Number.parseFloat(`${quote.data.tick.bid}`).toFixed(quote.info.digits),
         timestamp: quote.data.tick.time_msc,
         diff: 0
       });
@@ -181,7 +185,7 @@ export class RqMtMarquee {
     if (!this.ticks.has(quote.symbol)) {
       this.ticks.set(quote.symbol, {
         symbol: quote.symbol,
-        bid: parseFloat(`${quote.data.historical.close}`).toFixed(quote.info.digits),
+        bid: Number.parseFloat(`${quote.data.historical.close}`).toFixed(quote.info.digits),
         timestamp,
         diff: 0
       });
@@ -258,7 +262,7 @@ export class RqMtMarquee {
       <span class="bid">{tick.bid}</span>
       <span class={tick.diff > 0 ? 'change up' : (tick.diff < 0 ? 'change down' : 'change')}>
         {tick.diff === 0 ? "" : tick.diff > 0 ? "+" : ""}
-        {parseFloat(`${tick.diff}`).toFixed(2)}%
+        {Number.parseFloat(`${tick.diff}`).toFixed(2)}%
       </span>
     </div>
   }

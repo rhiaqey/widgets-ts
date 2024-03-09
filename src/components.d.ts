@@ -5,8 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { TradeSymbolCategory } from "./models";
-export { TradeSymbolCategory } from "./models";
+import { TimeFrame, TradeSymbolCategory } from "./models";
+export { TimeFrame, TradeSymbolCategory } from "./models";
 export namespace Components {
     interface RqMtMarquee {
         "animation": boolean;
@@ -16,6 +16,7 @@ export namespace Components {
         "endpoint": string;
         "namespace": string;
         "symbols": TradeSymbol[];
+        "timeframe": TimeFrame;
     }
     interface RqMtRates {
         "activeTab": string;
@@ -27,6 +28,7 @@ export namespace Components {
         "groups": TradeSymbolCategory[];
         "namespace": string;
         "size": 'default' | 'large';
+        "timeframe": TimeFrame;
     }
 }
 declare global {
@@ -56,6 +58,7 @@ declare namespace LocalJSX {
         "endpoint"?: string;
         "namespace"?: string;
         "symbols"?: TradeSymbol[];
+        "timeframe"?: TimeFrame;
     }
     interface RqMtRates {
         "activeTab"?: string;
@@ -67,6 +70,7 @@ declare namespace LocalJSX {
         "groups"?: TradeSymbolCategory[];
         "namespace"?: string;
         "size"?: 'default' | 'large';
+        "timeframe"?: TimeFrame;
     }
     interface IntrinsicElements {
         "rq-mt-marquee": RqMtMarquee;
