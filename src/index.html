@@ -23,6 +23,9 @@
       return 'https://cdn.jsdelivr.net/npm/@rhiaqey/widgets-ts@1.0.12/dist' + relative;
     };
 
+    const EUR_SYMBOL = { key: "EURUSDm", label: "EUR/USD" };
+    const BTC_SYMBOL = { key: "BTCUSDm", label: "BTC/USD" };
+
     const SYMBOLS = [
       {
         name: "most-traded",
@@ -96,12 +99,17 @@
     .rq-widget {
       margin-bottom: 8px;
     }
+    rq-mt-spark {
+      max-width: 250px;
+    }
   </style>
 </head>
 
 <body>
   <rq-mt-marquee timeframe="w1" class="rq-widget" animation=false></rq-mt-marquee>
   <rq-mt-marquee timeframe="w1" class="rq-widget"></rq-mt-marquee>
+  <rq-mt-spark timeframe="w1" class="rq-widget"></rq-mt-spark>
+  <rq-mt-spark timeframe="w1" class="rq-widget"></rq-mt-spark>
   <rq-mt-rates timeframe="w1" class="rq-widget" active-tab="crypto"></rq-mt-rates>
   <rq-mt-rates timeframe="w1" class="rq-widget" size="large"></rq-mt-rates>
   <script>
@@ -114,6 +122,8 @@
     for (const el of document.getElementsByTagName('rq-mt-rates')) {
       el.groups = SYMBOLS;
     }
+    document.getElementsByTagName('rq-mt-spark')[0].symbol = EUR_SYMBOL;
+    document.getElementsByTagName('rq-mt-spark')[1].symbol = BTC_SYMBOL;
   </script>
 </body>
 

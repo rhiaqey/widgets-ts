@@ -27,9 +27,10 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@rhiaqey/sdk-ts": "^1.0.27",
+    "@rhiaqey/sdk-ts": "^1.0.29",
     "@stencil/core": "^4.12.5",
     "@stencil/sass": "^3.0.10",
+    "chart.js": "^4.4.2",
     "rxjs": "^7.8.1",
     "store2": "^2.14.3"
   },

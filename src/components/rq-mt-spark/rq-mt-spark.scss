@@ -1,0 +1,14 @@
+:host {
+  display: block;
+  padding: 10px;
+  border: 1px solid #ccc;
+
+  .sparkline {
+    display: flex;
+    align-items: center;
+    .symbol {
+      font-size: 14px;
+      padding: 0 10px;
+    }
+  }
+}
