@@ -7,10 +7,11 @@
 
 ## Properties
 
-| Property      | Attribute      | Description | Type                                    | Default                                     |
-| ------------- | -------------- | ----------- | --------------------------------------- | ------------------------------------------- |
-| `dataset`     | --             |             | `{ labels: string[]; data: number[]; }` | `{       labels: [],       data: [],     }` |
-| `maxElements` | `max-elements` |             | `number`                                | `31`                                        |
+| Property      | Attribute      | Description | Type       | Default |
+| ------------- | -------------- | ----------- | ---------- | ------- |
+| `labels`      | --             |             | `string[]` | `[]`    |
+| `maxElements` | `max-elements` |             | `number`   | `31`    |
+| `values`      | --             |             | `number[]` | `[]`    |
 
 
 ## Methods

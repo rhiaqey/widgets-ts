@@ -14,6 +14,7 @@
 | `maxHistory` | `max-history` |             | `number`                                                                                                                                                                | `30`            |
 | `namespace`  | `namespace`   |             | `string`                                                                                                                                                                | `"rq-mt-spark"` |
 | `symbol`     | --            |             | `{ key: string; label: string; }`                                                                                                                                       | `undefined`     |
+| `timeframe`  | `timeframe`   |             | `TimeFrame`                                                                                                                                                             | `TimeFrame.D1`  |
 
 
 ## Dependencies
