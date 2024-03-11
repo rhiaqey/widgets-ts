@@ -8,7 +8,7 @@ import Chart from 'chart.js/auto';
 })
 export class RqMtSparkline {
 
-  private instance: Chart;
+  private $instance: Chart;
 
   @Element()
   private hostElement: HTMLElement;
@@ -27,23 +27,23 @@ export class RqMtSparkline {
 
   @Watch('dataset')
   datasetChanged() {
-    this.instance.data.labels = this.dataset.labels;
-    this.instance.data.datasets = [{
+    this.$instance.data.labels = this.dataset.labels;
+    this.$instance.data.datasets = [{
       data: this.dataset.data,
       fill: true
     }];
-    this.instance.update();
+    this.$instance.update();
   }
 
   @Method()
   async appendData(label: string, data: number) {
-    if (this.instance.data.labels.length > this.maxElements) {
-      this.instance.data.labels.shift();
+    if (this.$instance.data.labels.length > this.maxElements) {
+      this.$instance.data.labels.shift();
     }
 
-    this.instance.data.labels.push(label);
+    this.$instance.data.labels.push(label);
 
-    for (const dataset of this.instance.data.datasets) {
+    for (const dataset of this.$instance.data.datasets) {
       if (dataset.data.length > this.maxElements) {
         dataset.data.shift();
       }
@@ -51,12 +51,12 @@ export class RqMtSparkline {
       dataset.data.push(data);
     }
 
-    this.instance.update();
+    this.$instance.update();
   }
 
   componentDidLoad() {
     const ctx = this.hostElement.shadowRoot.querySelector('canvas').getContext('2d');
-    this.instance = new Chart(ctx, {
+    this.$instance = new Chart(ctx, {
       type: 'line',
       data: {
         labels: this.dataset.labels,
@@ -101,7 +101,7 @@ export class RqMtSparkline {
   }
 
   disconnectedCallback() {
-    this.instance.destroy();
+    this.$instance.destroy();
   }
 
   render() {

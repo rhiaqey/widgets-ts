@@ -14,8 +14,10 @@ type TradeSymbol = Omit<BaseTradeSymbol, 'image'>;
   shadow: true
 })
 export class RqMtMarquee {
-  private ticks = new Map<string, Tick>();
-  private timeFramedHistorical = new Map<string, Map<string, Historical>>();
+
+  private $ticks = new Map<string, Tick>();
+
+  private $timeFramedHistorical = new Map<string, Map<string, Historical>>();
 
   @Prop()
   connection: WebsocketConnectionOptions | WebsocketConnection;
@@ -78,18 +80,18 @@ export class RqMtMarquee {
     let diff = 0;
 
     // first check if there is a historical for prop timeframe + symbol
-    if (this.timeFramedHistorical.has(this.timeframe)) {
-      if (this.timeFramedHistorical.get(this.timeframe).has(quote.symbol)) {
-        const prev_close = this.timeFramedHistorical.get(this.timeframe).get(quote.symbol).close;
+    if (this.$timeFramedHistorical.has(this.timeframe)) {
+      if (this.$timeFramedHistorical.get(this.timeframe).has(quote.symbol)) {
+        const prev_close = this.$timeFramedHistorical.get(this.timeframe).get(quote.symbol).close;
         diff = this.getDiffPercent(prev_close, quote.data.tick.bid);
       }
     }
 
     // then fallback to the first timeframe + symbol found
     if (diff === 0) {
-      for (const timeframe of this.timeFramedHistorical.keys()) {
-        if (this.timeFramedHistorical.get(timeframe).has(quote.symbol)) {
-          const prev_close = this.timeFramedHistorical.get(timeframe).get(quote.symbol).close;
+      for (const timeframe of this.$timeFramedHistorical.keys()) {
+        if (this.$timeFramedHistorical.get(timeframe).has(quote.symbol)) {
+          const prev_close = this.$timeFramedHistorical.get(timeframe).get(quote.symbol).close;
           diff = this.getDiffPercent(prev_close, quote.data.tick.bid);
           break;
         }
@@ -100,10 +102,10 @@ export class RqMtMarquee {
   }
 
   private saveTick(quote: Quote) {
-    if (this.ticks.has(quote.symbol)) {
+    if (this.$ticks.has(quote.symbol)) {
       // If we have a newer tick we set it as the last
-      if (this.ticks.get(quote.symbol).timestamp < quote.data.tick.time_msc) {
-        this.ticks.set(quote.symbol, {
+      if (this.$ticks.get(quote.symbol).timestamp < quote.data.tick.time_msc) {
+        this.$ticks.set(quote.symbol, {
           symbol: quote.symbol,
           ask: Number.parseFloat(`${quote.data.tick.ask}`).toFixed(quote.info.digits),
           bid: Number.parseFloat(`${quote.data.tick.bid}`).toFixed(quote.info.digits),
@@ -113,7 +115,7 @@ export class RqMtMarquee {
         });
       }
     } else {
-      this.ticks.set(quote.symbol, {
+      this.$ticks.set(quote.symbol, {
         symbol: quote.symbol,
         ask: Number.parseFloat(`${quote.data.tick.ask}`).toFixed(quote.info.digits),
         bid: Number.parseFloat(`${quote.data.tick.bid}`).toFixed(quote.info.digits),
@@ -130,8 +132,8 @@ export class RqMtMarquee {
       return;
     }
 
-    if (!this.timeFramedHistorical.has(quote.timeframe)) {
-      this.timeFramedHistorical.set(quote.timeframe, new Map<string, Historical>());
+    if (!this.$timeFramedHistorical.has(quote.timeframe)) {
+      this.$timeFramedHistorical.set(quote.timeframe, new Map<string, Historical>());
     }
 
     // Normalize timestamp to milliseconds
@@ -139,11 +141,11 @@ export class RqMtMarquee {
       quote.data.historical.datetime * 1000 :
       quote.data.historical.datetime;
 
-    if (this.timeFramedHistorical.get(quote.timeframe).has(quote.symbol)) {
+    if (this.$timeFramedHistorical.get(quote.timeframe).has(quote.symbol)) {
       // Quote found cached
-      if (this.timeFramedHistorical.get(quote.timeframe).get(quote.symbol).timestamp < timestamp) {
+      if (this.$timeFramedHistorical.get(quote.timeframe).get(quote.symbol).timestamp < timestamp) {
         // Since timestamp of new is greater then we need to update
-        this.timeFramedHistorical.get(quote.timeframe).set(quote.symbol, {
+        this.$timeFramedHistorical.get(quote.timeframe).set(quote.symbol, {
           symbol: quote.symbol,
           close: quote.data.historical.close,
           timestamp,
@@ -152,7 +154,7 @@ export class RqMtMarquee {
       }
     } else {
       // Quote was not found
-      this.timeFramedHistorical.get(quote.timeframe).set(quote.symbol, {
+      this.$timeFramedHistorical.get(quote.timeframe).set(quote.symbol, {
         symbol: quote.symbol,
         close: quote.data.historical.close,
         timestamp,
@@ -182,14 +184,14 @@ export class RqMtMarquee {
     ns.each(entry => {
       if (entry === 'ticks') {
         render = true;
-        this.ticks = new Map(Array.from(ns.get('ticks')).map((tick: Tick) => {
+        this.$ticks = new Map(Array.from(ns.get('ticks')).map((tick: Tick) => {
           return [tick.symbol, tick]
         }));
       } else if (entry.startsWith('historical:')) {
         render = true;
         const data = Array.from(ns.get(entry));
         const timeframe = entry.substring(11);
-        this.timeFramedHistorical.set(timeframe, new Map(data.map((tick: Historical) => [tick.symbol, tick])));
+        this.$timeFramedHistorical.set(timeframe, new Map(data.map((tick: Historical) => [tick.symbol, tick])));
       } else {
         console.warn('unsupported entry', entry)
       }
@@ -202,8 +204,8 @@ export class RqMtMarquee {
 
   private saveQuotes() {
     const ns = store.namespace(this.namespace);
-    ns.set('ticks', Array.from(this.ticks.values()), true);
-    for (const entry of this.timeFramedHistorical.entries()) {
+    ns.set('ticks', Array.from(this.$ticks.values()), true);
+    for (const entry of this.$timeFramedHistorical.entries()) {
       ns.set(`historical:${entry[0]}`, Array.from(entry[1].values()), true);
     }
   }
@@ -225,7 +227,7 @@ export class RqMtMarquee {
   }
 
   private renderSymbol(symbol: TradeSymbol) {
-    const tick = this.ticks.get(symbol.key);
+    const tick = this.$ticks.get(symbol.key);
     return <div class="quote">
       <span class="symbol">{symbol.label}</span>
       <span class="bid">{tick.bid}</span>
@@ -246,7 +248,7 @@ export class RqMtMarquee {
         <div class={classes.join(" ")}>
           <div class="quotes">
             <div class={tickerClass.join(" ")}>
-              {this.symbols.filter(symbol => this.ticks.has(symbol.key)).map(symbol => {
+              {this.symbols.filter(symbol => this.$ticks.has(symbol.key)).map(symbol => {
                 return this.renderSymbol(symbol);
               })}
             </div>

@@ -10,7 +10,7 @@ import type { ClientMessage, WebsocketConnection, WebsocketConnectionOptions } f
 })
 export class RqMtSpark {
 
-  private sparkline!: RqMtSparkline;
+  private $sparkline!: RqMtSparkline;
 
   @Prop()
   connection: WebsocketConnectionOptions | WebsocketConnection;
@@ -25,15 +25,15 @@ export class RqMtSpark {
   namespace = "rq-mt-spark";
 
   setRef(el) {
-    this.sparkline = el as RqMtSparkline;
+    this.$sparkline = el as RqMtSparkline;
   }
 
   componentDidLoad() {
     const min = 1;
     const max = 1500;
-    this.sparkline.appendData(new Date().toUTCString(), Math.floor(Math.random() * (max - min + 1) + min));
+    this.$sparkline.appendData(new Date().toUTCString(), Math.floor(Math.random() * (max - min + 1) + min));
     setInterval(() => {
-      this.sparkline.appendData(new Date().toUTCString(), Math.floor(Math.random() * (max - min + 1) + min));
+      this.$sparkline.appendData(new Date().toUTCString(), Math.floor(Math.random() * (max - min + 1) + min));
     }, 1000);
   }
 
