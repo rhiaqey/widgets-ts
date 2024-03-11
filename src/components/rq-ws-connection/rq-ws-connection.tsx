@@ -57,12 +57,12 @@ export class RqWsConnection {
         snapshot: this.connection.snapshot || true,
         env: this.connection.env || 'prod',
       });
+      this.#setupListeners();
+      this.#connection.connect();
     } else {
       this.#connection = this.connection;
+      this.#setupListeners();
     }
-
-    this.#setupListeners();
-    this.#connection.connect();
   }
 
   #setupListeners() {
