@@ -12,6 +12,9 @@
 
   <script type="module" src="/build/widgets-ts.esm.js"></script>
   <script nomodule src="/build/widgets-ts.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@rhiaqey/sdk-ts@1.0.40/dist/umd/sdk.js"></script>
+
   <style>
     html,
     body {
@@ -114,19 +117,25 @@
   <rq-mt-rates timeframe="w1" class="rq-widget" active-tab="crypto"></rq-mt-rates>
   <rq-mt-rates timeframe="w1" class="rq-widget" size="large"></rq-mt-rates>
   <script>
+    const connection = new RhiaqeySDK.WebsocketConnection({
+      endpoint: "hub.demo.prod.cloud.rhiaqey.com",
+      apiKey: "02f0c887-114f-45d7-8084-7d123804d582",
+      apiHost: "localhost:3333",
+      channels: "ticks",
+    });
+
     for (const el of document.getElementsByClassName('rq-widget')) {
-      el.connection = {
-        endpoint: "hub.demo.prod.cloud.rhiaqey.com",
-        apiKey: "02f0c887-114f-45d7-8084-7d123804d582",
-        apiHost: "localhost:3333",
-        channels: "ticks",
-      };
+      el.connection = connection;
     }
+
     for (const el of document.getElementsByTagName('rq-mt-rates')) {
       el.groups = SYMBOLS;
     }
+
     document.getElementsByTagName('rq-mt-spark')[0].symbol = EUR_SYMBOL;
     document.getElementsByTagName('rq-mt-spark')[1].symbol = BTC_SYMBOL;
+
+    connection.connect();
   </script>
 </body>
 

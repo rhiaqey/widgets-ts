@@ -7,9 +7,9 @@
 
 ## Properties
 
-| Property     | Attribute | Description | Type                                                                                                                                                     | Default     |
-| ------------ | --------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| `connection` | --        |             | `WebsocketConnection \| { endpoint: string; apiKey: string; apiHost: string; channels: string \| string[]; snapshot?: boolean; env?: "dev" \| "prod"; }` | `undefined` |
+| Property     | Attribute | Description | Type                                                                                                                                                                    | Default     |
+| ------------ | --------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| `connection` | --        |             | `WebsocketConnection \| { endpoint: string; apiKey: string; apiHost: string; channels: string \| string[] \| Set<string>; snapshot?: boolean; env?: "dev" \| "prod"; }` | `undefined` |
 
 
 ## Events
@@ -44,12 +44,14 @@ Type: `Promise<WebsocketConnection>`
 
  - [rq-mt-marquee](../rq-mt-marquee)
  - [rq-mt-rates](../rq-mt-rates)
+ - [rq-mt-spark](../rq-mt-spark)
 
 ### Graph
 ```mermaid
 graph TD;
   rq-mt-marquee --> rq-ws-connection
   rq-mt-rates --> rq-ws-connection
+  rq-mt-spark --> rq-ws-connection
   style rq-ws-connection fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

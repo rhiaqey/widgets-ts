@@ -17,6 +17,7 @@
   "scripts": {
     "build": "stencil build",
     "start": "stencil build --dev --watch --serve",
+    "postinstall": "npm run build && npm run copy",
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll",
     "generate": "stencil generate",
@@ -27,7 +28,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@rhiaqey/sdk-ts": "^1.0.34",
+    "@rhiaqey/sdk-ts": "^1.0.40",
     "@stencil/core": "^4.12.5",
     "@stencil/sass": "^3.0.10",
     "chart.js": "^4.4.2",

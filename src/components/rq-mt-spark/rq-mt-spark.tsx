@@ -1,6 +1,7 @@
 import { Component, Host, Prop, h } from '@stencil/core';
 import type { RqMtSparkline } from '../rq-mt-sparkline/rq-mt-sparkline';
 import type { TradeSymbol } from '../../models';
+import type { ClientMessage, WebsocketConnection, WebsocketConnectionOptions } from '@rhiaqey/sdk-ts';
 
 @Component({
   tag: 'rq-mt-spark',
@@ -10,6 +11,9 @@ import type { TradeSymbol } from '../../models';
 export class RqMtSpark {
 
   private sparkline!: RqMtSparkline;
+
+  @Prop()
+  connection: WebsocketConnectionOptions | WebsocketConnection;
 
   @Prop()
   symbol: TradeSymbol;
@@ -33,8 +37,13 @@ export class RqMtSpark {
     }, 1000);
   }
 
+  private handleData(_event: [cid: string, message: ClientMessage<unknown>]) {
+//     this.saveQuote(event[1].get_value() as Quote);
+  }
+
   render() {
     return <Host>
+      <rq-ws-connection connection={this.connection} onRqData={ev => this.handleData(ev.detail)} />
       <div class="sparkline">
         <span class="symbol">{this.symbol.label}</span>
         <rq-mt-sparkline max-elements="20" ref={(el) => this.setRef(el)} />

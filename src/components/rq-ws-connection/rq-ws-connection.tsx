@@ -14,9 +14,9 @@ import { isWebsocketConnectionOptions } from '../../utils/utils';
 })
 export class RqWsConnection {
 
-  #connection: WebsocketConnection;
+  private $connx: WebsocketConnection;
 
-  #subscriptions = new Subscription();
+  private $subscriptions = new Subscription();
 
   @Prop()
   connection: WebsocketConnectionOptions | WebsocketConnection;
@@ -44,12 +44,12 @@ export class RqWsConnection {
 
   @Method()
   async getConnection() {
-    return this.#connection;
+    return this.$connx;
   }
 
   connectedCallback() {
     if (isWebsocketConnectionOptions(this.connection)) {
-      this.#connection = new WebsocketConnection({
+      this.$connx = new WebsocketConnection({
         endpoint: this.connection.endpoint,
         apiKey: this.connection.apiKey,
         apiHost: this.connection.apiHost,
@@ -58,39 +58,39 @@ export class RqWsConnection {
         env: this.connection.env || 'prod',
       });
       this.#setupListeners();
-      this.#connection.connect();
+      this.$connx.connect();
     } else {
-      this.#connection = this.connection;
+      this.$connx = this.connection;
       this.#setupListeners();
     }
   }
 
   #setupListeners() {
-    const cid = this.#connection.getId();
+    const cid = this.$connx.getId();
 
-    this.#subscriptions.add(this.#connection.eventStream().pipe(
+    this.$subscriptions.add(this.$connx.eventStream().pipe(
       filter(event => event[0] === 'ready'),
     ).subscribe(() => {
       console.log(`client[${cid}] connection ready`);
-      const channels = this.#connection.getChannels();
+      const channels = this.$connx.getChannels();
       this.rqReady.emit([cid, channels]);
     }));
 
-    this.#subscriptions.add(this.#connection.eventStream().pipe(
+    this.$subscriptions.add(this.$connx.eventStream().pipe(
       filter(event => event[0] === 'open'),
     ).subscribe(() => {
       console.log(`client[${cid}] connection open`);
       this.rqOpen.emit([cid]);
     }));
 
-    this.#subscriptions.add(this.#connection.dataStream<ClientConnectedMessage>().pipe(
+    this.$subscriptions.add(this.$connx.dataStream<ClientConnectedMessage>().pipe(
       filter(message => message.is_connected_type()),
     ).subscribe((message) => {
       console.log(`client[${cid}] connected`, message.get_value().client_id);
       this.rqConnected.emit([cid, message.get_value()]);
     }));
 
-    this.#subscriptions.add(this.#connection.eventStream().pipe(
+    this.$subscriptions.add(this.$connx.eventStream().pipe(
       filter(event => event[0] === 'error'),
       map(event => event[1])
     ).subscribe((error) => {
@@ -98,22 +98,22 @@ export class RqWsConnection {
       this.rqError.emit([cid, error as Error]);
     }));
 
-    this.#subscriptions.add(this.#connection.eventStream().pipe(
+    this.$subscriptions.add(this.$connx.eventStream().pipe(
       filter(event => event[0] === 'complete'),
     ).subscribe(() => {
       console.log(`client[${cid}] connection complete`);
       this.rqComplete.emit([cid]);
     }));
 
-    for (const channel of this.#connection.getChannels()) {
-      this.#subscriptions.add(this.#connection.channelStream<ClientSubscribedMessage>(channel).pipe(
+    for (const channel of this.$connx.getChannels()) {
+      this.$subscriptions.add(this.$connx.channelStream<ClientSubscribedMessage>(channel).pipe(
         filter(message => message.is_subscribed_type()),
       ).subscribe((message) => {
         console.log(`client[${cid}] subscribed to channel`, channel);
         this.rqSubscribed.emit([cid, message.get_value()]);
       }));
 
-      this.#subscriptions.add(this.#connection.channelStream(channel).pipe(
+      this.$subscriptions.add(this.$connx.channelStream(channel).pipe(
         filter(message => message.is_data_type()),
       ).subscribe((message) => {
         this.rqData.emit([cid, message]);
@@ -122,9 +122,9 @@ export class RqWsConnection {
   }
 
   disconnectedCallback() {
-    this.#connection.disconnect();
-    this.#subscriptions.unsubscribe();
-    this.#connection = undefined;
+    this.$connx.disconnect();
+    this.$subscriptions.unsubscribe();
+    this.$connx = undefined;
   }
 
   render() {

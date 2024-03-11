@@ -27,6 +27,7 @@ export namespace Components {
         "timeframe": TimeFrame;
     }
     interface RqMtSpark {
+        "connection": WebsocketConnectionOptions | WebsocketConnection;
         "maxHistory": number;
         "namespace": string;
         "symbol": TradeSymbol;
@@ -122,6 +123,7 @@ declare namespace LocalJSX {
         "timeframe"?: TimeFrame;
     }
     interface RqMtSpark {
+        "connection"?: WebsocketConnectionOptions | WebsocketConnection;
         "maxHistory"?: number;
         "namespace"?: string;
         "symbol"?: TradeSymbol;

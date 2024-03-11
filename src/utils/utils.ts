@@ -5,4 +5,6 @@ export function format(first: string, middle: string, last: string): string {
 }
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-export const isWebsocketConnectionOptions = (obj: any): obj is WebsocketConnectionOptions => obj.endpoint !== undefined;
+export const isWebsocketConnectionOptions = (obj: any): obj is WebsocketConnectionOptions => {
+  return obj.endpoint !== undefined && obj.channels !== undefined;
+};
