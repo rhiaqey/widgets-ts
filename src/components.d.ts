@@ -6,9 +6,9 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { ClientConnectedMessage, ClientMessage, ClientSubscribedMessage, WebsocketConnection, WebsocketConnectionOptions } from "@rhiaqey/sdk-ts";
-import { TimeFrame, TradeSymbol, TradeSymbolCategory } from "./models";
+import { TimeFrame, TradeSymbolCategory } from "./models";
 export { ClientConnectedMessage, ClientMessage, ClientSubscribedMessage, WebsocketConnection, WebsocketConnectionOptions } from "@rhiaqey/sdk-ts";
-export { TimeFrame, TradeSymbol, TradeSymbolCategory } from "./models";
+export { TimeFrame, TradeSymbolCategory } from "./models";
 export namespace Components {
     interface RqMtMarquee {
         "animation": boolean;

@@ -1,7 +1,9 @@
 import { Component, Host, Prop, h } from '@stencil/core';
 import type { RqMtSparkline } from '../rq-mt-sparkline/rq-mt-sparkline';
-import type { TradeSymbol } from '../../models';
+import type { TradeSymbol as BaseTradeSymbol } from '../../models';
 import type { ClientMessage, WebsocketConnection, WebsocketConnectionOptions } from '@rhiaqey/sdk-ts';
+
+type TradeSymbol = Omit<BaseTradeSymbol, 'image'>;
 
 @Component({
   tag: 'rq-mt-spark',
