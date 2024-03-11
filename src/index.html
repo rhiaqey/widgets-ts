@@ -26,8 +26,12 @@
       return 'https://cdn.jsdelivr.net/npm/@rhiaqey/widgets-ts@1.0.12/dist' + relative;
     };
 
-    const EUR_SYMBOL = { key: "EURUSDm", label: "EUR/USD" };
-    const BTC_SYMBOL = { key: "BTCUSDm", label: "BTC/USD" };
+    const SPARK_SYMBOLS = [
+      { key: "ETHUSDm", label: "ETH/USD" },
+      { key: "BTCUSDm", label: "BTC/USD" },
+      { key: "LTCUSDm", label: "LTC/USD" },
+      { key: "XRPUSDm", label: "XRP/USD" },
+    ];
 
     const SYMBOLS = [
       {
@@ -105,6 +109,12 @@
 
     rq-mt-spark {
       max-width: 250px;
+      display: block;
+    }
+
+    .sparks {
+      display: flex;
+      gap: 10px;
     }
   </style>
 </head>
@@ -112,8 +122,16 @@
 <body>
   <rq-mt-marquee timeframe="w1" class="rq-widget" animation=false></rq-mt-marquee>
   <rq-mt-marquee timeframe="w1" class="rq-widget"></rq-mt-marquee>
-  <rq-mt-spark timeframe="w1" class="rq-widget"></rq-mt-spark>
-  <rq-mt-spark timeframe="w1" class="rq-widget"></rq-mt-spark>
+  <div class="sparks">
+    <div class="col">
+      <rq-mt-spark timeframe="w1" class="rq-widget"></rq-mt-spark>
+      <rq-mt-spark timeframe="w1" class="rq-widget"></rq-mt-spark>
+    </div>
+    <div class="col">
+      <rq-mt-spark timeframe="w1" class="rq-widget"></rq-mt-spark>
+      <rq-mt-spark timeframe="w1" class="rq-widget"></rq-mt-spark>
+    </div>
+  </div>
   <rq-mt-rates timeframe="w1" class="rq-widget" active-tab="crypto"></rq-mt-rates>
   <rq-mt-rates timeframe="w1" class="rq-widget" size="large"></rq-mt-rates>
   <script>
@@ -132,8 +150,9 @@
       el.groups = SYMBOLS;
     }
 
-    document.getElementsByTagName('rq-mt-spark')[0].symbol = EUR_SYMBOL;
-    document.getElementsByTagName('rq-mt-spark')[1].symbol = BTC_SYMBOL;
+    for (let i = 0; i < document.getElementsByTagName('rq-mt-spark').length; i++) {
+      document.getElementsByTagName('rq-mt-spark')[i].symbol = SPARK_SYMBOLS[i];
+    }
 
     connection.connect();
   </script>

@@ -12,7 +12,7 @@
 | `connection` | --            |             | `WebsocketConnection \| { endpoint: string; apiKey: string; apiHost: string; channels: string \| string[] \| Set<string>; snapshot?: boolean; env?: "dev" \| "prod"; }` | `undefined`     |
 | `maxHistory` | `max-history` |             | `number`                                                                                                                                                                | `30`            |
 | `namespace`  | `namespace`   |             | `string`                                                                                                                                                                | `"rq-mt-spark"` |
-| `symbol`     | --            |             | `{ key: string; label: string; image: string; }`                                                                                                                        | `undefined`     |
+| `symbol`     | --            |             | `{ key: string; label: string; }`                                                                                                                                       | `undefined`     |
 
 
 ## Dependencies
