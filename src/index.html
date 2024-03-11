@@ -99,6 +99,7 @@
     .rq-widget {
       margin-bottom: 8px;
     }
+
     rq-mt-spark {
       max-width: 250px;
     }
@@ -114,10 +115,12 @@
   <rq-mt-rates timeframe="w1" class="rq-widget" size="large"></rq-mt-rates>
   <script>
     for (const el of document.getElementsByClassName('rq-widget')) {
-      el.endpoint = "hub.demo.prod.cloud.rhiaqey.com"
-      el.apiKey = "02f0c887-114f-45d7-8084-7d123804d582"
-      el.apiHost = "localhost:3333"
-      el.channels = "ticks"
+      el.connection = {
+        endpoint: "hub.demo.prod.cloud.rhiaqey.com",
+        apiKey: "02f0c887-114f-45d7-8084-7d123804d582",
+        apiHost: "localhost:3333",
+        channels: "ticks",
+      };
     }
     for (const el of document.getElementsByTagName('rq-mt-rates')) {
       el.groups = SYMBOLS;

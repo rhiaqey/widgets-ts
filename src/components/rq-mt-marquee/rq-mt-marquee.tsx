@@ -1,6 +1,5 @@
 import { Component, Host, h, Prop, State } from '@stencil/core';
-import { type ClientConnectedMessage, type ClientSubscribedMessage, WebsocketConnection } from '@rhiaqey/sdk-ts';
-import { filter, map, Subscription } from 'rxjs';
+import type { WebsocketConnection, ClientMessage, WebsocketConnectionOptions } from '@rhiaqey/sdk-ts';
 import type { Quote, TradeSymbol as BaseTradeSymbol } from '../../models';
 import { TimeFrame } from '../../models';
 import store from 'store2';
@@ -15,22 +14,11 @@ type TradeSymbol = Omit<BaseTradeSymbol, 'image'>;
   shadow: true
 })
 export class RqMtMarquee {
-  private connection: WebsocketConnection;
-  private subscriptions = new Subscription();
   private ticks = new Map<string, Tick>();
   private timeFramedHistorical = new Map<string, Map<string, Historical>>();
 
   @Prop()
-  endpoint: string;
-
-  @Prop()
-  apiKey: string;
-
-  @Prop()
-  apiHost: string;
-
-  @Prop()
-  channels: string | string[];
+  connection: WebsocketConnectionOptions | WebsocketConnection;
 
   @Prop()
   symbols: TradeSymbol[] = [
@@ -77,54 +65,8 @@ export class RqMtMarquee {
   @State()
   last_update = Date.now();
 
-  private setupListeners() {
-    const cid = this.connection.getId();
-    const channels = typeof this.channels === 'string' ? this.channels.split(',') : this.channels;
-
-    this.subscriptions.add(this.connection.eventStream().pipe(
-      filter(event => event[0] === 'ready'),
-    ).subscribe(() => {
-      console.log(`client[${cid}] connection ready`);
-    }));
-
-    this.subscriptions.add(this.connection.eventStream().pipe(
-      filter(event => event[0] === 'open'),
-    ).subscribe(() => {
-      console.log(`client[${cid}] connection open`);
-    }));
-
-    this.subscriptions.add(this.connection.dataStream<ClientConnectedMessage>().pipe(
-      filter(message => message.is_connected_type()),
-    ).subscribe((message) => {
-      console.log(`client[${cid}] connected`, message.get_value().client_id);
-    }));
-
-    this.subscriptions.add(this.connection.eventStream().pipe(
-      filter(event => event[0] === 'error'),
-      map(event => event[1])
-    ).subscribe((error) => {
-      console.warn(`client[${cid}] connection error`, error);
-    }));
-
-    this.subscriptions.add(this.connection.eventStream().pipe(
-      filter(event => event[0] === 'complete'),
-    ).subscribe(() => {
-      console.log(`client[${cid}] connection complete`);
-    }));
-
-    for (const channel of channels) {
-      this.subscriptions.add(this.connection.channelStream<ClientSubscribedMessage>(channel).pipe(
-        filter(message => message.is_subscribed_type()),
-      ).subscribe(() => {
-        console.log(`client[${cid}] subscribed to channel`, channel);
-      }));
-
-      this.subscriptions.add(this.connection.channelStream(channel).pipe(
-        filter(message => message.is_data_type()),
-      ).subscribe((message) => {
-        this.saveQuote(message.get_value() as Quote);
-      }));
-    }
+  private handleData(event: [cid: string, message: ClientMessage<unknown>]) {
+    this.saveQuote(event[1].get_value() as Quote);
   }
 
   private getDiffPercent(old_val: number, new_val: number) {
@@ -268,22 +210,6 @@ export class RqMtMarquee {
 
   connectedCallback() {
     this.loadQuotes();
-
-    this.connection = new WebsocketConnection({
-      endpoint: this.endpoint,
-      apiKey: this.apiKey,
-      apiHost: this.apiHost,
-      channels: [].concat(this.channels),
-      snapshot: true,
-    });
-
-    this.setupListeners();
-
-    this.connection.connect();
-  }
-
-  disconnectedCallback() {
-    this.subscriptions.unsubscribe();
   }
 
   private getTickDiffClass(diff: number) {
@@ -316,6 +242,7 @@ export class RqMtMarquee {
     if (!this.animation) tickerClass.push("no-animation");
     return (
       <Host>
+        <rq-ws-connection connection={this.connection} onRqData={ev => this.handleData(ev.detail)} />
         <div class={classes.join(" ")}>
           <div class="quotes">
             <div class={tickerClass.join(" ")}>

@@ -1,6 +1,5 @@
 import { Component, Host, h, Prop, State, getAssetPath } from '@stencil/core';
-import { type ClientConnectedMessage, type ClientSubscribedMessage, WebsocketConnection } from '@rhiaqey/sdk-ts';
-import { filter, map, Subscription } from 'rxjs';
+import type { ClientMessage, WebsocketConnection, WebsocketConnectionOptions } from '@rhiaqey/sdk-ts';
 import type { Quote, TradeSymbol, TradeSymbolCategory } from '../../models';
 import { TimeFrame } from '../../models';
 import store from 'store2';
@@ -16,22 +15,11 @@ type Historical = { symbol; close: number; timestamp: number; timeframe: TimeFra
 })
 export class RqMtRates {
   private selectedTab: string;
-  private connection: WebsocketConnection;
-  private subscriptions = new Subscription();
   private ticks = new Map<string, Tick>();
   private timeFramedHistorical = new Map<string, Map<string, Historical>>();
 
   @Prop()
-  endpoint: string;
-
-  @Prop()
-  apiKey: string;
-
-  @Prop()
-  apiHost: string;
-
-  @Prop()
-  channels: string | string[];
+  connection: WebsocketConnectionOptions | WebsocketConnection;
 
   @Prop()
   groups: TradeSymbolCategory[] = [
@@ -121,54 +109,8 @@ export class RqMtRates {
   @State()
   last_update = Date.now();
 
-  private setupListeners() {
-    const cid = this.connection.getId();
-    const channels = typeof this.channels === 'string' ? this.channels.split(',') : this.channels;
-
-    this.subscriptions.add(this.connection.eventStream().pipe(
-      filter(event => event[0] === 'ready'),
-    ).subscribe(() => {
-      console.log(`client[${cid}] connection ready`);
-    }));
-
-    this.subscriptions.add(this.connection.eventStream().pipe(
-      filter(event => event[0] === 'open'),
-    ).subscribe(() => {
-      console.log(`client[${cid}] connection open`);
-    }));
-
-    this.subscriptions.add(this.connection.dataStream<ClientConnectedMessage>().pipe(
-      filter(message => message.is_connected_type()),
-    ).subscribe((message) => {
-      console.log(`client[${cid}] connected`, message.get_value().client_id);
-    }));
-
-    this.subscriptions.add(this.connection.eventStream().pipe(
-      filter(event => event[0] === 'error'),
-      map(event => event[1])
-    ).subscribe((error) => {
-      console.warn(`client[${cid}] connection error`, error);
-    }));
-
-    this.subscriptions.add(this.connection.eventStream().pipe(
-      filter(event => event[0] === 'complete'),
-    ).subscribe(() => {
-      console.log(`client[${cid}] connection complete`);
-    }));
-
-    for (const channel of channels) {
-      this.subscriptions.add(this.connection.channelStream<ClientSubscribedMessage>(channel).pipe(
-        filter(message => message.is_subscribed_type()),
-      ).subscribe(() => {
-        console.log(`client[${cid}] subscribed to channel`, channel);
-      }));
-
-      this.subscriptions.add(this.connection.channelStream(channel).pipe(
-        filter(message => message.is_data_type()),
-      ).subscribe((message) => {
-        this.saveQuote(message.get_value() as Quote);
-      }));
-    }
+  private handleData(event: [cid: string, message: ClientMessage<unknown>]) {
+    this.saveQuote(event[1].get_value() as Quote);
   }
 
   private getDiffPercent(old_val: number, new_val: number) {
@@ -317,22 +259,6 @@ export class RqMtRates {
     } else {
       this.selectedTab = this.groups[0].name;
     }
-
-    this.connection = new WebsocketConnection({
-      endpoint: this.endpoint,
-      apiKey: this.apiKey,
-      apiHost: this.apiHost,
-      channels: [].concat(this.channels),
-      snapshot: true,
-    });
-
-    this.setupListeners();
-
-    this.connection.connect();
-  }
-
-  disconnectedCallback() {
-    this.subscriptions.unsubscribe();
   }
 
   private selectCategory(cat: TradeSymbolCategory) {
@@ -389,6 +315,7 @@ export class RqMtRates {
   render() {
     return (
       <Host>
+        <rq-ws-connection connection={this.connection} onRqData={ev => this.handleData(ev.detail)} />
         <div class={`size-default size-${this.size} with-tabs with-names}`}>
           <div>
             <div class={(this.groups[this.groups.length - 1].name === this.selectedTab) ? "active right-faded" : "right-faded"} />
