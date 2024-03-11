@@ -31,6 +31,8 @@
       { key: "BTCUSDm", label: "BTC/USD" },
       { key: "LTCUSDm", label: "LTC/USD" },
       { key: "XRPUSDm", label: "XRP/USD" },
+      { key: "XAUUSDm", label: "Gold/USD" },
+      { key: "BTCJPYm", label: "BTC/JPY" },
     ];
 
     const SYMBOLS = [
@@ -126,10 +128,12 @@
     <div class="col">
       <rq-mt-spark timeframe="w1" class="rq-widget"></rq-mt-spark>
       <rq-mt-spark timeframe="w1" class="rq-widget"></rq-mt-spark>
+      <rq-mt-spark timeframe="w1" class="rq-widget"></rq-mt-spark>
     </div>
     <div class="col">
-      <rq-mt-spark timeframe="w1" class="rq-widget"></rq-mt-spark>
-      <rq-mt-spark timeframe="w1" class="rq-widget"></rq-mt-spark>
+      <rq-mt-spark timeframe="w1" display="reverse" class="rq-widget"></rq-mt-spark>
+      <rq-mt-spark timeframe="w1" display="reverse" class="rq-widget"></rq-mt-spark>
+      <rq-mt-spark timeframe="w1" display="reverse" class="rq-widget"></rq-mt-spark>
     </div>
   </div>
   <rq-mt-rates timeframe="w1" class="rq-widget" active-tab="crypto"></rq-mt-rates>

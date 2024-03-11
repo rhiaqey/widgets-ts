@@ -24,6 +24,9 @@ export class RqMtSpark {
   maxHistory = 30;
 
   @Prop()
+  display: 'reverse' | 'default' = 'default';
+
+  @Prop()
   namespace = "rq-mt-spark";
 
   setRef(el) {
@@ -44,9 +47,10 @@ export class RqMtSpark {
   }
 
   render() {
+    const classes = ["sparkline", this.display];
     return <Host>
       <rq-ws-connection connection={this.connection} onRqData={ev => this.handleData(ev.detail)} />
-      <div class="sparkline">
+      <div class={classes.join(' ')}>
         <span class="symbol">{this.symbol.label}</span>
         <rq-mt-sparkline max-elements="20" ref={(el) => this.setRef(el)} />
       </div>

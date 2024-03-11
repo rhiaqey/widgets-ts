@@ -28,6 +28,7 @@ export namespace Components {
     }
     interface RqMtSpark {
         "connection": WebsocketConnectionOptions | WebsocketConnection;
+        "display": 'reverse' | 'default';
         "maxHistory": number;
         "namespace": string;
         "symbol": TradeSymbol;
@@ -124,6 +125,7 @@ declare namespace LocalJSX {
     }
     interface RqMtSpark {
         "connection"?: WebsocketConnectionOptions | WebsocketConnection;
+        "display"?: 'reverse' | 'default';
         "maxHistory"?: number;
         "namespace"?: string;
         "symbol"?: TradeSymbol;
