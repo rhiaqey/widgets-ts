@@ -17,19 +17,16 @@ export class RqMtSparkline {
   maxElements = 31;
 
   @Prop()
-  dataset: {
-    labels: Array<string>,
-    data: Array<number>,
-  } = {
-      labels: [],
-      data: [],
-    };
+  labels: Array<string> = [];
+
+  @Prop()
+  values: Array<number> = [];
 
   @Watch('dataset')
   datasetChanged() {
-    this.$instance.data.labels = this.dataset.labels;
+    this.$instance.data.labels = this.labels;
     this.$instance.data.datasets = [{
-      data: this.dataset.data,
+      data: this.values,
       fill: true
     }];
     this.$instance.update();
@@ -59,10 +56,10 @@ export class RqMtSparkline {
     this.$instance = new Chart(ctx, {
       type: 'line',
       data: {
-        labels: this.dataset.labels,
+        labels: this.labels,
         datasets: [
           {
-            data: this.dataset.data,
+            data: this.values,
             fill: true
           }
         ]

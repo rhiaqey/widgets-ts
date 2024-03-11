@@ -32,14 +32,13 @@ export namespace Components {
         "maxHistory": number;
         "namespace": string;
         "symbol": TradeSymbol;
+        "timeframe": TimeFrame;
     }
     interface RqMtSparkline {
         "appendData": (label: string, data: number) => Promise<void>;
-        "dataset": {
-    labels: Array<string>,
-    data: Array<number>,
-  };
+        "labels": Array<string>;
         "maxElements": number;
+        "values": Array<number>;
     }
     interface RqWsConnection {
         "connection": WebsocketConnectionOptions | WebsocketConnection;
@@ -129,13 +128,12 @@ declare namespace LocalJSX {
         "maxHistory"?: number;
         "namespace"?: string;
         "symbol"?: TradeSymbol;
+        "timeframe"?: TimeFrame;
     }
     interface RqMtSparkline {
-        "dataset"?: {
-    labels: Array<string>,
-    data: Array<number>,
-  };
+        "labels"?: Array<string>;
         "maxElements"?: number;
+        "values"?: Array<number>;
     }
     interface RqWsConnection {
         "connection"?: WebsocketConnectionOptions | WebsocketConnection;
