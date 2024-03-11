@@ -17,6 +17,8 @@ export class RqMtRates {
 
   private $selectedTab: string;
 
+  private $symbolKeys = new Set();
+
   private $ticks = new Map<string, Tick>();
 
   private $timeFramedHistorical = new Map<string, Map<string, Historical>>();
@@ -208,6 +210,10 @@ export class RqMtRates {
   }
 
   private saveQuote(quote: Quote) {
+    if (!this.$symbolKeys.has(quote.symbol)) {
+      return;
+    }
+
     if (quote.data.tick) {
       this.saveTick(quote);
       this.saveQuotes();
@@ -257,9 +263,17 @@ export class RqMtRates {
   connectedCallback() {
     this.loadQuotes();
 
-    if (this.groups.find(group => group.name === this.activeTab)) {
-      this.$selectedTab = this.activeTab;
-    } else {
+    for (const group of this.groups) {
+      if (group.name === this.activeTab) {
+        this.$selectedTab = this.activeTab;
+      }
+
+      for (const symbol of group.symbols) {
+        this.$symbolKeys.add(symbol.key);
+      }
+    }
+
+    if (!this.$selectedTab) {
       this.$selectedTab = this.groups[0].name;
     }
   }

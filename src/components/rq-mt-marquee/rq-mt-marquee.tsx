@@ -15,6 +15,8 @@ type TradeSymbol = Omit<BaseTradeSymbol, 'image'>;
 })
 export class RqMtMarquee {
 
+  private $symbolKeys = new Set();
+
   private $ticks = new Map<string, Tick>();
 
   private $timeFramedHistorical = new Map<string, Map<string, Historical>>();
@@ -164,6 +166,10 @@ export class RqMtMarquee {
   }
 
   private saveQuote(quote: Quote) {
+    if (!this.$symbolKeys.has(quote.symbol)) {
+      return;
+    }
+
     if (quote.data.tick) {
       this.saveTick(quote);
       this.saveQuotes();
@@ -212,6 +218,10 @@ export class RqMtMarquee {
 
   connectedCallback() {
     this.loadQuotes();
+
+    for (const symbol of this.symbols) {
+      this.$symbolKeys.add(symbol.key);
+    }
   }
 
   private getTickDiffClass(diff: number) {
