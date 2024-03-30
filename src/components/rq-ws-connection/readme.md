@@ -7,9 +7,10 @@
 
 ## Properties
 
-| Property     | Attribute | Description | Type                                                                                                                                                                  | Default     |
-| ------------ | --------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| `connection` | --        |             | `WebsocketConnection \| { endpoints: string \| string[]; apiKey: string; apiHost: string; channels: string \| string[]; snapshot?: boolean; env?: "dev" \| "prod"; }` | `undefined` |
+| Property     | Attribute  | Description | Type                                                                                                                                                                  | Default     |
+| ------------ | ---------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| `connection` | --         |             | `WebsocketConnection \| { endpoints: string \| string[]; apiKey: string; apiHost: string; channels: string \| string[]; snapshot?: boolean; env?: "dev" \| "prod"; }` | `undefined` |
+| `snapshot`   | `snapshot` |             | `boolean`                                                                                                                                                             | `false`     |
 
 
 ## Events
@@ -22,6 +23,7 @@
 | `rqError`      |             | `CustomEvent<[cid: string, error: Error]>`                     |
 | `rqOpen`       |             | `CustomEvent<[cid: string]>`                                   |
 | `rqReady`      |             | `CustomEvent<[cid: string, channels: Set<string>]>`            |
+| `rqSnapshot`   |             | `CustomEvent<[cid: string, data: unknown]>`                    |
 | `rqSubscribed` |             | `CustomEvent<[cid: string, message: ClientSubscribedMessage]>` |
 
 

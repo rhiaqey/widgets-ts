@@ -43,6 +43,7 @@ export namespace Components {
     interface RqWsConnection {
         "connection": WebsocketConnectionOptions | WebsocketConnection;
         "getConnection": () => Promise<WebsocketConnection>;
+        "snapshot": boolean;
     }
 }
 export interface RqWsConnectionCustomEvent<T> extends CustomEvent<T> {
@@ -82,6 +83,7 @@ declare global {
         "rqConnected": [cid: string, message: ClientConnectedMessage];
         "rqSubscribed": [cid: string, message: ClientSubscribedMessage];
         "rqData": [cid: string, message: ClientMessage<unknown>];
+        "rqSnapshot": [cid: string, data: unknown];
     }
     interface HTMLRqWsConnectionElement extends Components.RqWsConnection, HTMLStencilElement {
         addEventListener<K extends keyof HTMLRqWsConnectionElementEventMap>(type: K, listener: (this: HTMLRqWsConnectionElement, ev: RqWsConnectionCustomEvent<HTMLRqWsConnectionElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -143,7 +145,9 @@ declare namespace LocalJSX {
         "onRqError"?: (event: RqWsConnectionCustomEvent<[cid: string, error: Error]>) => void;
         "onRqOpen"?: (event: RqWsConnectionCustomEvent<[cid: string]>) => void;
         "onRqReady"?: (event: RqWsConnectionCustomEvent<[cid: string, channels: Set<string>]>) => void;
+        "onRqSnapshot"?: (event: RqWsConnectionCustomEvent<[cid: string, data: unknown]>) => void;
         "onRqSubscribed"?: (event: RqWsConnectionCustomEvent<[cid: string, message: ClientSubscribedMessage]>) => void;
+        "snapshot"?: boolean;
     }
     interface IntrinsicElements {
         "rq-mt-marquee": RqMtMarquee;

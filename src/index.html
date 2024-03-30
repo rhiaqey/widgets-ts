@@ -144,10 +144,10 @@
   <rq-mt-rates timeframe="w1" class="rq-widget" size="large"></rq-mt-rates>
   <script>
     const connection = new RhiaqeySDK.WebsocketConnection({
-      endpoints: "hub.demo.prod.cloud.rhiaqey.com",
+      endpoints: ["hub.demo.prod.cloud.rhiaqey.com"],
       apiKey: "02f0c887-114f-45d7-8084-7d123804d582",
       apiHost: "localhost:3333",
-      channels: "ticks",
+      channels: "ticks"
     });
 
     for (const el of document.getElementsByClassName('rq-widget')) {

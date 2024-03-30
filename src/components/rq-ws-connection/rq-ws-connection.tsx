@@ -21,6 +21,9 @@ export class RqWsConnection {
   @Prop()
   connection: WebsocketConnectionOptions | WebsocketConnection;
 
+  @Prop()
+  snapshot = false;
+
   @Event()
   rqReady: EventEmitter<[cid: string, channels: Set<string>]>;
 
@@ -41,6 +44,9 @@ export class RqWsConnection {
 
   @Event()
   rqData: EventEmitter<[cid: string, message: ClientMessage<unknown>]>;
+
+  @Event()
+  rqSnapshot: EventEmitter<[cid: string, data: unknown]>;
 
   @Method()
   async getConnection() {
@@ -65,8 +71,14 @@ export class RqWsConnection {
     }
   }
 
-  #setupListeners() {
+  async #setupListeners() {
     const cid = this.$connx.getId();
+
+    if (this.snapshot) {
+      this.$subscriptions.add(this.$connx.fetchSnapshot().subscribe(snapshot => {
+        this.rqSnapshot.emit([cid, snapshot]);
+      }));
+    }
 
     this.$subscriptions.add(this.$connx.eventStream().pipe(
       filter(event => event[0] === 'ready'),

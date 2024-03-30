@@ -114,6 +114,10 @@ export class RqMtRates {
   @State()
   last_update = Date.now();
 
+  private handleSnapshot(_event: [cid: string, data: unknown]) {
+    console.log('>> snapshot event', _event);
+  }
+
   private handleData(event: [cid: string, message: ClientMessage<unknown>]) {
     this.saveQuote(event[1].get_value() as Quote);
   }
@@ -196,7 +200,7 @@ export class RqMtRates {
           close: quote.data.historical.close,
           timestamp,
           timeframe: quote.timeframe
-        })
+        });
       }
     } else {
       // Quote was not found
@@ -205,7 +209,7 @@ export class RqMtRates {
         close: quote.data.historical.close,
         timestamp,
         timeframe: quote.timeframe
-      })
+      });
     }
   }
 
@@ -332,7 +336,11 @@ export class RqMtRates {
   render() {
     return (
       <Host>
-        <rq-ws-connection connection={this.connection} onRqData={ev => this.handleData(ev.detail)} />
+        <rq-ws-connection
+          snapshot={true}
+          connection={this.connection}
+          onRqSnapshot={ev => this.handleSnapshot(ev.detail)}
+          onRqData={ev => this.handleData(ev.detail)} />
         <div class={`size-default size-${this.size} with-tabs with-names}`}>
           <div>
             <div class={(this.groups[this.groups.length - 1].name === this.$selectedTab) ? "active right-faded" : "right-faded"} />
