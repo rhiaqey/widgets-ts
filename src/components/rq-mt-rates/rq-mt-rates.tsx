@@ -337,7 +337,7 @@ export class RqMtRates {
     return (
       <Host>
         <rq-ws-connection
-          snapshot={true}
+          snapshot={false}
           connection={this.connection}
           onRqSnapshot={ev => this.handleSnapshot(ev.detail)}
           onRqData={ev => this.handleData(ev.detail)} />
