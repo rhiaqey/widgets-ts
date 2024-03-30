@@ -7,14 +7,14 @@
 
 ## Properties
 
-| Property     | Attribute     | Description | Type                                                                                                                                                                    | Default         |
-| ------------ | ------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- |
-| `connection` | --            |             | `WebsocketConnection \| { endpoint: string; apiKey: string; apiHost: string; channels: string \| string[] \| Set<string>; snapshot?: boolean; env?: "dev" \| "prod"; }` | `undefined`     |
-| `display`    | `display`     |             | `"default" \| "reverse"`                                                                                                                                                | `'default'`     |
-| `maxHistory` | `max-history` |             | `number`                                                                                                                                                                | `30`            |
-| `namespace`  | `namespace`   |             | `string`                                                                                                                                                                | `"rq-mt-spark"` |
-| `symbol`     | --            |             | `{ key: string; label: string; }`                                                                                                                                       | `undefined`     |
-| `timeframe`  | `timeframe`   |             | `TimeFrame`                                                                                                                                                             | `TimeFrame.D1`  |
+| Property     | Attribute     | Description | Type                                                                                                                                                                  | Default         |
+| ------------ | ------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- |
+| `connection` | --            |             | `WebsocketConnection \| { endpoints: string \| string[]; apiKey: string; apiHost: string; channels: string \| string[]; snapshot?: boolean; env?: "dev" \| "prod"; }` | `undefined`     |
+| `display`    | `display`     |             | `"default" \| "reverse"`                                                                                                                                              | `'default'`     |
+| `maxHistory` | `max-history` |             | `number`                                                                                                                                                              | `30`            |
+| `namespace`  | `namespace`   |             | `string`                                                                                                                                                              | `"rq-mt-spark"` |
+| `symbol`     | --            |             | `{ key: string; label: string; }`                                                                                                                                     | `undefined`     |
+| `timeframe`  | `timeframe`   |             | `TimeFrame`                                                                                                                                                           | `TimeFrame.D1`  |
 
 
 ## Dependencies

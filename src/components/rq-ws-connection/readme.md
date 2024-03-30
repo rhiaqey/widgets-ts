@@ -7,9 +7,9 @@
 
 ## Properties
 
-| Property     | Attribute | Description | Type                                                                                                                                                                    | Default     |
-| ------------ | --------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| `connection` | --        |             | `WebsocketConnection \| { endpoint: string; apiKey: string; apiHost: string; channels: string \| string[] \| Set<string>; snapshot?: boolean; env?: "dev" \| "prod"; }` | `undefined` |
+| Property     | Attribute | Description | Type                                                                                                                                                                  | Default     |
+| ------------ | --------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| `connection` | --        |             | `WebsocketConnection \| { endpoints: string \| string[]; apiKey: string; apiHost: string; channels: string \| string[]; snapshot?: boolean; env?: "dev" \| "prod"; }` | `undefined` |
 
 
 ## Events

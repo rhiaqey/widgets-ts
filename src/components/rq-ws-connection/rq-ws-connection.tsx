@@ -50,7 +50,7 @@ export class RqWsConnection {
   connectedCallback() {
     if (isWebsocketConnectionOptions(this.connection)) {
       this.$connx = new WebsocketConnection({
-        endpoint: this.connection.endpoint,
+        endpoints: this.connection.endpoints,
         apiKey: this.connection.apiKey,
         apiHost: this.connection.apiHost,
         channels: this.connection.channels,
@@ -122,7 +122,7 @@ export class RqWsConnection {
   }
 
   disconnectedCallback() {
-    this.$connx.disconnect();
+    this.$connx.close();
     this.$subscriptions.unsubscribe();
     this.$connx = undefined;
   }
