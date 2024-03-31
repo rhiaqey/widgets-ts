@@ -15,7 +15,7 @@ export namespace Components {
         "connection": WebsocketConnectionOptions | WebsocketConnection;
         "namespace": string;
         "symbols": TradeSymbol[];
-        "timeframe": TimeFrame;
+        "timeframe": TimeFrame.H1 | TimeFrame.D1 | TimeFrame.W1 | TimeFrame.MN1;
     }
     interface RqMtRates {
         "activeTab": string;
@@ -24,7 +24,7 @@ export namespace Components {
         "groups": TradeSymbolCategory[];
         "namespace": string;
         "size": 'default' | 'large';
-        "timeframe": TimeFrame;
+        "timeframe": TimeFrame.H1 | TimeFrame.D1 | TimeFrame.W1 | TimeFrame.MN1;
     }
     interface RqMtSpark {
         "connection": WebsocketConnectionOptions | WebsocketConnection;
@@ -32,7 +32,7 @@ export namespace Components {
         "maxHistory": number;
         "namespace": string;
         "symbol": TradeSymbol;
-        "timeframe": TimeFrame;
+        "timeframe": TimeFrame.H1 | TimeFrame.D1 | TimeFrame.W1 | TimeFrame.MN1;
     }
     interface RqMtSparkline {
         "appendData": (label: string, data: number) => Promise<void>;
@@ -113,7 +113,7 @@ declare namespace LocalJSX {
         "connection"?: WebsocketConnectionOptions | WebsocketConnection;
         "namespace"?: string;
         "symbols"?: TradeSymbol[];
-        "timeframe"?: TimeFrame;
+        "timeframe"?: TimeFrame.H1 | TimeFrame.D1 | TimeFrame.W1 | TimeFrame.MN1;
     }
     interface RqMtRates {
         "activeTab"?: string;
@@ -122,7 +122,7 @@ declare namespace LocalJSX {
         "groups"?: TradeSymbolCategory[];
         "namespace"?: string;
         "size"?: 'default' | 'large';
-        "timeframe"?: TimeFrame;
+        "timeframe"?: TimeFrame.H1 | TimeFrame.D1 | TimeFrame.W1 | TimeFrame.MN1;
     }
     interface RqMtSpark {
         "connection"?: WebsocketConnectionOptions | WebsocketConnection;
@@ -130,7 +130,7 @@ declare namespace LocalJSX {
         "maxHistory"?: number;
         "namespace"?: string;
         "symbol"?: TradeSymbol;
-        "timeframe"?: TimeFrame;
+        "timeframe"?: TimeFrame.H1 | TimeFrame.D1 | TimeFrame.W1 | TimeFrame.MN1;
     }
     interface RqMtSparkline {
         "labels"?: Array<string>;

@@ -5,7 +5,7 @@ import type { ClientMessage, WebsocketConnection, WebsocketConnectionOptions } f
 import store from 'store2';
 
 type Tick = { symbol: string; bid: string; ask: string; timestamp: number; timeframe: TimeFrame; };
-type Historical = { symbol; close: number; timestamp: number; timeframe: TimeFrame; };
+type Historical = { symbol: string; close: number; timestamp: number; timeframe: TimeFrame; };
 type TradeSymbol = Omit<BaseTradeSymbol, 'image'>;
 
 @Component({
@@ -37,7 +37,7 @@ export class RqMtSpark {
   namespace = "rq-mt-spark";
 
   @Prop()
-  timeframe = TimeFrame.D1;
+  timeframe: TimeFrame.H1 | TimeFrame.D1 | TimeFrame.W1 | TimeFrame.MN1 = TimeFrame.D1;
 
   @State()
   last_update = Date.now();
@@ -208,11 +208,11 @@ export class RqMtSpark {
 
       this.last_update = Date.now();
     } else {
-      console.warn("unsupported quote");
+      console.warn("unsupported quote", quote);
     }
   }
 
-  private handleData(event: [cid: string, message: ClientMessage<unknown>]) {
+  private handleData(event: [cid: string, message: ClientMessage]) {
     this.saveQuote(event[1].get_value() as Quote);
   }
 

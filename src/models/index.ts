@@ -21,7 +21,7 @@ export enum TimeFrame {
     W1 = "w1",
     MN1 = "mn1",
     OTHER = "other",
-};
+}
 
 export type TradeSymbol = {
     key: string;
@@ -36,6 +36,12 @@ export type Quote = {
         digits: number;
         period: number;
     };
+    diffs?: Partial<{
+      h1: number,
+      d1: number,
+      w1: number,
+      mn1: number,
+    }>,
     data: {
         tick?: {
             ask: number;

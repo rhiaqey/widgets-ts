@@ -63,11 +63,11 @@ export class RqWsConnection {
         snapshot: this.connection.snapshot || true,
         env: this.connection.env || 'prod',
       });
-      this.#setupListeners();
+      this.#setupListeners().then(_ => {});
       this.$connx.connect();
     } else {
       this.$connx = this.connection;
-      this.#setupListeners();
+      this.#setupListeners().then(_ => {});
     }
   }
 

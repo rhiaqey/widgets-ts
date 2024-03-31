@@ -1,11 +1,10 @@
-import { Component, Host, h, Prop, State, getAssetPath } from '@stencil/core';
+import { Component, getAssetPath, h, Host, Prop, State } from '@stencil/core';
 import type { ClientMessage, WebsocketConnection, WebsocketConnectionOptions } from '@rhiaqey/sdk-ts';
-import type { Quote, TradeSymbol, TradeSymbolCategory } from '../../models';
-import { TimeFrame } from '../../models';
+import { Quote, TimeFrame, TradeSymbol, TradeSymbolCategory } from '../../models';
 import store from 'store2';
 
 type Tick = { symbol: string; bid: string; ask: string; diff: number; timestamp: number; timeframe: TimeFrame; };
-type Historical = { symbol; close: number; timestamp: number; timeframe: TimeFrame; };
+type Historical = { symbol: string; close: number; timestamp: number; timeframe: TimeFrame; };
 
 @Component({
   tag: 'rq-mt-rates',
@@ -109,7 +108,7 @@ export class RqMtRates {
   activeTab = "popular"
 
   @Prop()
-  timeframe = TimeFrame.D1;
+  timeframe: TimeFrame.H1 | TimeFrame.D1 | TimeFrame.W1 | TimeFrame.MN1 = TimeFrame.D1;
 
   @State()
   last_update = Date.now();
@@ -118,16 +117,21 @@ export class RqMtRates {
     console.log('>> snapshot event', _event);
   }
 
-  private handleData(event: [cid: string, message: ClientMessage<unknown>]) {
+  private handleData(event: [cid: string, message: ClientMessage]) {
     this.saveQuote(event[1].get_value() as Quote);
   }
 
   private getDiffPercent(old_val: number, new_val: number) {
-    const percentageChange = ((new_val - old_val) / Math.abs(old_val)) * 100;
-    return percentageChange;
+    return ((new_val - old_val) / Math.abs(old_val)) * 100;
   }
 
   private getDiff(quote: Quote) {
+    if (quote.diffs) {
+      if (quote.diffs[this.timeframe]) {
+        return quote.diffs[this.timeframe];
+      }
+    }
+
     let diff = 0;
 
     // first check if there is a historical for prop timeframe + symbol
@@ -154,7 +158,7 @@ export class RqMtRates {
 
   private saveTick(quote: Quote) {
     if (this.$ticks.has(quote.symbol)) {
-      // If we have a newer tick we set it as the last
+      // If we have a newer tick, we set it as the last
       if (this.$ticks.get(quote.symbol).timestamp < quote.data.tick.time_msc) {
         this.$ticks.set(quote.symbol, {
           symbol: quote.symbol,
@@ -194,7 +198,7 @@ export class RqMtRates {
     if (this.$timeFramedHistorical.get(quote.timeframe).has(quote.symbol)) {
       // Quote found cached
       if (this.$timeFramedHistorical.get(quote.timeframe).get(quote.symbol).timestamp < timestamp) {
-        // Since timestamp of new is greater then we need to update
+        // Since the timestamp of new is greater, then we need to update
         this.$timeFramedHistorical.get(quote.timeframe).set(quote.symbol, {
           symbol: quote.symbol,
           close: quote.data.historical.close,
@@ -203,7 +207,7 @@ export class RqMtRates {
         });
       }
     } else {
-      // Quote was not found
+      // The Quote was not found
       this.$timeFramedHistorical.get(quote.timeframe).set(quote.symbol, {
         symbol: quote.symbol,
         close: quote.data.historical.close,
@@ -227,7 +231,7 @@ export class RqMtRates {
       this.saveQuotes();
       this.last_update = Date.now();
     } else {
-      console.warn("unsupported quote");
+      console.warn("unsupported quote", quote);
     }
   }
 
