@@ -15,7 +15,7 @@ export class RqWsConnection {
     connection: WebsocketConnectionOptions | WebsocketConnection;
 
     @Prop()
-    snapshot = false;
+    snapshot: WebsocketConnectionOptions['snapshot'];
 
     @Event()
     rqReady: EventEmitter<[cid: string, channels: Set<string>]>;
@@ -53,14 +53,20 @@ export class RqWsConnection {
                 apiKey: this.connection.apiKey,
                 apiHost: this.connection.apiHost,
                 channels: this.connection.channels,
-                snapshot: this.connection.snapshot || true,
+                snapshot: this.connection.snapshot,
+                snapshot_size: this.connection.snapshot_size,
+                user_id: this.connection.user_id,
                 env: this.connection.env || 'prod',
             });
-            this.#setupListeners().then(_ => {});
+            this.#setupListeners().then(_ => {
+                //
+            });
             this.$connx.connect();
         } else {
             this.$connx = this.connection;
-            this.#setupListeners().then(_ => {});
+            this.#setupListeners().then(_ => {
+                //
+            });
         }
     }
 

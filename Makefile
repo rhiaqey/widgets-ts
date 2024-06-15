@@ -19,7 +19,7 @@ test:
 	npm run test
 
 .PHONY: prod
-prod: build
+prod: pretty build
 	npm run copy
 
 .PHONY: serve
