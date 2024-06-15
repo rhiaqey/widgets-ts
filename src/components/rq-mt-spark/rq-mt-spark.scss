@@ -1,21 +1,21 @@
 :host {
-  display: block;
-  padding: 10px;
-  border: 1px solid #ccc;
+    display: block;
+    padding: 10px;
+    border: 1px solid #ccc;
 
-  .sparkline {
-    display: flex;
-    align-items: center;
-    justify-content: end;
+    .sparkline {
+        display: flex;
+        align-items: center;
+        justify-content: end;
 
-    &.reverse {
-      flex-direction: row-reverse;
-      justify-content: start;
+        &.reverse {
+            flex-direction: row-reverse;
+            justify-content: start;
+        }
+
+        .symbol {
+            font-size: 14px;
+            padding: 0 10px;
+        }
     }
-
-    .symbol {
-      font-size: 14px;
-      padding: 0 10px;
-    }
-  }
 }

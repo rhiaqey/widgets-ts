@@ -1,170 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Rhiaqey demo</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet" />
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rhiaqey demo</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
-    rel="stylesheet">
+        <script type="module" src="/build/widgets-ts.esm.js"></script>
+        <script nomodule src="/build/widgets-ts.js"></script>
 
-  <script type="module" src="/build/widgets-ts.esm.js"></script>
-  <script nomodule src="/build/widgets-ts.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@rhiaqey/sdk-ts@1.0.46/dist/umd/sdk.js"></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/@rhiaqey/sdk-ts@1.0.46/dist/umd/sdk.js"></script>
+        <style>
+            html,
+            body {
+                font-family: 'Open Sans', sans-serif;
+            }
+        </style>
+        <script>
+            const getAssetPath = relative => {
+                return 'https://cdn.jsdelivr.net/npm/@rhiaqey/widgets-ts@1.0.12/dist' + relative;
+            };
 
-  <style>
-    html,
-    body {
-      font-family: "Open Sans", sans-serif;
-    }
-  </style>
-  <script>
-    const getAssetPath = (relative) => {
-      return 'https://cdn.jsdelivr.net/npm/@rhiaqey/widgets-ts@1.0.12/dist' + relative;
-    };
+            const SPARK_SYMBOLS = [
+                { key: 'ETHUSDm', label: 'ETH/USD' },
+                { key: 'BTCUSDm', label: 'BTC/USD' },
+                { key: 'LTCUSDm', label: 'LTC/USD' },
+                { key: 'BTCJPYm', label: 'BTC/JPY' },
+            ];
 
-    const SPARK_SYMBOLS = [
-      { key: "ETHUSDm", label: "ETH/USD" },
-      { key: "BTCUSDm", label: "BTC/USD" },
-      { key: "LTCUSDm", label: "LTC/USD" },
-      { key: "BTCJPYm", label: "BTC/JPY" },
-    ];
+            const SYMBOLS = [
+                {
+                    name: 'most-traded',
+                    label: 'Most traded',
+                    symbols: [
+                        { key: 'BTCUSDm', label: 'BTC/USD', image: getAssetPath('/assets/svg/BTCUSDm.svg') },
+                        { key: 'XAUUSDm', label: 'Gold/USD', image: getAssetPath('/assets/svg/XAUUSDm.svg') },
+                        { key: 'EURUSDm', label: 'EUR/USD', image: getAssetPath('/assets/svg/EURUSDm.svg') },
+                        { key: 'USOILm', label: 'US Oil', image: getAssetPath('/assets/svg/USOILm.svg') },
+                        { key: 'ETHUSDm', label: 'ETH/USD', image: getAssetPath('/assets/svg/ETHUSDm.svg') },
+                    ],
+                },
+                {
+                    name: 'currencies',
+                    label: 'Currencies',
+                    symbols: [
+                        { key: 'EURUSDm', label: 'EUR/USD', image: getAssetPath('/assets/svg/EURUSDm.svg') },
+                        { key: 'USDJPYm', label: 'USD/JPY', image: getAssetPath('/assets/svg/USDJPYm.svg') },
+                        { key: 'GBPUSDm', label: 'GBP/USD', image: getAssetPath('/assets/svg/GBPUSDm.svg') },
+                        { key: 'USDCHFm', label: 'USD/CHF', image: getAssetPath('/assets/svg/USDCHFm.svg') },
+                        { key: 'USDCADm', label: 'USD/CAD', image: getAssetPath('/assets/svg/USDCADm.svg') },
+                    ],
+                },
+                {
+                    name: 'indices',
+                    label: 'Indices',
+                    symbols: [
+                        { key: 'USTECm', label: 'US Tech 100', image: getAssetPath('/assets/svg/USTECm.svg') },
+                        { key: 'UK100m', label: 'UK 100 Index', image: getAssetPath('/assets/svg/UK100m.svg') },
+                        { key: 'STOXX50m', label: 'EU 50 Index', image: getAssetPath('/assets/svg/STOXX50m.svg') },
+                        { key: 'HK50m', label: 'HK 50 Index', image: getAssetPath('/assets/svg/HK50m.svg') },
+                        { key: 'DE30m', label: 'DE 30 Index', image: getAssetPath('/assets/svg/DE30m.svg') },
+                    ],
+                },
+                {
+                    name: 'digital',
+                    label: 'Digital',
+                    symbols: [
+                        { key: 'BTCUSDm', label: 'BTC/USD', image: getAssetPath('/assets/svg/BTCUSDm.svg') },
+                        { key: 'BTCJPYm', label: 'BTC/JPY', image: getAssetPath('/assets/svg/BTCJPYm.svg') },
+                        { key: 'ETHUSDm', label: 'ETH/USD', image: getAssetPath('/assets/svg/ETHUSDm.svg') },
+                        { key: 'LTCUSDm', label: 'LTC/USD', image: getAssetPath('/assets/svg/LTCUSDm.svg') },
+                        { key: 'XRPUSDm', label: 'XRP/USD', image: getAssetPath('/assets/svg/XRPUSDm.svg') },
+                    ],
+                },
+                {
+                    name: 'shares',
+                    label: 'Shares',
+                    symbols: [
+                        { key: 'AAPLm', label: 'Apple', image: getAssetPath('/assets/svg/AAPLm.svg') },
+                        { key: 'BABAm', label: 'AliBaba', image: getAssetPath('/assets/svg/BABAm.svg') },
+                        { key: 'Cm', label: 'CitiGroup', image: getAssetPath('/assets/svg/Cm.svg') },
+                        { key: 'KOm', label: 'CocaCola', image: getAssetPath('/assets/svg/KOm.svg') },
+                        { key: 'NFLXm', label: 'Netflix', image: getAssetPath('/assets/svg/NFLXm.svg') },
+                    ],
+                },
+                {
+                    name: 'commodities',
+                    label: 'Commodities',
+                    symbols: [
+                        { key: 'XAUUSDm', label: 'Gold/USD', image: getAssetPath('/assets/svg/XAUUSDm.svg') },
+                        { key: 'XAGUSDm', label: 'Silver/USD', image: getAssetPath('/assets/svg/XAGUSDm.svg') },
+                        { key: 'USOILm', label: 'US Crude Oil', image: getAssetPath('/assets/svg/USOILm.svg') },
+                        { key: 'XPDUSDm', label: 'Palladium/USD', image: getAssetPath('/assets/svg/XPDUSDm.svg') },
+                        { key: 'XPTUSDm', label: 'Platinum/USD', image: getAssetPath('/assets/svg/XPTUSDm.svg') },
+                    ],
+                },
+            ];
+        </script>
+        <style>
+            .rq-widget {
+                margin-bottom: 8px;
+            }
 
-    const SYMBOLS = [
-      {
-        name: "most-traded",
-        label: "Most traded",
-        symbols: [
-          { key: "BTCUSDm", label: "BTC/USD", image: getAssetPath('/assets/svg/BTCUSDm.svg') },
-          { key: "XAUUSDm", label: "Gold/USD", image: getAssetPath('/assets/svg/XAUUSDm.svg') },
-          { key: "EURUSDm", label: "EUR/USD", image: getAssetPath('/assets/svg/EURUSDm.svg') },
-          { key: "USOILm", label: "US Oil", image: getAssetPath('/assets/svg/USOILm.svg') },
-          { key: "ETHUSDm", label: "ETH/USD", image: getAssetPath('/assets/svg/ETHUSDm.svg') },
-        ],
-      },
-      {
-        name: "currencies",
-        label: "Currencies",
-        symbols: [
-          { key: "EURUSDm", label: "EUR/USD", image: getAssetPath('/assets/svg/EURUSDm.svg') },
-          { key: "USDJPYm", label: "USD/JPY", image: getAssetPath('/assets/svg/USDJPYm.svg') },
-          { key: "GBPUSDm", label: "GBP/USD", image: getAssetPath('/assets/svg/GBPUSDm.svg') },
-          { key: "USDCHFm", label: "USD/CHF", image: getAssetPath('/assets/svg/USDCHFm.svg') },
-          { key: "USDCADm", label: "USD/CAD", image: getAssetPath('/assets/svg/USDCADm.svg') },
-        ]
-      },
-      {
-        name: "indices",
-        label: "Indices",
-        symbols: [
-          { key: "USTECm", label: "US Tech 100", image: getAssetPath('/assets/svg/USTECm.svg') },
-          { key: "UK100m", label: "UK 100 Index", image: getAssetPath('/assets/svg/UK100m.svg') },
-          { key: "STOXX50m", label: "EU 50 Index", image: getAssetPath('/assets/svg/STOXX50m.svg') },
-          { key: "HK50m", label: "HK 50 Index", image: getAssetPath('/assets/svg/HK50m.svg') },
-          { key: "DE30m", label: "DE 30 Index", image: getAssetPath('/assets/svg/DE30m.svg') },
-        ]
-      },
-      {
-        name: "digital",
-        label: "Digital",
-        symbols: [
-          { key: "BTCUSDm", label: "BTC/USD", image: getAssetPath('/assets/svg/BTCUSDm.svg') },
-          { key: "BTCJPYm", label: "BTC/JPY", image: getAssetPath('/assets/svg/BTCJPYm.svg') },
-          { key: "ETHUSDm", label: "ETH/USD", image: getAssetPath('/assets/svg/ETHUSDm.svg') },
-          { key: "LTCUSDm", label: "LTC/USD", image: getAssetPath('/assets/svg/LTCUSDm.svg') },
-          { key: "XRPUSDm", label: "XRP/USD", image: getAssetPath('/assets/svg/XRPUSDm.svg') },
-        ]
-      },
-      {
-        name: "shares",
-        label: "Shares",
-        symbols: [
-          { key: "AAPLm", label: "Apple", image: getAssetPath('/assets/svg/AAPLm.svg') },
-          { key: "BABAm", label: "AliBaba", image: getAssetPath('/assets/svg/BABAm.svg') },
-          { key: "Cm", label: "CitiGroup", image: getAssetPath('/assets/svg/Cm.svg') },
-          { key: "KOm", label: "CocaCola", image: getAssetPath('/assets/svg/KOm.svg') },
-          { key: "NFLXm", label: "Netflix", image: getAssetPath('/assets/svg/NFLXm.svg') },
-        ]
-      },
-      {
-        name: "commodities",
-        label: "Commodities",
-        symbols: [
-          { key: "XAUUSDm", label: "Gold/USD", image: getAssetPath('/assets/svg/XAUUSDm.svg') },
-          { key: "XAGUSDm", label: "Silver/USD", image: getAssetPath('/assets/svg/XAGUSDm.svg') },
-          { key: "USOILm", label: "US Crude Oil", image: getAssetPath('/assets/svg/USOILm.svg') },
-          { key: "XPDUSDm", label: "Palladium/USD", image: getAssetPath('/assets/svg/XPDUSDm.svg') },
-          { key: "XPTUSDm", label: "Platinum/USD", image: getAssetPath('/assets/svg/XPTUSDm.svg') },
-        ]
-      }
-    ];
-  </script>
-  <style>
-    .rq-widget {
-      margin-bottom: 8px;
-    }
+            rq-mt-spark {
+                max-width: 250px;
+                display: block;
+            }
 
-    rq-mt-spark {
-      max-width: 250px;
-      display: block;
-    }
+            .sparks {
+                display: flex;
+                gap: 10px;
+            }
 
-    .sparks {
-      display: flex;
-      gap: 10px;
-    }
+            @media only screen and (max-width: 530px) {
+                .sparks {
+                    gap: 0;
+                    flex-direction: column;
+                    align-items: center;
+                }
+            }
+        </style>
+    </head>
 
-    @media only screen and (max-width: 530px) {
-      .sparks {
-        gap: 0;
-        flex-direction: column;
-        align-items: center;
-      }
-    }
-  </style>
-</head>
+    <body>
+        <rq-mt-marquee timeframe="w1" class="rq-widget" animation="false"></rq-mt-marquee>
+        <rq-mt-marquee timeframe="w1" class="rq-widget"></rq-mt-marquee>
+        <div class="sparks">
+            <div class="col">
+                <rq-mt-spark timeframe="mn1" class="rq-widget"></rq-mt-spark>
+                <rq-mt-spark timeframe="mn1" class="rq-widget"></rq-mt-spark>
+            </div>
+            <div class="col">
+                <rq-mt-spark timeframe="mn1" display="reverse" class="rq-widget"></rq-mt-spark>
+                <rq-mt-spark timeframe="mn1" display="reverse" class="rq-widget"></rq-mt-spark>
+            </div>
+        </div>
+        <rq-mt-rates timeframe="w1" class="rq-widget" active-tab="crypto"></rq-mt-rates>
+        <rq-mt-rates timeframe="w1" class="rq-widget" size="large"></rq-mt-rates>
+        <script>
+            const connection = new RhiaqeySDK.WebsocketConnection({
+                endpoints: ['hub.demo.prod.cloud.rhiaqey.com'],
+                apiKey: '02f0c887-114f-45d7-8084-7d123804d582',
+                apiHost: 'localhost:3333',
+                channels: 'ticks',
+            });
 
-<body>
-  <rq-mt-marquee timeframe="w1" class="rq-widget" animation=false></rq-mt-marquee>
-  <rq-mt-marquee timeframe="w1" class="rq-widget"></rq-mt-marquee>
-  <div class="sparks">
-    <div class="col">
-      <rq-mt-spark timeframe="mn1" class="rq-widget"></rq-mt-spark>
-      <rq-mt-spark timeframe="mn1" class="rq-widget"></rq-mt-spark>
-    </div>
-    <div class="col">
-      <rq-mt-spark timeframe="mn1" display="reverse" class="rq-widget"></rq-mt-spark>
-      <rq-mt-spark timeframe="mn1" display="reverse" class="rq-widget"></rq-mt-spark>
-    </div>
-  </div>
-  <rq-mt-rates timeframe="w1" class="rq-widget" active-tab="crypto"></rq-mt-rates>
-  <rq-mt-rates timeframe="w1" class="rq-widget" size="large"></rq-mt-rates>
-  <script>
-    const connection = new RhiaqeySDK.WebsocketConnection({
-      endpoints: ["hub.demo.prod.cloud.rhiaqey.com"],
-      apiKey: "02f0c887-114f-45d7-8084-7d123804d582",
-      apiHost: "localhost:3333",
-      channels: "ticks"
-    });
+            for (const el of document.getElementsByClassName('rq-widget')) {
+                el.connection = connection;
+            }
 
-    for (const el of document.getElementsByClassName('rq-widget')) {
-      el.connection = connection;
-    }
+            for (const el of document.getElementsByTagName('rq-mt-rates')) {
+                el.groups = SYMBOLS;
+            }
 
-    for (const el of document.getElementsByTagName('rq-mt-rates')) {
-      el.groups = SYMBOLS;
-    }
+            for (let i = 0; i < document.getElementsByTagName('rq-mt-spark').length; i++) {
+                document.getElementsByTagName('rq-mt-spark')[i].symbol = SPARK_SYMBOLS[i];
+            }
 
-    for (let i = 0; i < document.getElementsByTagName('rq-mt-spark').length; i++) {
-      document.getElementsByTagName('rq-mt-spark')[i].symbol = SPARK_SYMBOLS[i];
-    }
-
-    connection.connect();
-
-  </script>
-</body>
-
+            connection.connect();
+        </script>
+    </body>
 </html>

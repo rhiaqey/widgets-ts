@@ -1,9 +1,6 @@
 # rq-ws-connection
 
-
-
 <!-- Auto Generated Below -->
-
 
 ## Properties
 
@@ -11,7 +8,6 @@
 | ------------ | ---------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
 | `connection` | --         |             | `WebsocketConnection \| { endpoints: string \| string[]; apiKey: string; apiHost: string; channels: string \| string[]; snapshot?: boolean; env?: "dev" \| "prod"; }` | `undefined` |
 | `snapshot`   | `snapshot` |             | `boolean`                                                                                                                                                             | `false`     |
-
 
 ## Events
 
@@ -26,29 +22,24 @@
 | `rqSnapshot`   |             | `CustomEvent<[cid: string, data: unknown]>`                    |
 | `rqSubscribed` |             | `CustomEvent<[cid: string, message: ClientSubscribedMessage]>` |
 
-
 ## Methods
 
 ### `getConnection() => Promise<WebsocketConnection>`
-
-
 
 #### Returns
 
 Type: `Promise<WebsocketConnection>`
 
-
-
-
 ## Dependencies
 
 ### Used by
 
- - [rq-mt-marquee](../rq-mt-marquee)
- - [rq-mt-rates](../rq-mt-rates)
- - [rq-mt-spark](../rq-mt-spark)
+-   [rq-mt-marquee](../rq-mt-marquee)
+-   [rq-mt-rates](../rq-mt-rates)
+-   [rq-mt-spark](../rq-mt-spark)
 
 ### Graph
+
 ```mermaid
 graph TD;
   rq-mt-marquee --> rq-ws-connection
@@ -57,6 +48,6 @@ graph TD;
   style rq-ws-connection fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

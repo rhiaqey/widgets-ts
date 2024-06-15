@@ -1,9 +1,6 @@
 # rq-mt-spark
 
-
-
 <!-- Auto Generated Below -->
-
 
 ## Properties
 
@@ -16,15 +13,15 @@
 | `symbol`     | --            |             | `{ key: string; label: string; }`                                                                                                                                     | `undefined`     |
 | `timeframe`  | `timeframe`   |             | `TimeFrame.D1 \| TimeFrame.H1 \| TimeFrame.MN1 \| TimeFrame.W1`                                                                                                       | `TimeFrame.D1`  |
 
-
 ## Dependencies
 
 ### Depends on
 
-- [rq-ws-connection](../rq-ws-connection)
-- [rq-mt-sparkline](../rq-mt-sparkline)
+-   [rq-ws-connection](../rq-ws-connection)
+-   [rq-mt-sparkline](../rq-mt-sparkline)
 
 ### Graph
+
 ```mermaid
 graph TD;
   rq-mt-spark --> rq-ws-connection
@@ -32,6 +29,6 @@ graph TD;
   style rq-mt-spark fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

@@ -25,3 +25,6 @@ prod: build
 .PHONY: serve
 serve:
 	npm run serve
+
+pretty:
+	npx prettier src --write

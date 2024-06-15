@@ -8,99 +8,99 @@
 }
 
 :host {
-  --height: 48px;
-  --font-size: 14px;
-  --background-color: rgb(38, 38, 38);
+    --height: 48px;
+    --font-size: 14px;
+    --background-color: rgb(38, 38, 38);
 
-  --symbol-name-color: #dadbdf;
-  --symbol-value-color: #ffffff;
-  --symbol-percent: #606060;
-  --symbol-percent-up: rgb(0, 217, 100);
-  --symbol-percent-down: rgb(255, 0, 0);
+    --symbol-name-color: #dadbdf;
+    --symbol-value-color: #ffffff;
+    --symbol-percent: #606060;
+    --symbol-percent-up: rgb(0, 217, 100);
+    --symbol-percent-down: rgb(255, 0, 0);
 
-  --symbol-loading-font-size: 0.875rem;
-  --symbol-loading-color: #dadbdf;
+    --symbol-loading-font-size: 0.875rem;
+    --symbol-loading-color: #dadbdf;
 
-  display: block;
+    display: block;
 
-  .size-default {
-      background: var(--background-color);
-      font-size: var(--font-size);
-      box-sizing: border-box;
-      height: var(--height);
-      display: grid;
-      align-content: center;
-      overflow: hidden;
-      padding-left: 15px;
-      justify-content: start;
+    .size-default {
+        background: var(--background-color);
+        font-size: var(--font-size);
+        box-sizing: border-box;
+        height: var(--height);
+        display: grid;
+        align-content: center;
+        overflow: hidden;
+        padding-left: 15px;
+        justify-content: start;
 
-      .loader {
-          font-family: inherit;
-          font-weight: 500;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: var(--symbol-loading-color);
-          font-size: var(--symbol-loading-font-size);
-      }
+        .loader {
+            font-family: inherit;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--symbol-loading-color);
+            font-size: var(--symbol-loading-font-size);
+        }
 
-      .quotes {
-          list-style: none;
-          padding: 0;
-          margin: 0 auto;
-          display: inline-block;
-          overflow: hidden;
-          box-sizing: border-box;
+        .quotes {
+            list-style: none;
+            padding: 0;
+            margin: 0 auto;
+            display: inline-block;
+            overflow: hidden;
+            box-sizing: border-box;
 
-          &:hover {
-              .ticker__list {
-                  animation-play-state: paused;
-              }
-          }
+            &:hover {
+                .ticker__list {
+                    animation-play-state: paused;
+                }
+            }
 
-          .ticker__list {
-              display: flex;
-              animation: ticker 90s infinite linear;
+            .ticker__list {
+                display: flex;
+                animation: ticker 90s infinite linear;
 
-              &.no-animation {
-                  animation: none;
-              }
+                &.no-animation {
+                    animation: none;
+                }
 
-              .quote {
-                  display: flex;
-                  margin-right: 40px;
-                  cursor: pointer;
+                .quote {
+                    display: flex;
+                    margin-right: 40px;
+                    cursor: pointer;
 
-                  .symbol {
-                      margin-right: 10px;
-                      font-weight: 300;
-                      color: var(--symbol-name-color);
-                      white-space: nowrap;
-                  }
+                    .symbol {
+                        margin-right: 10px;
+                        font-weight: 300;
+                        color: var(--symbol-name-color);
+                        white-space: nowrap;
+                    }
 
-                  .bid {
-                      font-weight: 500;
-                      margin-right: 10px;
-                      color: var(--symbol-value-color);
-                  }
+                    .bid {
+                        font-weight: 500;
+                        margin-right: 10px;
+                        color: var(--symbol-value-color);
+                    }
 
-                  .change {
-                      font-weight: 400;
-                      color: var(--symbol-percent);
-                      padding-left: 1ch;
+                    .change {
+                        font-weight: 400;
+                        color: var(--symbol-percent);
+                        padding-left: 1ch;
 
-                      &.up {
-                          padding-left: 0;
-                          color: var(--symbol-percent-up);
-                      }
+                        &.up {
+                            padding-left: 0;
+                            color: var(--symbol-percent-up);
+                        }
 
-                      &.down {
-                          padding-left: 0;
-                          color: var(--symbol-percent-down);
-                      }
-                  }
-              }
-          }
-      }
-  }
+                        &.down {
+                            padding-left: 0;
+                            color: var(--symbol-percent-down);
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

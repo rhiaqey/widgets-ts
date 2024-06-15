@@ -1,7 +1,6 @@
-import { isWebsocketConnectionOptions } from "./utils";
+import { isWebsocketConnectionOptions } from './utils';
 
 describe('isWebsocketConnectionOptions', () => {
-
     const connection1 = {
         channels: [],
         endpoints: [],
@@ -9,7 +8,7 @@ describe('isWebsocketConnectionOptions', () => {
 
     const connection2 = {
         channels: [],
-        endpoint: "",
+        endpoint: '',
     };
 
     it('identifies correctly a websocket connection', () => {
@@ -19,5 +18,4 @@ describe('isWebsocketConnectionOptions', () => {
     it('does not identify correctly a websocket connection', () => {
         expect(isWebsocketConnectionOptions(connection2)).toBe(false);
     });
-
 });
