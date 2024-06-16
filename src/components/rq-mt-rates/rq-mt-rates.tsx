@@ -359,7 +359,11 @@ export class RqMtRates {
                             <ul class="categories">
                                 {this.groups.map(group => {
                                     return (
-                                        <li key={group.name} onMouseDown={_ => this.selectCategory(group)} class={group.name === this.$selectedTab ? `${group.name} active` : group.name}>
+                                        <li
+                                            key={group.name}
+                                            onMouseDown={_ => this.selectCategory(group)}
+                                            class={group.name === this.$selectedTab ? `${group.name} active` : group.name}
+                                        >
                                             <span>{group.label}</span>
                                         </li>
                                     );
