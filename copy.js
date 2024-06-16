@@ -1,14 +1,14 @@
-const fs = require('fs');
+const fs = require('node:fs');
 
 require('log-timestamp');
 console.log('>> copying files');
 
 fs.cpSync('www/build', 'dist/umd', {
-  recursive: true,
+    recursive: true,
 });
 
 fs.cpSync('www/assets', 'dist/assets', {
-  recursive: true,
+    recursive: true,
 });
 
 fs.cpSync('stencil.config.ts', 'dist/stencil.config.ts');
