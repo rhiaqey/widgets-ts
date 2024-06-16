@@ -13,6 +13,7 @@
   "files": [
     "dist/",
     "loader/",
+    "tsconfig.json",
     "stencil.config.ts"
   ],
   "scripts": {
