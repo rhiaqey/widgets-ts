@@ -18,9 +18,13 @@ build:
 test:
 	npm run test
 
-.PHONY: prod
-prod: pretty build
+.PHONY: copy
+copy:
 	npm run copy
+
+.PHONY: prod
+prod: pretty build copy
+	npm pack
 
 .PHONY: serve
 serve:
