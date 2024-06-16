@@ -12,9 +12,7 @@
   "unpkg": "dist/widgets-ts/widgets-ts.esm.js",
   "files": [
     "dist/",
-    "loader/",
-    "tsconfig.json",
-    "stencil.config.ts"
+    "loader/"
   ],
   "scripts": {
     "build": "stencil build",
