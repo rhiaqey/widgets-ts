@@ -1,6 +1,6 @@
 import { Component, getAssetPath, h, Host, Prop, State } from '@stencil/core';
 import type { ClientMessage, WebsocketConnection, WebsocketConnectionOptions } from '@rhiaqey/sdk-ts';
-import { Quote, TimeFrame, TradeSymbol, TradeSymbolCategory } from '../../models';
+import { type Quote, TimeFrame, type TradeSymbol, type TradeSymbolCategory } from '../../models';
 import store from 'store2';
 
 type Tick = { symbol: string; bid: string; ask: string; diff: number; timestamp: number; timeframe: TimeFrame };
@@ -359,7 +359,7 @@ export class RqMtRates {
                             <ul class="categories">
                                 {this.groups.map(group => {
                                     return (
-                                        <li onMouseDown={_ => this.selectCategory(group)} class={group.name === this.$selectedTab ? `${group.name} active` : group.name}>
+                                        <li key={group.name} onMouseDown={_ => this.selectCategory(group)} class={group.name === this.$selectedTab ? `${group.name} active` : group.name}>
                                             <span>{group.label}</span>
                                         </li>
                                     );
@@ -393,7 +393,7 @@ export class RqMtRates {
                         </div>
                         {this.groups.map(group => {
                             return (
-                                <div class={group.name === this.$selectedTab ? 'symbol-group active' : 'symbol-group'}>
+                                <div key={group.name} class={group.name === this.$selectedTab ? 'symbol-group active' : 'symbol-group'}>
                                     {group.symbols.map(symbol => {
                                         if (this.$ticks.has(symbol.key)) {
                                             const sm = this.$ticks.get(symbol.key);
