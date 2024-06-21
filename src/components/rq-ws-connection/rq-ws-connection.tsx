@@ -47,7 +47,7 @@ export class RqWsConnection {
     }
 
     @Method()
-    async fetchSnapshot<T = unknown>(): Promise<T> {
+    fetchSnapshot<T = unknown>(): Promise<T> {
         return this.$connx.fetchSnapshotPromised<T>();
     }
 
