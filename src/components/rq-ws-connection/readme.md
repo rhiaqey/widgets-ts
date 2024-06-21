@@ -27,13 +27,13 @@
 
 ## Methods
 
-### `fetchSnapshot() => Promise<unknown>`
+### `fetchSnapshot<T = unknown>() => Promise<T>`
 
 
 
 #### Returns
 
-Type: `Promise<unknown>`
+Type: `Promise<T>`
 
 
 
