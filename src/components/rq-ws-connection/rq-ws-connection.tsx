@@ -42,12 +42,12 @@ export class RqWsConnection {
     rqSnapshot: EventEmitter<[cid: string, data: unknown]>;
 
     @Method()
-    getConnection() {
+    async getConnection() {
         return this.$connx;
     }
 
     @Method()
-    fetchSnapshot<T = unknown>(): Promise<T> {
+    async fetchSnapshot<T = unknown>(): Promise<T> {
         return this.$connx.fetchSnapshotPromised<T>();
     }
 
