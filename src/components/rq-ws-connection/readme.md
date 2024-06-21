@@ -27,6 +27,16 @@
 
 ## Methods
 
+### `fetchSnapshot() => Promise<unknown>`
+
+
+
+#### Returns
+
+Type: `Promise<unknown>`
+
+
+
 ### `getConnection() => Promise<WebsocketConnection>`
 
 

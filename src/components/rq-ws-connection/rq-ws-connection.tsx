@@ -42,8 +42,13 @@ export class RqWsConnection {
     rqSnapshot: EventEmitter<[cid: string, data: unknown]>;
 
     @Method()
-    async getConnection() {
+    getConnection() {
         return this.$connx;
+    }
+
+    @Method()
+    fetchSnapshot<T = unknown>(): Promise<T> {
+        return this.$connx.fetchSnapshotPromised<T>();
     }
 
     connectedCallback() {
