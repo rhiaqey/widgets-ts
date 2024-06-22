@@ -261,11 +261,13 @@ export class RqMtMarquee {
         const symbols = [];
 
         for (let index = 0; index < this.repeat; index++) {
-            symbols.push(...this.symbols
-                .filter(symbol => this.$ticks.has(symbol.key))
-                .map((symbol, i) => {
-                    return this.renderSymbol(symbol, i);
-                }));
+            symbols.push(
+                ...this.symbols
+                    .filter(symbol => this.$ticks.has(symbol.key))
+                    .map((symbol, i) => {
+                        return this.renderSymbol(symbol, i);
+                    }),
+            );
         }
 
         return symbols;
@@ -280,9 +282,7 @@ export class RqMtMarquee {
                 <rq-ws-connection connection={this.connection} onRqData={ev => this.handleData(ev.detail)} />
                 <div class={classes.join(' ')}>
                     <div class="quotes">
-                        <div class={tickerClass.join(' ')}>
-                            {this.renderSymbols()}
-                        </div>
+                        <div class={tickerClass.join(' ')}>{this.renderSymbols()}</div>
                     </div>
                 </div>
             </Host>
