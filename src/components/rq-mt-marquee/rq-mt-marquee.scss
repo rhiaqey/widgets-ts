@@ -21,6 +21,8 @@
     --symbol-loading-font-size: 0.875rem;
     --symbol-loading-color: #dadbdf;
 
+    --animation-speed: 90s;
+
     display: block;
 
     .size-default {
@@ -60,7 +62,7 @@
 
             .ticker__list {
                 display: flex;
-                animation: ticker 90s infinite linear;
+                animation: ticker var(--animation-speed) infinite linear;
 
                 &.no-animation {
                     animation: none;
