@@ -14,6 +14,7 @@ export namespace Components {
         "animation": boolean;
         "connection": WebsocketConnectionOptions | WebsocketConnection;
         "namespace": string;
+        "repeat": number;
         "symbols": TradeSymbol[];
         "timeframe": TimeFrame.H1 | TimeFrame.D1 | TimeFrame.W1 | TimeFrame.MN1;
     }
@@ -113,6 +114,7 @@ declare namespace LocalJSX {
         "animation"?: boolean;
         "connection"?: WebsocketConnectionOptions | WebsocketConnection;
         "namespace"?: string;
+        "repeat"?: number;
         "symbols"?: TradeSymbol[];
         "timeframe"?: TimeFrame.H1 | TimeFrame.D1 | TimeFrame.W1 | TimeFrame.MN1;
     }

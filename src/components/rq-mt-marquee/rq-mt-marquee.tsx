@@ -57,6 +57,9 @@ export class RqMtMarquee {
     ];
 
     @Prop()
+    repeat = 3;
+
+    @Prop()
     animation = true;
 
     @Prop()
@@ -240,10 +243,10 @@ export class RqMtMarquee {
         return 'change';
     }
 
-    private renderSymbol(symbol: TradeSymbol) {
+    private renderSymbol(symbol: TradeSymbol, index: number) {
         const tick = this.$ticks.get(symbol.key);
         return (
-            <div class="quote">
+            <div class="quote" key={`${symbol.key}_${index}`}>
                 <span class="symbol">{symbol.label}</span>
                 <span class="bid">{tick.bid}</span>
                 <span class={this.getTickDiffClass(tick.diff)}>
@@ -252,6 +255,20 @@ export class RqMtMarquee {
                 </span>
             </div>
         );
+    }
+
+    private renderSymbols() {
+        const symbols = [];
+
+        for (let index = 0; index < this.repeat; index++) {
+            symbols.push(...this.symbols
+                .filter(symbol => this.$ticks.has(symbol.key))
+                .map((symbol, i) => {
+                    return this.renderSymbol(symbol, i);
+                }));
+        }
+
+        return symbols;
     }
 
     render() {
@@ -264,11 +281,7 @@ export class RqMtMarquee {
                 <div class={classes.join(' ')}>
                     <div class="quotes">
                         <div class={tickerClass.join(' ')}>
-                            {this.symbols
-                                .filter(symbol => this.$ticks.has(symbol.key))
-                                .map(symbol => {
-                                    return this.renderSymbol(symbol);
-                                })}
+                            {this.renderSymbols()}
                         </div>
                     </div>
                 </div>
