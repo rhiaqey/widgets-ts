@@ -11,7 +11,7 @@
         <script type="module" src="/build/widgets-ts.esm.js"></script>
         <script nomodule src="/build/widgets-ts.js"></script>
 
-        <script src="https://cdn.jsdelivr.net/npm/@rhiaqey/sdk-ts@1.0.52/dist/umd/sdk.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@rhiaqey/sdk-ts@1.0.54/dist/umd/sdk.js"></script>
 
         <style>
             html,
@@ -142,10 +142,12 @@
         <rq-mt-rates timeframe="w1" class="rq-widget" size="large"></rq-mt-rates>
         <script>
             const connection = new RhiaqeySDK.WebsocketConnection({
-                endpoints: ['hub.demo.prod.cloud.rhiaqey.com'],
-                apiKey: '02f0c887-114f-45d7-8084-7d123804d582',
+                endpoints: ['hub.exness.demo2.cloud.rhiaqey.com'],
+                channels: ['ticks/live'],
                 apiHost: 'localhost:3333',
-                channels: 'ticks',
+                apiKey: 'dev-api-key',
+                snapshot: 'desc',
+                snapshot_size: 1,
             });
 
             for (const el of document.getElementsByClassName('rq-widget')) {
