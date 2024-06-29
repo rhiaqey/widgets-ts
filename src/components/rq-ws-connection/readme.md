@@ -2,12 +2,14 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
 | Property     | Attribute  | Description | Type                                                                                                                                                                                                                               | Default     |
 | ------------ | ---------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
 | `connection` | --         |             | `WebsocketConnection \| { endpoints: string \| string[]; apiKey: string; apiHost: string; channels: string \| string[]; snapshot?: boolean \| "asc" \| "desc"; snapshot_size?: number; user_id?: string; env?: "dev" \| "prod"; }` | `undefined` |
 | `snapshot`   | `snapshot` |             | `"asc" \| "desc" \| boolean`                                                                                                                                                                                                       | `undefined` |
+
 
 ## Events
 
@@ -22,30 +24,39 @@
 | `rqSnapshot`   |             | `CustomEvent<[cid: string, data: unknown]>`                    |
 | `rqSubscribed` |             | `CustomEvent<[cid: string, message: ClientSubscribedMessage]>` |
 
+
 ## Methods
 
 ### `fetchSnapshot<T = unknown>() => Promise<T>`
+
+
 
 #### Returns
 
 Type: `Promise<T>`
 
+
+
 ### `getConnection() => Promise<WebsocketConnection>`
+
+
 
 #### Returns
 
 Type: `Promise<WebsocketConnection>`
 
+
+
+
 ## Dependencies
 
 ### Used by
 
--   [rq-mt-marquee](../rq-mt-marquee)
--   [rq-mt-rates](../rq-mt-rates)
--   [rq-mt-spark](../rq-mt-spark)
+ - [rq-mt-marquee](../rq-mt-marquee)
+ - [rq-mt-rates](../rq-mt-rates)
+ - [rq-mt-spark](../rq-mt-spark)
 
 ### Graph
-
 ```mermaid
 graph TD;
   rq-mt-marquee --> rq-ws-connection
@@ -54,6 +65,6 @@ graph TD;
   style rq-ws-connection fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*
