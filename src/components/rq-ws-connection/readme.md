@@ -27,9 +27,15 @@
 
 ## Methods
 
-### `fetchSnapshot<T = unknown>() => Promise<T>`
+### `fetchSnapshot<T = unknown>(timeoutInMilliseconds?: number) => Promise<T>`
 
 
+
+#### Parameters
+
+| Name                    | Type     | Description |
+| ----------------------- | -------- | ----------- |
+| `timeoutInMilliseconds` | `number` |             |
 
 #### Returns
 

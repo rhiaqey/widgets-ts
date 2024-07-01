@@ -1,4 +1,11 @@
-import { type ClientMessage, type ClientConnectedMessage, type ClientSubscribedMessage, type WebsocketConnectionOptions, WebsocketConnection } from '@rhiaqey/sdk-ts';
+import {
+    type ClientMessage,
+    type ClientConnectedMessage,
+    type ClientSubscribedMessage,
+    type WebsocketConnectionOptions,
+    WebsocketConnection,
+    DEFAULT_SNAPSHOT_REQUEST_TIMEOUT,
+} from '@rhiaqey/sdk-ts';
 import { Component, Event, Host, h, type EventEmitter, Prop, Method } from '@stencil/core';
 import { Subscription, filter, map } from 'rxjs';
 import { isWebsocketConnectionOptions } from '../../utils/utils';
@@ -47,8 +54,8 @@ export class RqWsConnection {
     }
 
     @Method()
-    fetchSnapshot<T = unknown>(): Promise<T> {
-        return this.$connx.fetchSnapshotPromised<T>();
+    fetchSnapshot<T = unknown>(timeoutInMilliseconds = DEFAULT_SNAPSHOT_REQUEST_TIMEOUT): Promise<T> {
+        return this.$connx.fetchSnapshotPromised<T>(timeoutInMilliseconds);
     }
 
     connectedCallback() {

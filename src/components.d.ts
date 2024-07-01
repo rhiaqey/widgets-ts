@@ -43,7 +43,7 @@ export namespace Components {
     }
     interface RqWsConnection {
         "connection": WebsocketConnectionOptions | WebsocketConnection;
-        "fetchSnapshot": <T = unknown>() => Promise<T>;
+        "fetchSnapshot": <T = unknown>(timeoutInMilliseconds?: number) => Promise<T>;
         "getConnection": () => Promise<WebsocketConnection>;
         "snapshot": WebsocketConnectionOptions['snapshot'];
     }
