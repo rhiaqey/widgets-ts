@@ -5,10 +5,10 @@
 
 ## Properties
 
-| Property     | Attribute  | Description | Type                                                                                                                                                                                                                               | Default     |
-| ------------ | ---------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| `connection` | --         |             | `WebsocketConnection \| { endpoints: string \| string[]; apiKey: string; apiHost: string; channels: string \| string[]; snapshot?: boolean \| "asc" \| "desc"; snapshot_size?: number; user_id?: string; env?: "dev" \| "prod"; }` | `undefined` |
-| `snapshot`   | `snapshot` |             | `"asc" \| "desc" \| boolean`                                                                                                                                                                                                       | `undefined` |
+| Property     | Attribute  | Description | Type                                                                                                                                                                                                                                                               | Default     |
+| ------------ | ---------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------- |
+| `connection` | --         |             | `WebsocketConnection \| { endpoints: string \| string[]; apiKey: string; apiHost: string; channels: string \| string[]; snapshot?: boolean \| "asc" \| "desc"; snapshot_size?: number; user_id?: string; env?: "dev" \| "prod"; encoding?: "json" \| "msgpack"; }` | `undefined` |
+| `snapshot`   | `snapshot` |             | `"asc" \| "desc" \| boolean`                                                                                                                                                                                                                                       | `undefined` |
 
 
 ## Events
