@@ -70,12 +70,15 @@ export class RqWsConnection {
                 user_id: this.connection.user_id,
                 env: this.connection.env || 'prod',
             });
+
             this.#setupListeners().then(_ => {
                 //
             });
+
             this.$connx.connect();
         } else {
             this.$connx = this.connection;
+
             this.#setupListeners().then(_ => {
                 //
             });

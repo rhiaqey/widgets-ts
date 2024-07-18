@@ -11,7 +11,7 @@
         <script type="module" src="/build/widgets-ts.esm.js"></script>
         <script nomodule src="/build/widgets-ts.js"></script>
 
-        <script src="https://cdn.jsdelivr.net/npm/@rhiaqey/sdk-ts@1.0.58/dist/umd/sdk.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@rhiaqey/sdk-ts@1.0.61/dist/umd/sdk.js"></script>
 
         <style>
             html,
@@ -21,7 +21,7 @@
         </style>
         <script>
             const getAssetPath = relative => {
-                return 'https://cdn.jsdelivr.net/npm/@rhiaqey/widgets-ts@1.0.40/dist' + relative;
+                return 'https://cdn.jsdelivr.net/npm/@rhiaqey/widgets-ts@1.0.48/dist' + relative;
             };
 
             const SPARK_SYMBOLS = [
@@ -39,7 +39,7 @@
                         { key: 'BTCUSDm', label: 'BTC/USD', image: getAssetPath('/assets/svg/BTCUSDm.svg') },
                         { key: 'XAUUSDm', label: 'Gold/USD', image: getAssetPath('/assets/svg/XAUUSDm.svg') },
                         { key: 'EURUSDm', label: 'EUR/USD', image: getAssetPath('/assets/svg/EURUSDm.svg') },
-                        { key: 'USOILm', label: 'US Oil', image: getAssetPath('/assets/svg/USOILm.svg') },
+                        { key: 'USOILm',  label: 'US Oil', image: getAssetPath('/assets/svg/USOILm.svg') },
                         { key: 'ETHUSDm', label: 'ETH/USD', image: getAssetPath('/assets/svg/ETHUSDm.svg') },
                     ],
                 },
@@ -58,11 +58,11 @@
                     name: 'indices',
                     label: 'Indices',
                     symbols: [
-                        { key: 'USTECm', label: 'US Tech 100', image: getAssetPath('/assets/svg/USTECm.svg') },
-                        { key: 'UK100m', label: 'UK 100 Index', image: getAssetPath('/assets/svg/UK100m.svg') },
+                        { key: 'USTECm',   label: 'US Tech 100', image: getAssetPath('/assets/svg/USTECm.svg') },
+                        { key: 'UK100m',   label: 'UK 100 Index', image: getAssetPath('/assets/svg/UK100m.svg') },
                         { key: 'STOXX50m', label: 'EU 50 Index', image: getAssetPath('/assets/svg/STOXX50m.svg') },
-                        { key: 'HK50m', label: 'HK 50 Index', image: getAssetPath('/assets/svg/HK50m.svg') },
-                        { key: 'DE30m', label: 'DE 30 Index', image: getAssetPath('/assets/svg/DE30m.svg') },
+                        { key: 'HK50m',    label: 'HK 50 Index', image: getAssetPath('/assets/svg/HK50m.svg') },
+                        { key: 'DE30m',    label: 'DE 30 Index', image: getAssetPath('/assets/svg/DE30m.svg') },
                     ],
                 },
                 {
@@ -82,8 +82,8 @@
                     symbols: [
                         { key: 'AAPLm', label: 'Apple', image: getAssetPath('/assets/svg/AAPLm.svg') },
                         { key: 'BABAm', label: 'AliBaba', image: getAssetPath('/assets/svg/BABAm.svg') },
-                        { key: 'Cm', label: 'CitiGroup', image: getAssetPath('/assets/svg/Cm.svg') },
-                        { key: 'KOm', label: 'CocaCola', image: getAssetPath('/assets/svg/KOm.svg') },
+                        { key: 'Cm',    label: 'CitiGroup', image: getAssetPath('/assets/svg/Cm.svg') },
+                        { key: 'KOm',   label: 'CocaCola', image: getAssetPath('/assets/svg/KOm.svg') },
                         { key: 'NFLXm', label: 'Netflix', image: getAssetPath('/assets/svg/NFLXm.svg') },
                     ],
                 },
@@ -93,7 +93,7 @@
                     symbols: [
                         { key: 'XAUUSDm', label: 'Gold/USD', image: getAssetPath('/assets/svg/XAUUSDm.svg') },
                         { key: 'XAGUSDm', label: 'Silver/USD', image: getAssetPath('/assets/svg/XAGUSDm.svg') },
-                        { key: 'USOILm', label: 'US Crude Oil', image: getAssetPath('/assets/svg/USOILm.svg') },
+                        { key: 'USOILm',  label: 'US Crude Oil', image: getAssetPath('/assets/svg/USOILm.svg') },
                         { key: 'XPDUSDm', label: 'Palladium/USD', image: getAssetPath('/assets/svg/XPDUSDm.svg') },
                         { key: 'XPTUSDm', label: 'Platinum/USD', image: getAssetPath('/assets/svg/XPTUSDm.svg') },
                     ],
@@ -127,40 +127,28 @@
 
     <body>
         <rq-mt-marquee timeframe="w1" class="rq-widget" animation="false"></rq-mt-marquee>
-        <rq-mt-marquee timeframe="w1" class="rq-widget"></rq-mt-marquee>
-        <div class="sparks">
-            <div class="col">
-                <rq-mt-spark timeframe="mn1" class="rq-widget"></rq-mt-spark>
-                <rq-mt-spark timeframe="mn1" class="rq-widget"></rq-mt-spark>
-            </div>
-            <div class="col">
-                <rq-mt-spark timeframe="mn1" display="reverse" class="rq-widget"></rq-mt-spark>
-                <rq-mt-spark timeframe="mn1" display="reverse" class="rq-widget"></rq-mt-spark>
-            </div>
-        </div>
-        <rq-mt-rates timeframe="w1" class="rq-widget" active-tab="crypto"></rq-mt-rates>
-        <rq-mt-rates timeframe="w1" class="rq-widget" size="large"></rq-mt-rates>
+
         <script>
             const connection = new RhiaqeySDK.WebsocketConnection({
                 endpoints: ['hub.exness.demo2.cloud.rhiaqey.com'],
                 channels: ['ticks/live'],
                 apiHost: 'localhost:3333',
                 apiKey: 'dev-api-key',
+                encoding: 'msgpack',
                 snapshot: 'desc',
                 snapshot_size: 1,
             });
 
             for (const el of document.getElementsByClassName('rq-widget')) {
                 el.connection = connection;
+                el.symbols = SPARK_SYMBOLS;
             }
-
+            /*
             for (const el of document.getElementsByTagName('rq-mt-rates')) {
                 el.groups = SYMBOLS;
-            }
+            }*/
 
-            for (let i = 0; i < document.getElementsByTagName('rq-mt-spark').length; i++) {
-                document.getElementsByTagName('rq-mt-spark')[i].symbol = SPARK_SYMBOLS[i];
-            }
+            // document.getElementsByTagName('rq-mt-marquee')[i].symbols = SPARK_SYMBOLS;
 
             connection.connect();
         </script>
